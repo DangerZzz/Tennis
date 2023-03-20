@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_template/features/app/di/app_scope.dart';
 import 'package:provider/provider.dart';
+import 'package:soft_weather_tennis/features/app/di/app_scope.dart';
 
 /// Factory that returns the dependency scope.
 typedef ScopeFactory<T> = T Function();

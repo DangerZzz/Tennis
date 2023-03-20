@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_template/config/app_config.dart';
-import 'package:flutter_template/config/debug_options.dart';
-import 'package:flutter_template/config/environment/environment.dart';
-import 'package:flutter_template/features/app/di/app_scope.dart';
-import 'package:flutter_template/features/common/widgets/di_scope/di_scope.dart';
-import 'package:flutter_template/features/navigation/domain/delegate/app_router_delegate.dart';
-import 'package:flutter_template/features/navigation/domain/entity/app_coordinate.dart';
-import 'package:flutter_template/features/navigation/domain/parser/app_route_information_parses.dart';
-import 'package:flutter_template/features/navigation/service/coordinator.dart';
-import 'package:flutter_template/generated/l10n.dart';
+import 'package:soft_weather_tennis/config/app_config.dart';
+import 'package:soft_weather_tennis/config/debug_options.dart';
+import 'package:soft_weather_tennis/config/environment/environment.dart';
+import 'package:soft_weather_tennis/features/app/di/app_scope.dart';
+import 'package:soft_weather_tennis/features/common/widgets/di_scope/di_scope.dart';
+import 'package:soft_weather_tennis/features/navigation/domain/delegate/app_router_delegate.dart';
+import 'package:soft_weather_tennis/features/navigation/domain/entity/app_coordinate.dart';
+import 'package:soft_weather_tennis/features/navigation/domain/parser/app_route_information_parses.dart';
+import 'package:soft_weather_tennis/features/navigation/service/coordinator.dart';
+import 'package:soft_weather_tennis/generated/l10n.dart';
 
 /// App widget.
 class App extends StatefulWidget {

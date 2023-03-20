@@ -2,8 +2,8 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_template/features/navigation/domain/entity/coordinate.dart';
-import 'package:flutter_template/features/navigation/service/coordinator.dart';
+import 'package:soft_weather_tennis/features/navigation/domain/entity/coordinate.dart';
+import 'package:soft_weather_tennis/features/navigation/service/coordinator.dart';
 
 /// [RouterDelegate] implementation.
 /// Passed in the routerDelegate field in [MaterialApp.router].
