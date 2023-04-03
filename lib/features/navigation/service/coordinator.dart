@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:soft_weather_tennis/features/authorization/authorization_page_widget.dart';
+import 'package:soft_weather_tennis/features/main_page/main_screen_widget.dart';
 import 'package:soft_weather_tennis/features/navigation/domain/entity/coordinate.dart';
 import 'package:soft_weather_tennis/features/temp/screens/temp_screen/temp_screen.dart';
 
@@ -8,11 +10,27 @@ class Coordinator extends ChangeNotifier {
   final _coordinates = <Coordinate, _Route>{};
 
   final _pages = [
+    MaterialPage<void>(
+      key: const ValueKey('/main'),
+      name: 'main',
+      child: MainScreenWidget(),
+    ),
+
     const MaterialPage<void>(
-      key: ValueKey('/init'),
-      name: '/init',
+      key: ValueKey('/auth'),
+      name: 'auth',
+      child: AuthorizationPageWidget(),
+    ),
+    const MaterialPage<void>(
+      key: ValueKey('/temp'),
+      name: 'temp',
       child: TempScreen(),
     ),
+    // const MaterialPage<void>(
+    //   key: ValueKey('/catalog_lots'),
+    //   name: 'catalog_lots_inner',
+    //   child: CatalogScreenWidget(),
+    // ),
   ];
 
   /// Initial screens coordinates.
@@ -26,6 +44,19 @@ class Coordinator extends ChangeNotifier {
 
   /// Initial screens route.
   String? get initialRoute => _coordinates[initialCoordinate]?.path;
+
+  /// Конструктор [Coordinator]
+  Coordinator({bool codeBioLogin = false}) {
+    if (codeBioLogin) {
+      // _pages.add(
+      //   const MaterialPage<void>(
+      //     key: ValueKey('/authorization_code_bio'),
+      //     name: 'authorization_code_bio',
+      //     child: AuthorizationBiometricsScreenWidget(),
+      //   ),
+      // );
+    }
+  }
 
   /// Method for registering new coordinate.
   void registerCoordinates(
@@ -49,7 +80,11 @@ class Coordinator extends ChangeNotifier {
     Object? arguments,
     bool replaceCurrentCoordinate = false,
     bool replaceRootCoordinate = false,
+    bool ignoreInner = false,
   }) {
+    if (!ignoreInner &&
+        target.isInner &&
+        pages.last.name == '${target.name}_inner') return;
     final path = _coordinates[target]?.path;
 
     if (replaceRootCoordinate) {
@@ -57,6 +92,12 @@ class Coordinator extends ChangeNotifier {
     } else if (replaceCurrentCoordinate) {
       _pages.removeLast();
     }
+    if (!ignoreInner && target.isInner) {
+      if (_pages.any((element) => element.name == '${target.name}_inner')) {
+        _pages.removeWhere((element) => element.name == '${target.name}_inner');
+      }
+    }
+
     _pages.add(_buildMaterialPage(context, target, arguments, path));
 
     debugPrint(_pages.map((e) => e.name).toList().toString());
@@ -109,16 +150,21 @@ class Coordinator extends ChangeNotifier {
     BuildContext context,
     Coordinate coordinate,
     Object? arguments,
-    String? path,
-  ) {
+    String? path, {
+    bool ignoreInner = false,
+  }) {
     final body = _coordinates[coordinate]!.builder.call(
           context,
           arguments,
         );
-
+    var name = path ?? '';
+    if (!ignoreInner && coordinate.isInner) {
+      name += '_inner';
+    }
+    name = name.replaceAll('/', '');
     return MaterialPage<void>(
       key: ValueKey(path),
-      name: path,
+      name: name,
       child: Scaffold(
         body: body,
       ),

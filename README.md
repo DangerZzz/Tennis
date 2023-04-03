@@ -143,7 +143,7 @@ flutter pub global run intl_utils:generate
 поставляется функционалу при помощи виджета [DiScope](lib/features/common/widgets/di_scope/di_scope.dart), в который
 оборачивается соответствующий функционал.
 
-Например, [AppScope](lib/features/app/di/app_scope.dart) - базовая сущность всего приложения, которая содержит
+Например, [AppScope](lib/app/di/app_scope.dart) - базовая сущность всего приложения, которая содержит
 зависимости, живущие все время, все приложение мы оборачиваем в DiScope<IAppScope>
 и передаем фабрику возвращающую AppScope.
 

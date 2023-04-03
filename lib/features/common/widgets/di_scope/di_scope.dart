@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:soft_weather_tennis/features/app/di/app_scope.dart';
 
 /// Factory that returns the dependency scope.
 typedef ScopeFactory<T> = T Function();
 
-/// Di container. T - return type(for example [AppScope]).
+/// Di container. T - return type.
 class DiScope<T> extends StatefulWidget {
   /// Factory that returns the dependency scope.
   final ScopeFactory<T> factory;
@@ -38,6 +37,44 @@ class _DiScopeState<T> extends State<DiScope<T>> {
     return Provider<T>(
       create: (_) => scope,
       child: widget.child,
+    );
+  }
+}
+
+class MultiDiScope extends StatelessWidget {
+  final List<MultiDiScopeItem> scopes;
+  final Widget child;
+
+  ///
+  MultiDiScope({
+    // required this.mainScope,
+    required List<MultiDiScopeItem> this.scopes,
+    required this.child,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Widget nestedDi = scopes.first.getScope(child);
+    for (var i = 1; i < scopes.length; i++) {
+      nestedDi = scopes[i].getScope(nestedDi);
+    }
+    return nestedDi;
+  }
+}
+
+class MultiDiScopeItem<T> {
+  /// Factory that returns the dependency scope.
+  final ScopeFactory<T> factory;
+
+  MultiDiScopeItem({required this.factory});
+
+  DiScope<T> getScope(Widget child) {
+    final scope = factory();
+    return DiScope<T>(
+      key: ObjectKey(scope),
+      factory: () => scope,
+      child: child,
     );
   }
 }
