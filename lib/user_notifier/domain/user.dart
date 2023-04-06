@@ -12,11 +12,15 @@ class User {
   /// Телефон пользователя
   final String phone;
 
+  /// Телефон пользователя
+  final bool isTrainer;
+
   /// Конструктор [User]
   User({
     required this.id,
     required this.name,
     required this.surname,
     required this.phone,
+    required this.isTrainer,
   });
 }

@@ -5,6 +5,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:soft_weather_tennis/config/app_config.dart';
 import 'package:soft_weather_tennis/config/environment/environment.dart';
 import 'package:soft_weather_tennis/features/navigation/service/coordinator.dart';
+import 'package:soft_weather_tennis/user_notifier/api/client.dart';
+import 'package:soft_weather_tennis/user_notifier/repository/mock/mock_user_repository.dart';
+import 'package:soft_weather_tennis/user_notifier/repository/user_repository.dart';
+import 'package:soft_weather_tennis/user_notifier/user_notifier.dart';
 import 'package:soft_weather_tennis/util/default_error_handler.dart';
 import 'package:soft_weather_tennis/util/header_version_app.dart';
 
@@ -20,10 +24,10 @@ class AppScope implements IAppScope {
   late final ErrorHandler _errorHandler;
   late final VoidCallback _applicationRebuilder;
   late final Coordinator _coordinator;
+  late final UserNotifier _userNotifier;
+  late final UserRepository _userRepository;
 
   // late final WebSockets _webSockets;
-
-  // late final UserNotifier _userNotifier;
 
   // @override
   ///
@@ -44,8 +48,8 @@ class AppScope implements IAppScope {
   @override
   Coordinator get coordinator => _coordinator;
 
-  // @override
-  // UserNotifier get userNotifier => _userNotifier;
+  @override
+  UserNotifier get userNotifier => _userNotifier;
 
   /// Create an instance [AppScope].
   AppScope({
@@ -252,10 +256,11 @@ class AppScope implements IAppScope {
     _dio = _initDio(); //additionalInterceptors);
     _errorHandler = DefaultErrorHandler();
     // _webSockets = WebSockets.init(_errorHandler, headers: headersVersion);
-    // _initSession();
+    _initSession();
+
     _coordinator = Coordinator(
-        // codeBioLogin: _userNotifier.loginSettings.showCodeLoginScreen,
-        );
+      codeBioLogin: _userNotifier.loginCode.code?.isNotEmpty ?? false,
+    );
 
     /// Иництилизации моделей страниц тут
   }
@@ -317,12 +322,12 @@ class AppScope implements IAppScope {
     return dio;
   }
 
-  // Future<void> _initSession() async {
-  //   _userNotifier = UserNotifier(dio: _dio, errorHandler: _errorHandler);
-  //   _userRepository = Environment<AppConfig>.instance().useMock
-  //       ? MockUserRepository()
-  //       : UserRepository(UserClient(_dio));
-  // }
+  Future<void> _initSession() async {
+    _userNotifier = UserNotifier(dio: _dio, errorHandler: _errorHandler);
+    _userRepository = Environment<AppConfig>.instance().useMock
+        ? MockUserRepository()
+        : UserRepository(UserClient(_dio));
+  }
 }
 
 /// App dependencies.
@@ -341,68 +346,7 @@ abstract class IAppScope {
 
   /// Class that coordinates navigation for the whole app.
   Coordinator get coordinator;
-}
 
-// import 'package:dio/dio.dart';
-// import 'package:elementary/elementary.dart';
-// import 'package:soft_weather_tennis/config/app_config.dart';
-// import 'package:soft_weather_tennis/config/environment/environment.dart';
-// import 'package:soft_weather_tennis/features/authorization/api/client.dart';
-// import 'package:soft_weather_tennis/features/authorization/authorization_page_model.dart';
-// import 'package:soft_weather_tennis/features/authorization/repository/auth_screen_repository.dart';
-// import 'package:soft_weather_tennis/features/authorization/repository/mock/mock_auth_screen_repositoy.dart';
-//
-// /// Интерфейс scope фичи авторизации
-// abstract class IAuthorizationScope {
-//   /// Http client.
-//   Dio get dio;
-//
-//   /// Interface for handle error in business logic.
-//   ErrorHandler get errorHandler;
-//
-//   /// Authorization login screen model
-//   AuthorizationPageModel get authScreenModel;
-// }
-//
-// /// Scope фичи авторизации
-// class AuthorizationScope implements IAuthorizationScope {
-//   final Dio _dio;
-//   final ErrorHandler _errorHandler;
-//   late final AuthorizationPageClient _authorizationPageClient;
-//   late final AuthorizationPageModel _authorizationPageScreenModel;
-//
-//   @override
-//   AuthorizationPageClient get authorizationPageClient =>
-//       _authorizationPageClient;
-//
-//   @override
-//   AuthorizationPageModel get authorizationPageScreenModel =>
-//       _authorizationPageScreenModel;
-//
-//   @override
-//   Dio get dio => _dio;
-//
-//   @override
-//   ErrorHandler get errorHandler => _errorHandler;
-//
-//   @override
-//   AuthorizationPageModel get authScreenModel => _authorizationPageScreenModel;
-//
-//   /// Scope для фичи - авторизация
-//   AuthorizationScope({
-//     required Dio dio,
-//     required ErrorHandler errorHandler,
-//   })  : _dio = dio,
-//         _errorHandler = errorHandler {
-//     _authorizationPageClient = AuthorizationPageClient(_dio);
-//     _initAuthorizationPageScreenModel();
-//   }
-//
-//   void _initAuthorizationPageScreenModel() {
-//     final repository = Environment<AppConfig>.instance().useMock
-//         ? MockAuthorizationPageRepository()
-//         : AuthorizationPageRepository(_authorizationPageClient);
-//     _authorizationPageScreenModel = _authorizationPageScreenModel =
-//         AuthorizationPageModel(repository, errorHandler);
-//   }
-// }
+  /// Сущность-обертка над пользователем и всеми его сервисами
+  UserNotifier get userNotifier;
+}

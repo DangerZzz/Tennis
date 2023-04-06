@@ -5,6 +5,8 @@ class AppColors {
   final primaryText = const Color(0xff313131);
   final secondaryText = const Color(0xff9D9D9D);
 
+  final notAvailable = const Color(0x999d9d9d);
+
   final accentGreen = const Color(0xffA8DB19);
   final gradientStart = const Color(0xffA8DB19);
   final gradientEnd = const Color(0xff89B803);

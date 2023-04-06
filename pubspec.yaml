@@ -50,7 +50,7 @@ flutter:
   assets:
     - assets/fonts/
     - assets/images/
-    - lib/features/authorization/assets/images/
+    - lib/features/pages/authorization_page/assets/images/
 
   fonts:
     - family: Nunito

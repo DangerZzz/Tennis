@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:soft_weather_tennis/features/authorization/authorization_page_widget.dart';
-import 'package:soft_weather_tennis/features/main_page/main_screen_widget.dart';
 import 'package:soft_weather_tennis/features/navigation/domain/entity/coordinate.dart';
+import 'package:soft_weather_tennis/features/pages/authorization_page/authorization_page_widget.dart';
+import 'package:soft_weather_tennis/features/pages/best_page/best_page_widget.dart';
+import 'package:soft_weather_tennis/features/pages/game_page/game_page_widget.dart';
+import 'package:soft_weather_tennis/features/pages/main_page/main_screen_widget.dart';
+import 'package:soft_weather_tennis/features/pages/profile_page/profile_page_widget.dart';
+import 'package:soft_weather_tennis/features/pages/rating_page/rating_page_widget.dart';
+import 'package:soft_weather_tennis/features/pages/useful_page/useful_page_widget.dart';
 import 'package:soft_weather_tennis/features/temp/screens/temp_screen/temp_screen.dart';
 
 /// Class that coordinates navigation for the whole app and provides
@@ -15,22 +20,44 @@ class Coordinator extends ChangeNotifier {
       name: 'main',
       child: MainScreenWidget(),
     ),
-
-    const MaterialPage<void>(
-      key: ValueKey('/auth'),
-      name: 'auth',
-      child: AuthorizationPageWidget(),
-    ),
     const MaterialPage<void>(
       key: ValueKey('/temp'),
       name: 'temp',
       child: TempScreen(),
     ),
-    // const MaterialPage<void>(
-    //   key: ValueKey('/catalog_lots'),
-    //   name: 'catalog_lots_inner',
-    //   child: CatalogScreenWidget(),
-    // ),
+
+    const MaterialPage<void>(
+      key: ValueKey('/best'),
+      name: 'best',
+      child: BestPageWidget(),
+    ),
+    const MaterialPage<void>(
+      key: ValueKey('/game'),
+      name: 'game',
+      child: GamePageWidget(),
+    ),
+    const MaterialPage<void>(
+      key: ValueKey('/profile'),
+      name: 'profile',
+      child: ProfilePageWidget(),
+    ),
+    const MaterialPage<void>(
+      key: ValueKey('/rating'),
+      name: 'rating',
+      child: RatingPageWidget(),
+    ),
+    const MaterialPage<void>(
+      key: ValueKey('/useful'),
+      name: 'useful',
+      child: UsefulPageWidget(),
+    ),
+
+    /// Не менять, должно быть последним
+    const MaterialPage<void>(
+      key: ValueKey('/auth'),
+      name: 'auth',
+      child: AuthorizationPageWidget(),
+    ),
   ];
 
   /// Initial screens coordinates.
@@ -48,13 +75,13 @@ class Coordinator extends ChangeNotifier {
   /// Конструктор [Coordinator]
   Coordinator({bool codeBioLogin = false}) {
     if (codeBioLogin) {
-      // _pages.add(
-      //   const MaterialPage<void>(
-      //     key: ValueKey('/authorization_code_bio'),
-      //     name: 'authorization_code_bio',
-      //     child: AuthorizationBiometricsScreenWidget(),
-      //   ),
-      // );
+      _pages.add(
+        const MaterialPage<void>(
+          key: ValueKey('/auth'),
+          name: 'auth',
+          child: AuthorizationPageWidget(),
+        ),
+      );
     }
   }
 

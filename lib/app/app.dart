@@ -4,13 +4,18 @@ import 'package:soft_weather_tennis/app/di/app_scope.dart';
 // import 'package:soft_weather_tennis/config/app_config.dart';
 // import 'package:soft_weather_tennis/config/debug_options.dart';
 // import 'package:soft_weather_tennis/config/environment/environment.dart';
-import 'package:soft_weather_tennis/features/authorization/di/authorizarion_scope.dart';
 import 'package:soft_weather_tennis/features/common/widgets/di_scope/di_scope.dart';
-import 'package:soft_weather_tennis/features/main_page/di/main_page_scope.dart';
 import 'package:soft_weather_tennis/features/navigation/domain/delegate/app_router_delegate.dart';
 import 'package:soft_weather_tennis/features/navigation/domain/entity/app_coordinate.dart';
 import 'package:soft_weather_tennis/features/navigation/domain/parser/app_route_information_parses.dart';
 import 'package:soft_weather_tennis/features/navigation/service/coordinator.dart';
+import 'package:soft_weather_tennis/features/pages/authorization_page/di/authorizarion_scope.dart';
+import 'package:soft_weather_tennis/features/pages/best_page/di/best_page_scope.dart';
+import 'package:soft_weather_tennis/features/pages/game_page/di/game_page_scope.dart';
+import 'package:soft_weather_tennis/features/pages/main_page/di/main_page_scope.dart';
+import 'package:soft_weather_tennis/features/pages/profile_page/di/profile_scope.dart';
+import 'package:soft_weather_tennis/features/pages/rating_page/di/rating_scope.dart';
+import 'package:soft_weather_tennis/features/pages/useful_page/di/useful_scope.dart';
 import 'package:soft_weather_tennis/features/temp/di/temp_scope.dart';
 import 'package:soft_weather_tennis/generated/l10n.dart';
 
@@ -62,6 +67,46 @@ class _AppState extends State<App> {
           MultiDiScopeItem<ITempScreenScope>(
             factory: () {
               return TempScreenScope(
+                dio: _scope.dio,
+                errorHandler: _scope.errorHandler,
+              );
+            },
+          ),
+          MultiDiScopeItem<IBestPageScope>(
+            factory: () {
+              return BestPageScope(
+                dio: _scope.dio,
+                errorHandler: _scope.errorHandler,
+              );
+            },
+          ),
+          MultiDiScopeItem<IGamePageScope>(
+            factory: () {
+              return GamePageScope(
+                dio: _scope.dio,
+                errorHandler: _scope.errorHandler,
+              );
+            },
+          ),
+          MultiDiScopeItem<IProfilePageScope>(
+            factory: () {
+              return ProfilePageScope(
+                dio: _scope.dio,
+                errorHandler: _scope.errorHandler,
+              );
+            },
+          ),
+          MultiDiScopeItem<IRatingPageScope>(
+            factory: () {
+              return RatingPageScope(
+                dio: _scope.dio,
+                errorHandler: _scope.errorHandler,
+              );
+            },
+          ),
+          MultiDiScopeItem<IUsefulPageScope>(
+            factory: () {
+              return UsefulPageScope(
                 dio: _scope.dio,
                 errorHandler: _scope.errorHandler,
               );
