@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_mixin
 
+// import 'package:common/firebase/services.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:soft_weather_tennis/features/navigation/domain/entity/coordinate.dart';
@@ -32,7 +33,12 @@ class AppRouterDelegate extends RouterDelegate<Coordinate>
   Widget build(BuildContext context) {
     return Navigator(
       key: navigatorKey,
-      pages: coordinator.pages,
+      pages: coordinator.pages
+          .where((element) => !element.name!.endsWith('_inner'))
+          .toList(),
+      // observers: [
+      //   // firebaseAnalyticsService.appAnalyticsObserver(),
+      // ],
       // ignore: avoid_types_on_closure_parameters
       onPopPage: (route, Object? result) {
         if (!route.didPop(result)) {

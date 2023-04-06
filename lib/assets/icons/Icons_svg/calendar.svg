@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="12"
+   height="14"
+   viewBox="0 0 12 14"
+   fill="none"
+   version="1.1"
+   id="svg50"
+   sodipodi:docname="calendar.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs54" />
+  <sodipodi:namedview
+     id="namedview52"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1" />
+  <path
+     d="M10.668 1.74992H10.0846V1.16659C10.0846 0.845752 9.82214 0.583252 9.5013 0.583252C9.18047 0.583252 8.91797 0.845752 8.91797 1.16659V1.74992H3.08464V1.16659C3.08464 0.845752 2.82214 0.583252 2.5013 0.583252C2.18047 0.583252 1.91797 0.845752 1.91797 1.16659V1.74992H1.33464C0.692969 1.74992 0.167969 2.27492 0.167969 2.91659V12.2499C0.167969 12.8916 0.692969 13.4166 1.33464 13.4166H10.668C11.3096 13.4166 11.8346 12.8916 11.8346 12.2499V2.91659C11.8346 2.27492 11.3096 1.74992 10.668 1.74992ZM10.0846 12.2499H1.91797C1.59714 12.2499 1.33464 11.9874 1.33464 11.6666V4.66659H10.668V11.6666C10.668 11.9874 10.4055 12.2499 10.0846 12.2499Z"
+     fill="white"
+     id="path59" />
+</svg>

@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:soft_weather_tennis/features/navigation/domain/entity/coordinate.dart';
+import 'package:soft_weather_tennis/features/pages/authorization_page/authorization_page_widget.dart';
+import 'package:soft_weather_tennis/features/pages/best_page/best_page_widget.dart';
+import 'package:soft_weather_tennis/features/pages/game_page/game_page_widget.dart';
+import 'package:soft_weather_tennis/features/pages/main_page/main_screen_widget.dart';
+import 'package:soft_weather_tennis/features/pages/profile_page/profile_page_widget.dart';
+import 'package:soft_weather_tennis/features/pages/rating_page/rating_page_widget.dart';
+import 'package:soft_weather_tennis/features/pages/useful_page/useful_page_widget.dart';
 import 'package:soft_weather_tennis/features/temp/screens/temp_screen/temp_screen.dart';
 
 /// Class that coordinates navigation for the whole app and provides
@@ -8,10 +15,48 @@ class Coordinator extends ChangeNotifier {
   final _coordinates = <Coordinate, _Route>{};
 
   final _pages = [
+    MaterialPage<void>(
+      key: const ValueKey('/main'),
+      name: 'main',
+      child: MainScreenWidget(),
+    ),
     const MaterialPage<void>(
-      key: ValueKey('/init'),
-      name: '/init',
+      key: ValueKey('/temp'),
+      name: 'temp',
       child: TempScreen(),
+    ),
+
+    const MaterialPage<void>(
+      key: ValueKey('/best'),
+      name: 'best',
+      child: BestPageWidget(),
+    ),
+    const MaterialPage<void>(
+      key: ValueKey('/game'),
+      name: 'game',
+      child: GamePageWidget(),
+    ),
+    const MaterialPage<void>(
+      key: ValueKey('/profile'),
+      name: 'profile',
+      child: ProfilePageWidget(),
+    ),
+    const MaterialPage<void>(
+      key: ValueKey('/rating'),
+      name: 'rating',
+      child: RatingPageWidget(),
+    ),
+    const MaterialPage<void>(
+      key: ValueKey('/useful'),
+      name: 'useful',
+      child: UsefulPageWidget(),
+    ),
+
+    /// Не менять, должно быть последним
+    const MaterialPage<void>(
+      key: ValueKey('/auth'),
+      name: 'auth',
+      child: AuthorizationPageWidget(),
     ),
   ];
 
@@ -26,6 +71,19 @@ class Coordinator extends ChangeNotifier {
 
   /// Initial screens route.
   String? get initialRoute => _coordinates[initialCoordinate]?.path;
+
+  /// Конструктор [Coordinator]
+  Coordinator({bool codeBioLogin = false}) {
+    if (codeBioLogin) {
+      _pages.add(
+        const MaterialPage<void>(
+          key: ValueKey('/auth'),
+          name: 'auth',
+          child: AuthorizationPageWidget(),
+        ),
+      );
+    }
+  }
 
   /// Method for registering new coordinate.
   void registerCoordinates(
@@ -49,7 +107,11 @@ class Coordinator extends ChangeNotifier {
     Object? arguments,
     bool replaceCurrentCoordinate = false,
     bool replaceRootCoordinate = false,
+    bool ignoreInner = false,
   }) {
+    if (!ignoreInner &&
+        target.isInner &&
+        pages.last.name == '${target.name}_inner') return;
     final path = _coordinates[target]?.path;
 
     if (replaceRootCoordinate) {
@@ -57,6 +119,12 @@ class Coordinator extends ChangeNotifier {
     } else if (replaceCurrentCoordinate) {
       _pages.removeLast();
     }
+    if (!ignoreInner && target.isInner) {
+      if (_pages.any((element) => element.name == '${target.name}_inner')) {
+        _pages.removeWhere((element) => element.name == '${target.name}_inner');
+      }
+    }
+
     _pages.add(_buildMaterialPage(context, target, arguments, path));
 
     debugPrint(_pages.map((e) => e.name).toList().toString());
@@ -109,16 +177,21 @@ class Coordinator extends ChangeNotifier {
     BuildContext context,
     Coordinate coordinate,
     Object? arguments,
-    String? path,
-  ) {
+    String? path, {
+    bool ignoreInner = false,
+  }) {
     final body = _coordinates[coordinate]!.builder.call(
           context,
           arguments,
         );
-
+    var name = path ?? '';
+    if (!ignoreInner && coordinate.isInner) {
+      name += '_inner';
+    }
+    name = name.replaceAll('/', '');
     return MaterialPage<void>(
       key: ValueKey(path),
-      name: path,
+      name: name,
       child: Scaffold(
         body: body,
       ),
