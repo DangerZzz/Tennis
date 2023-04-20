@@ -46,17 +46,20 @@ class ProfilePageWidget extends ElementaryWidget<IProfilePageWidgetModel> {
                   Positioned(
                     right: 16,
                     top: 16,
-                    child: Container(
-                      height: 32,
-                      width: 32,
-                      decoration: BoxDecoration(
-                        color: AppColors().primaryText,
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                      child: Icon(
-                        Tennis_icons.setting,
-                        color: AppColors().white,
-                        size: 22,
+                    child: GestureDetector(
+                      onTap: wm.toSettingsPage,
+                      child: Container(
+                        height: 32,
+                        width: 32,
+                        decoration: BoxDecoration(
+                          color: AppColors().primaryText,
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        child: Icon(
+                          Tennis_icons.setting,
+                          color: AppColors().white,
+                          size: 22,
+                        ),
                       ),
                     ),
                   ),

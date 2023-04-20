@@ -81,6 +81,9 @@ abstract class IProfilePageWidgetModel extends IWidgetModel {
   /// Переход на страницу достижений
   void toAchievementsPage();
 
+  /// Переход на страницу настроек
+  void toSettingsPage();
+
   /// Нажатие на календарь на вкладке "Статистика"
   void onCalendar();
 
@@ -264,6 +267,14 @@ class ProfilePageWidgetModel
       arguments: _allAchievementsData,
     );
     _achievementsButtonIsLoading.content(false);
+  }
+
+  @override
+  Future<void> toSettingsPage() async {
+    coordinator.navigate(
+      context,
+      AppCoordinate.settingsPage,
+    );
   }
 
   @override
