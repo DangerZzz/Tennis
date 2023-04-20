@@ -1,10 +1,13 @@
 import 'dart:async';
 
 import 'package:elementary/elementary.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:soft_weather_tennis/app/di/app_scope.dart';
+import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
+import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
 import 'package:soft_weather_tennis/features/navigation/domain/entity/app_coordinate.dart';
 import 'package:soft_weather_tennis/features/navigation/service/coordinator.dart';
 import 'package:soft_weather_tennis/features/pages/authorization_page/authorization_page_model.dart';
@@ -41,6 +44,9 @@ abstract class IAuthorizationPageWidgetModel extends IWidgetModel {
 
   /// Контроллер доступности кнопки "Далее" после ввода имени/фамилии
   ListenableState<EntityState<bool>> get nameButtonAvailability;
+
+  ///контроллер принятия биометрии
+  ListenableState<EntityState<bool>> get acceptBiometrics;
 
   /// Флаг отправки кода
   ListenableState<EntityState<bool>> get codeIsSend;
@@ -160,6 +166,9 @@ class AuthorizationPageWidgetModel
   TextEditingController get nameController => _nameController;
 
   @override
+  ListenableState<EntityState<bool>> get acceptBiometrics => _acceptBiometrics;
+
+  @override
   ListenableState<EntityState<bool>> get phoneButtonAvailability =>
       _phoneButtonAvailability;
 
@@ -207,6 +216,7 @@ class AuthorizationPageWidgetModel
   late EntityStateNotifier<bool> _biometricEnterFlag;
   late EntityStateNotifier<bool> _firstEnter;
   late EntityStateNotifier<bool> _equalsPin;
+  late EntityStateNotifier<bool> _acceptBiometrics;
 
   /// Конструктор
   AuthorizationPageWidgetModel(
@@ -233,12 +243,16 @@ class AuthorizationPageWidgetModel
     _codeIsSend.content(false);
     _equalsPin = EntityStateNotifier<bool>();
     _equalsPin.content(false);
+    _acceptBiometrics = EntityStateNotifier<bool>();
+    _acceptBiometrics.content(false);
     _biometricEnterFlag = EntityStateNotifier<bool>();
-    _biometricEnterFlag.content(false);
+    _biometricEnterFlag.content(_userNotifier.loginCode.codeHash != null &&
+        _userNotifier.canUseBiometric &&
+        _userNotifier.biometricLogin);
     _firstEnter = EntityStateNotifier<bool>();
-    _firstEnter.content(true);
-    await biometricAvailability();
-    await firstEnterFunction();
+    _firstEnter.content(_userNotifier.loginCode.codeHash == null);
+    // await biometricAvailability();
+    // await firstEnterFunction();
     // _codeEnter = EntityStateNotifier<String>();
     // _codeEnter.content('');
     // _acceptBiometrics = EntityStateNotifier<bool>();
@@ -369,10 +383,55 @@ class AuthorizationPageWidgetModel
   Future<void> setPin(String code) async {
     await _userNotifier.loginCode.loadCode();
 
+    ///Разрешить использование биометрии
+    ///
+
     /// Записать код
     if (_userNotifier.loginCode.codeHash == null) {
       await _userNotifier.loginCode.updateCode(code);
       debugPrint('Код сохранен');
+
+      //ignore: use_build_context_synchronously
+      await showDialog<void>(
+        barrierDismissible: false,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: Text(
+              'Использовать данные биометрии для входа?',
+              style: AppTextStyles()
+                  .medium_16_21
+                  .copyWith(color: AppColors().primaryText),
+            ),
+            actions: [
+              CupertinoDialogAction(
+                onPressed: () {
+                  _acceptBiometrics.content(false);
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  'Нет',
+                  style: AppTextStyles().medium_16_21.copyWith(
+                        color: AppColors().primaryText,
+                      ),
+                ),
+              ),
+              CupertinoDialogAction(
+                onPressed: () {
+                  onBiometrics();
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  'Да',
+                  style: AppTextStyles().medium_16_21.copyWith(
+                        color: AppColors().primaryText,
+                      ),
+                ),
+              ),
+            ],
+          );
+        },
+        context: context,
+      );
 
       await _userNotifier.updateUser(
         false,
@@ -383,8 +442,13 @@ class AuthorizationPageWidgetModel
       );
       debugPrint('Пользователь создан');
 
-      await _userNotifier.updateBiometricStorage();
-      debugPrint('Биометрия сохранена');
+      if (_userNotifier.canUseBiometric) {
+        if (_acceptBiometrics.value?.data ?? false) {
+          await _userNotifier
+              .updateBiometricStorage(_firstEnter.value?.data ?? true);
+          debugPrint('Биометрия сохранена');
+        }
+      }
       _index.content(2);
       return;
     }
@@ -405,7 +469,7 @@ class AuthorizationPageWidgetModel
   Future<void> biometricAvailability() async {
     await _userNotifier.loginCode.loadCode();
     if (_userNotifier.loginCode.codeHash != null) {
-      if (_userNotifier.canUseBiometric) {
+      if (_userNotifier.canUseBiometric && _userNotifier.biometricLogin) {
         _biometricEnterFlag.content(true);
       }
     } else {
@@ -472,5 +536,12 @@ class AuthorizationPageWidgetModel
     } else {
       _firstEnter.content(true);
     }
+  }
+
+  ///
+  void onBiometrics() {
+    _acceptBiometrics.content(!_acceptBiometrics.value!.data!);
+    _userNotifier.changeBiometricLogin(_acceptBiometrics.value!.data!);
+    _acceptBiometrics.content(_userNotifier.biometricLogin);
   }
 }

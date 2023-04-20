@@ -69,9 +69,7 @@ class _CodeBlockState extends State<CodeBlock> {
                   widget.number,
                   style: AppTextStyles().bold_32_37.copyWith(
                         height: 1,
-                        color: _state
-                            ? Colors.transparent
-                            : AppColors().primaryText,
+                        color: AppColors().primaryText,
                       ),
                 ),
               ),

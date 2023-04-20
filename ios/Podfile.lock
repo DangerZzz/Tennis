@@ -1,8 +1,6 @@
 PODS:
   - biometric_storage (0.0.1):
     - Flutter
-  - device_info_plus (0.0.1):
-    - Flutter
   - Firebase/CoreOnly (9.2.0):
     - FirebaseCore (= 9.2.0)
   - Firebase/Crashlytics (9.2.0):
@@ -71,7 +69,6 @@ PODS:
 
 DEPENDENCIES:
   - biometric_storage (from `.symlinks/plugins/biometric_storage/ios`)
-  - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_crashlytics (from `.symlinks/plugins/firebase_crashlytics/ios`)
   - Flutter (from `Flutter`)
@@ -97,8 +94,6 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   biometric_storage:
     :path: ".symlinks/plugins/biometric_storage/ios"
-  device_info_plus:
-    :path: ".symlinks/plugins/device_info_plus/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
   firebase_crashlytics:
@@ -118,7 +113,6 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   biometric_storage: 1400f1382af3a4cc2bf05340e13c3d8de873ceb9
-  device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
   Firebase: 4ba896cb8e5105d4b9e247e1c1b6222b548df55a
   firebase_core: d9d1ccd3b053b2553b7741c7affc5bb2e135801f
   firebase_crashlytics: e0040786f14b369cc717037d124ae124d40c6460

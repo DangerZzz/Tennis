@@ -56,8 +56,12 @@ class Environment<T> implements Listenable {
   static void init<T>({
     required BuildType buildType,
     required T config,
-    bool useMock = false,
+    bool useMock = true,
   }) {
-    _instance ??= Environment<T>._(buildType, config, useMock);
+    _instance ??= Environment<T>._(
+      buildType,
+      config,
+      true,
+    ); // useMock); //TODO(daniil): убрать
   }
 }

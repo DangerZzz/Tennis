@@ -67,7 +67,7 @@ abstract class IUserNotifier {
   // Future<void> loadTokens();
 
   /// Сохранение кода в биометрическое хранилище
-  Future<void> updateBiometricStorage();
+  Future<void> updateBiometricStorage(bool init);
 
   /// Сохранение кода в биометрическое хранилище
   Future<void> authorizeBiometrics();

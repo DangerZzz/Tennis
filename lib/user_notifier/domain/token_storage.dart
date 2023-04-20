@@ -145,20 +145,11 @@ class TokenStorage {
     return (await storage.read())!;
   }
 
-  /// получение кода из биометрического харнилища
+  /// очистка кода из биометрического харнилища
   Future<void> clearBiometricsCode() async {
     await _biometricStorage.delete(
       'TennisLoginCode',
-      const PromptInfo(
-        iosPromptInfo: IosPromptInfo(
-          accessTitle: '',
-          saveTitle: '',
-        ),
-        androidPromptInfo: AndroidPromptInfo(
-          title: 'Войти в приложение',
-          negativeButton: 'Отмена',
-        ),
-      ),
+      PromptInfo.defaultValues,
     );
     debugPrint('код удален');
     return;
