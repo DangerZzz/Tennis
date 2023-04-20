@@ -274,6 +274,7 @@ class ProfilePageWidgetModel
     coordinator.navigate(
       context,
       AppCoordinate.settingsPage,
+      arguments: _userInfo.value?.data,
     );
   }
 
@@ -354,8 +355,9 @@ class ProfilePageWidgetModel
       ),
     );
     if (res != null) {
+      final a = res.millisecondsSinceEpoch;
       text = '${res.day}.${res.month}.${res.year}';
-      _index.content(3);
+      await onWorkoutInformation(a);
     }
   }
 
@@ -442,8 +444,7 @@ class ProfilePageWidgetModel
     _gameData = EntityStateNotifier<GameData>();
     _statisticsData = EntityStateNotifier<StatisticsList>();
     _workoutData = EntityStateNotifier<TrainingInfo>();
-    await onWorkoutInformation(12);
-    // await onInformation();
+    await onInformation();
 
     if (newAchievements) {
       achievementsDialog();
