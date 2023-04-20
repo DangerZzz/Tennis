@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:soft_weather_tennis/features/navigation/domain/entity/coordinate.dart';
 import 'package:soft_weather_tennis/features/pages/authorization_page/authorization_page_widget.dart';
-import 'package:soft_weather_tennis/features/pages/best_page/best_page_widget.dart';
-import 'package:soft_weather_tennis/features/pages/game_page/game_page_widget.dart';
-import 'package:soft_weather_tennis/features/pages/main_page/main_screen_widget.dart';
-import 'package:soft_weather_tennis/features/pages/profile_page/profile_page_widget.dart';
-import 'package:soft_weather_tennis/features/pages/rating_page/rating_page_widget.dart';
-import 'package:soft_weather_tennis/features/pages/useful_page/useful_page_widget.dart';
-import 'package:soft_weather_tennis/features/temp/screens/temp_screen/temp_screen.dart';
 
 /// Class that coordinates navigation for the whole app and provides
 /// methods for navigation.
@@ -15,42 +8,42 @@ class Coordinator extends ChangeNotifier {
   final _coordinates = <Coordinate, _Route>{};
 
   final _pages = [
-    MaterialPage<void>(
-      key: const ValueKey('/main'),
-      name: 'main',
-      child: MainScreenWidget(),
-    ),
-    const MaterialPage<void>(
-      key: ValueKey('/temp'),
-      name: 'temp',
-      child: TempScreen(),
-    ),
-
-    const MaterialPage<void>(
-      key: ValueKey('/best'),
-      name: 'best',
-      child: BestPageWidget(),
-    ),
-    const MaterialPage<void>(
-      key: ValueKey('/game'),
-      name: 'game',
-      child: GamePageWidget(),
-    ),
-    const MaterialPage<void>(
-      key: ValueKey('/profile'),
-      name: 'profile',
-      child: ProfilePageWidget(),
-    ),
-    const MaterialPage<void>(
-      key: ValueKey('/rating'),
-      name: 'rating',
-      child: RatingPageWidget(),
-    ),
-    const MaterialPage<void>(
-      key: ValueKey('/useful'),
-      name: 'useful',
-      child: UsefulPageWidget(),
-    ),
+    // MaterialPage<void>(
+    //   key: const ValueKey('/main'),
+    //   name: 'main',
+    //   child: MainScreenWidget(),
+    // ),
+    // const MaterialPage<void>(
+    //   key: ValueKey('/temp'),
+    //   name: 'temp',
+    //   child: TempScreen(),
+    // ),
+    //
+    // const MaterialPage<void>(
+    //   key: ValueKey('/best'),
+    //   name: 'best',
+    //   child: BestPageWidget(),
+    // ),
+    // const MaterialPage<void>(
+    //   key: ValueKey('/game'),
+    //   name: 'game',
+    //   child: GamePageWidget(),
+    // ),
+    // const MaterialPage<void>(
+    //   key: ValueKey('/profile'),
+    //   name: 'profile',
+    //   child: ProfilePageWidget(),
+    // ),
+    // const MaterialPage<void>(
+    //   key: ValueKey('/rating'),
+    //   name: 'rating',
+    //   child: RatingPageWidget(),
+    // ),
+    // const MaterialPage<void>(
+    //   key: ValueKey('/useful'),
+    //   name: 'useful',
+    //   child: UsefulPageWidget(),
+    // ),
 
     /// Не менять, должно быть последним
     const MaterialPage<void>(

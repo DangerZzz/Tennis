@@ -3,6 +3,7 @@ import 'package:soft_weather_tennis/features/pages/authorization_page/authorizat
 import 'package:soft_weather_tennis/features/pages/best_page/best_page_widget.dart';
 import 'package:soft_weather_tennis/features/pages/game_page/game_page_widget.dart';
 import 'package:soft_weather_tennis/features/pages/main_page/main_screen_widget.dart';
+import 'package:soft_weather_tennis/features/pages/profile_page/pages/achievements_page.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/profile_page_widget.dart';
 import 'package:soft_weather_tennis/features/pages/rating_page/rating_page_widget.dart';
 import 'package:soft_weather_tennis/features/pages/useful_page/useful_page_widget.dart';
@@ -37,6 +38,9 @@ class AppCoordinate implements Coordinate {
   /// Initialization screens([UsefulPageWidget]).
   static final usefulPage = AppCoordinate._('useful', inner: true);
 
+  /// Initialization screens([UsefulPageWidget]).
+  static final achievementsPage = AppCoordinate._('achievements');
+
   /// Initialization screens(it can be any screens).
   static final initial = initScreen;
 
@@ -68,4 +72,5 @@ final Map<AppCoordinate, CoordinateBuilder> appCoordinates = {
   AppCoordinate.profilePage: (_, __) => const ProfilePageWidget(),
   AppCoordinate.gamePage: (_, __) => const GamePageWidget(),
   AppCoordinate.bestPage: (_, __) => const BestPageWidget(),
+  AppCoordinate.achievementsPage: (_, __) => const AchievementsPage(),
 };

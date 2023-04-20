@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:soft_weather_tennis/config/app_config.dart';
 import 'package:soft_weather_tennis/config/environment/environment.dart';
 import 'package:soft_weather_tennis/user_notifier/api/client.dart';
@@ -21,6 +22,25 @@ class UserNotifier extends ChangeNotifier implements IUserNotifier {
   late final UserRepository _repository;
 
   final Dio _dio;
+
+  /// Вход по отпечатку
+  bool get biometricLogin => _biometricLogin;
+
+  /// текущий уровень сложности
+  num get currentLevel => _currentLevel;
+
+  /// функция изменения уровня сложности
+  set currentLevel(num level) {
+    _currentLevel = level;
+  }
+
+  /// текущий уровень сложности
+  String get currentComplexity => _currentComplexity;
+
+  /// функция изменения уровня сложности
+  set currentComplexity(String complexity) {
+    _currentComplexity = complexity;
+  }
 
   // ///email пользователя
   // @override
@@ -62,11 +82,21 @@ class UserNotifier extends ChangeNotifier implements IUserNotifier {
 
   User? _user;
 
+  /// Вход по отпечатку
+  late bool _biometricLogin;
+
+  ///
+  late num _currentLevel = 1;
+
+  ///
+  late String _currentComplexity = '';
+
   /// Конструктор
   UserNotifier({required Dio dio, required ErrorHandler errorHandler})
       : _dio = dio,
         _errorHandler = errorHandler {
     loginCode.loadCode();
+    _loadLoginSettings();
     _repository = Environment<AppConfig>.instance().useMock
         ? MockUserRepository()
         : UserRepository(UserClient(_dio));
@@ -206,7 +236,7 @@ class UserNotifier extends ChangeNotifier implements IUserNotifier {
   // }
 
   @override
-  Future<void> updateBiometricStorage() async {
+  Future<void> updateBiometricStorage(bool init) async {
     await _tokenStorage.saveCodeBiometrics(_loginCode.code!);
   }
 
@@ -214,6 +244,25 @@ class UserNotifier extends ChangeNotifier implements IUserNotifier {
   Future<void> authorizeBiometrics() async {
     final code = await _tokenStorage.getBiometricsCode();
     await _loginCode.updateCode(code);
+  }
+
+  /// Установка флага входа по коду
+  Future<void> changeBiometricLogin(bool isBiometric) async {
+    _biometricLogin = isBiometric;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('biometricLogin', _biometricLogin);
+    notifyListeners();
+  }
+
+  Future<void> _loadLoginSettings() async {
+    final prefs = await SharedPreferences.getInstance();
+    final biometricLoginPref = prefs.getBool('biometricLogin');
+    // final codeLoginPref = prefs.getInt('codeLoginState');
+    // final accountName = prefs.getString('accountName');
+    _biometricLogin = biometricLoginPref ?? false;
+    // _codeLogin =
+    // (codeLoginPref == null) ? null : CodeState.values[codeLoginPref];
+    // _accountName = accountName;
   }
 
 //

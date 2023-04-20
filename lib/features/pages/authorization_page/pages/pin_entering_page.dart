@@ -49,6 +49,7 @@ class PinEnteringPage extends StatelessWidget {
                       listenableEntityState: wm.firstEnter,
                       builder: (_, firstEnter) => TextField(
                         controller: wm.pinController,
+                        keyboardType: TextInputType.number,
                         inputFormatters: [wm.pinMaskFormatter],
                         onChanged: (_) {
                           wm.pinButtonAvailabilityFunction();
@@ -127,9 +128,11 @@ class PinEnteringPage extends StatelessWidget {
                   ),
                 ),
               ),
-              EntityStateNotifierBuilder<bool>(
-                listenableEntityState: wm.firstEnter,
-                builder: (_, state) => state!
+              DoubleSourceBuilder<EntityState<bool>, EntityState<bool>>(
+                firstSource: wm.firstEnter,
+                secondSource: wm.biometricEnterFlag,
+                builder: (_, state, bio) => ((state?.data ?? false) ||
+                        (bio?.data ?? false))
                     ? const SizedBox()
                     : Column(
                         children: [

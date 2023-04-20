@@ -3,6 +3,13 @@ import 'package:flutter/material.dart';
 /// Текстовые стили всего приложения
 
 class AppTextStyles {
+  final regular_10_14 = const TextStyle(
+    fontFamily: 'Nunito',
+    fontWeight: FontWeight.w400,
+    fontSize: 10,
+    // height: 1.404,
+  );
+
   final regular_12_14 = const TextStyle(
     fontFamily: 'Nunito',
     fontWeight: FontWeight.w400,
@@ -101,6 +108,12 @@ class AppTextStyles {
     // height: 2.182,
   );
 
+  final regular_18_24 = const TextStyle(
+    fontFamily: 'Nunito',
+    fontWeight: FontWeight.w400,
+    fontSize: 18,
+    // height: 2.455,
+  );
   final medium_18_24 = const TextStyle(
     fontFamily: 'Nunito',
     fontWeight: FontWeight.w500,
@@ -108,9 +121,23 @@ class AppTextStyles {
     // height: 2.455,
   );
 
+  final bold_18_24 = const TextStyle(
+    fontFamily: 'Nunito',
+    fontWeight: FontWeight.w700,
+    fontSize: 18,
+    // height: 2.455,
+  );
+
   final bold_20_27 = const TextStyle(
     fontFamily: 'Nunito',
     fontWeight: FontWeight.w700,
+    fontSize: 20,
+    // height: 2.728,
+  );
+
+  final medium_20_27 = const TextStyle(
+    fontFamily: 'Nunito',
+    fontWeight: FontWeight.w500,
     fontSize: 20,
     // height: 2.728,
   );
@@ -133,6 +160,13 @@ class AppTextStyles {
     fontFamily: 'Nunito',
     fontWeight: FontWeight.w700,
     fontSize: 32,
+    // height: 3.224,
+  );
+
+  final regular_40_54 = const TextStyle(
+    fontFamily: 'Nunito',
+    fontWeight: FontWeight.w400,
+    fontSize: 40,
     // height: 3.224,
   );
 }

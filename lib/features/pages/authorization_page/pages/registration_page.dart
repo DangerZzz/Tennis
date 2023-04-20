@@ -71,6 +71,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   onChanged: (_) {
                     widget.wm.phoneButtonAvailabilityFunction();
                   },
+                  keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
                     hintText: 'Введите номер телефона',
                     hintStyle: AppTextStyles().light_14_19.copyWith(

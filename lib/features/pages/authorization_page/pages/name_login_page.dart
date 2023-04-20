@@ -49,7 +49,7 @@ class NameLoginPage extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
                 child: TextField(
                   controller: wm.nameController,
-                  keyboardType: TextInputType.name,
+                  keyboardType: TextInputType.text,
                   onChanged: (_) {
                     wm.nameEnterButtonAvailabilityFunction();
                   },
@@ -73,7 +73,7 @@ class NameLoginPage extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                 child: TextField(
                   controller: wm.surnameController,
-                  keyboardType: TextInputType.name,
+                  keyboardType: TextInputType.text,
                   onChanged: (_) {
                     wm.nameEnterButtonAvailabilityFunction();
                   },

@@ -18,12 +18,12 @@ class AuthorizationPageWidget
 
   @override
   Widget build(IAuthorizationPageWidgetModel wm) {
-    return Scaffold(
-      body: WillPopScope(
-        onWillPop: () async {
-          return false;
-        },
-        child: EntityStateNotifierBuilder<int>(
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        body: EntityStateNotifierBuilder<int>(
           listenableEntityState: wm.index,
           builder: (_, state) => FadeIndexedStack(
             index: state!.toInt(),
