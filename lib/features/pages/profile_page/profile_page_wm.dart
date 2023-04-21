@@ -232,6 +232,8 @@ class ProfilePageWidgetModel
     _index.content(2);
     _statisticsData.loading();
     final res = await model.getStatisticsData();
+    _spots = [];
+
     for (var index = 0; index < res.efficiencyList.length; index++) {
       if (res.efficiencyList.length == 1) {
         _spots.add(
