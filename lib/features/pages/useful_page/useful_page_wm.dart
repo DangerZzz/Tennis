@@ -13,6 +13,9 @@ import 'package:soft_weather_tennis/user_notifier/user_notifier.dart';
 abstract class IUsefulPageWidgetModel extends IWidgetModel {
   ///
   ListenableState<EntityState<UsefulData>> get usefulData;
+
+  /// Обновление страницы
+  Future<void> onRefresh();
 //
 // ///
 // String get b;
@@ -62,6 +65,11 @@ class UsefulPageWidgetModel
   @override
   Future<void> initWidgetModel() async {
     super.initWidgetModel();
+    await _initLoad();
+  }
+
+  @override
+  Future<void> onRefresh() async {
     await _initLoad();
   }
 
