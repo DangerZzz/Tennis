@@ -230,15 +230,7 @@ class AuthorizationPageWidgetModel
   Future<void> initWidgetModel() async {
     super.initWidgetModel();
 
-    final indexCheck =
-        (ModalRoute.of(context)?.settings.arguments ?? '') as String;
-    _index = EntityStateNotifier<int>();
-    // _index.content((_userNotifier.loginCode.codeHash == null) ? 0 : 1);
-    _index.content(indexCheck == 'pinPage'
-        ? 1
-        : indexCheck == 'rolePage'
-            ? 3
-            : 0);
+    _initIndex();
     _phoneButtonAvailability = EntityStateNotifier<bool>();
     _phoneButtonAvailability.content(false);
     _codeButtonAvailability = EntityStateNotifier<bool>();
@@ -259,13 +251,6 @@ class AuthorizationPageWidgetModel
         _userNotifier.biometricLogin);
     _firstEnter = EntityStateNotifier<bool>();
     _firstEnter.content(_userNotifier.loginCode.codeHash == null);
-    // await biometricAvailability();
-    // await firstEnterFunction();
-    // _codeEnter = EntityStateNotifier<String>();
-    // _codeEnter.content('');
-    // _acceptBiometrics = EntityStateNotifier<bool>();
-    // _acceptBiometrics.content(false);
-    // _loginState = EntityStateNotifier<bool>()..content(false);
   }
 
   @override
@@ -569,5 +554,21 @@ class AuthorizationPageWidgetModel
     _acceptBiometrics.content(!_acceptBiometrics.value!.data!);
     _userNotifier.changeBiometricLogin(_acceptBiometrics.value!.data!);
     _acceptBiometrics.content(_userNotifier.biometricLogin);
+  }
+
+  ///
+  Future<void> _initIndex() async {
+    _index = EntityStateNotifier<int>();
+    _index.loading();
+    final indexCheck =
+        (ModalRoute.of(context)?.settings.arguments ?? '') as String;
+
+    await _userNotifier.loginCode.loadCode();
+
+    _index.content((_userNotifier.loginCode.codeHash?.isNotEmpty ?? false)
+        ? 1
+        : indexCheck == 'rolePage'
+            ? 3
+            : 0);
   }
 }

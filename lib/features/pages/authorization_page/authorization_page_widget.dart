@@ -1,5 +1,6 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
+import 'package:soft_weather_tennis/components/adaptive_activity_indicator.dart';
 import 'package:soft_weather_tennis/components/fade_indexed_stack.dart';
 import 'package:soft_weather_tennis/features/pages/authorization_page/authorization_page_wm.dart';
 import 'package:soft_weather_tennis/features/pages/authorization_page/pages/name_login_page.dart';
@@ -25,6 +26,8 @@ class AuthorizationPageWidget
       child: Scaffold(
         body: EntityStateNotifierBuilder<int>(
           listenableEntityState: wm.index,
+          loadingBuilder: (_, __) =>
+              const Center(child: AdaptiveActivityIndicator()),
           builder: (_, state) => FadeIndexedStack(
             index: state!.toInt(),
             children: [

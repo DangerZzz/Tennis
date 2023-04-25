@@ -47,50 +47,67 @@ class PinEnteringPage extends StatelessWidget {
                     listenableEntityState: wm.biometricEnterFlag,
                     builder: (_, flag) => EntityStateNotifierBuilder<bool>(
                       listenableEntityState: wm.firstEnter,
-                      builder: (_, firstEnter) => TextField(
-                        controller: wm.pinController,
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [wm.pinMaskFormatter],
-                        onChanged: (_) {
-                          wm.pinButtonAvailabilityFunction();
-                        },
-                        decoration: InputDecoration(
-                          suffixIcon: flag!
-                              ? GestureDetector(
-                                  onTap: wm.biometricEnter,
-                                  child: const Icon(
-                                    TennisIcons.face_id,
-                                    size: 22,
-                                  ),
-                                )
-                              : null,
-                          suffixIconColor: AppColors().accentGreen,
-                          hintText: firstEnter!
-                              ? 'Придумайте пинкод для авторизации'
-                              : 'Введите пинкод для авторизации',
-                          hintStyle: AppTextStyles().light_14_19.copyWith(
-                                color: AppColors().secondaryText,
+                      builder: (_, firstEnter) => Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (firstEnter!)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 12.0),
+                              child: Text(
+                                'Пинкод должен состоять из шести символов',
+                                style: AppTextStyles().regular_14_19.copyWith(
+                                      color: AppColors().primaryText,
+                                    ),
                               ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide:
-                                BorderSide(color: AppColors().secondaryText),
+                            ),
+                          TextField(
+                            controller: wm.pinController,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [wm.pinMaskFormatter],
+                            onChanged: (_) {
+                              wm.pinButtonAvailabilityFunction();
+                            },
+                            decoration: InputDecoration(
+                              suffixIcon: flag!
+                                  ? GestureDetector(
+                                      onTap: wm.biometricEnter,
+                                      child: const Icon(
+                                        TennisIcons.face_id,
+                                        size: 22,
+                                      ),
+                                    )
+                                  : null,
+                              suffixIconColor: AppColors().accentGreen,
+                              hintText: firstEnter!
+                                  ? 'Придумайте пинкод для авторизации'
+                                  : 'Введите пинкод для авторизации',
+                              hintStyle: AppTextStyles().light_14_19.copyWith(
+                                    color: AppColors().secondaryText,
+                                  ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                    color: AppColors().secondaryText),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide:
+                                    BorderSide(color: AppColors().accentGreen),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide:
+                                    BorderSide(color: AppColors().gridRed),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide:
+                                    BorderSide(color: AppColors().gridRed),
+                              ),
+                              errorText: state ? 'Код неверный' : null,
+                            ),
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide:
-                                BorderSide(color: AppColors().accentGreen),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: AppColors().gridRed),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide(color: AppColors().gridRed),
-                          ),
-                          errorText: state ? 'Код неверный' : null,
-                        ),
+                        ],
                       ),
                     ),
                   ),
