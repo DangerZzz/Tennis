@@ -91,8 +91,10 @@ class _CupertinoDatePickerState extends State<_CupertinoDatePicker> {
               CupertinoButton(
                 padding: const EdgeInsets.fromLTRB(16, 16, 0, 16),
                 onPressed: () {
-                  Navigator.pop(context,
-                      _selectedDate); // TODO(daniil): coordinator.pop();
+                  Navigator.pop(
+                    context,
+                    _selectedDate,
+                  ); // TODO(daniil): coordinator.pop();
                 },
                 child: Text(
                   'Выбрать',

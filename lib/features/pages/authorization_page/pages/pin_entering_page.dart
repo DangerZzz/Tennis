@@ -78,7 +78,7 @@ class PinEnteringPage extends StatelessWidget {
                                     )
                                   : null,
                               suffixIconColor: AppColors().accentGreen,
-                              hintText: firstEnter!
+                              hintText: firstEnter
                                   ? 'Придумайте пинкод для авторизации'
                                   : 'Введите пинкод для авторизации',
                               hintStyle: AppTextStyles().light_14_19.copyWith(
@@ -87,7 +87,8 @@ class PinEnteringPage extends StatelessWidget {
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
                                 borderSide: BorderSide(
-                                    color: AppColors().secondaryText),
+                                  color: AppColors().secondaryText,
+                                ),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),

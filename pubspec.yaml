@@ -91,6 +91,6 @@ flutter_intl:
   main_locale: ru
 
 flutter_native_splash:
-  color: "#FFFFFF"
-  image: assets/splash_screen/splash_foreground.png
+  color: "#313131"
+#  branding: assets/splash_screen/splash_foreground.png
   fullscreen: true
