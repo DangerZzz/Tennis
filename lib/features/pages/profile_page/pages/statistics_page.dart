@@ -1,7 +1,7 @@
 import 'package:elementary/elementary.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:soft_weather_tennis/assets/icons/tennis_icons_icons.dart';
+import 'package:soft_weather_tennis/assets/icons/TennisIcons.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
 import 'package:soft_weather_tennis/components/adaptive_activity_indicator.dart';
@@ -55,7 +55,7 @@ class StatisticsPage extends StatelessWidget {
                             horizontal: 16,
                           ),
                           child: Icon(
-                            Tennis_icons.calendar1,
+                            TennisIcons.calendar,
                             color: AppColors().white,
                             size: 18,
                           ),
@@ -327,7 +327,7 @@ class StatisticsPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
-                            Tennis_icons.game1,
+                            TennisIcons.ball,
                             color: AppColors().white,
                             size: 26,
                           ),

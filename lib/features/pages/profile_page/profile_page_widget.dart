@@ -1,7 +1,7 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:octo_image/octo_image.dart';
-import 'package:soft_weather_tennis/assets/icons/tennis_icons_icons.dart';
+import 'package:soft_weather_tennis/assets/icons/TennisIcons.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
 import 'package:soft_weather_tennis/components/adaptive_activity_indicator.dart';
@@ -54,7 +54,7 @@ class ProfilePageWidget extends ElementaryWidget<IProfilePageWidgetModel> {
                         borderRadius: BorderRadius.circular(24),
                       ),
                       child: Icon(
-                        Tennis_icons.setting,
+                        TennisIcons.settings,
                         color: AppColors().white,
                         size: 22,
                       ),
@@ -83,9 +83,9 @@ class ProfilePageWidget extends ElementaryWidget<IProfilePageWidgetModel> {
                                   brightness: Brightness.dark,
                                 )
                               : Icon(
-                                  Tennis_icons.star_empty,
+                                  TennisIcons.trophy,
                                   color: AppColors().white,
-                                  size: 22,
+                                  size: 18,
                                 ),
                         ),
                       ),

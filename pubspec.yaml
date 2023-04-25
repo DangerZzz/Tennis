@@ -73,9 +73,9 @@ flutter:
           weight: 600
         - asset: assets/fonts/Nunito/Nunito-Bold.ttf
           weight: 700
-    - family: tennis_icons
+    - family: TennisIcons
       fonts:
-        - asset: assets/fonts/tennis_icons.ttf
+        - asset: assets/fonts/TennisIcons.ttf
 
 flutter_icons:
   ios: true

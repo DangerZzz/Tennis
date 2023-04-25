@@ -431,8 +431,7 @@ class ProfilePageWidgetModel
     _gameData = EntityStateNotifier<GameData>();
     _statisticsData = EntityStateNotifier<StatisticsList>();
     _workoutData = EntityStateNotifier<TrainingInfo>();
-    await onWorkoutInformation(12);
-    // await onInformation();
+    await onInformation();
 
     if (newAchievements) {
       achievementsDialog();
