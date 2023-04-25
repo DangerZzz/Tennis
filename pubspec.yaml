@@ -9,6 +9,7 @@ dependencies:
   dio: ^4.0.4
   elementary: ^1.0.0
   encrypt: ^5.0.1
+  expansion_tile_card: ^2.0.0
   firebase_crashlytics: ^2.5.0
   fl_chart: ^0.61.0
   flutter:
