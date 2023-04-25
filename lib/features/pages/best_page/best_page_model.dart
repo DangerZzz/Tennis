@@ -1,5 +1,7 @@
 import 'package:elementary/elementary.dart';
+import 'package:soft_weather_tennis/features/pages/best_page/domain/best_data_list.dart';
 import 'package:soft_weather_tennis/features/pages/best_page/repository/best_screen_repository.dart';
+import 'package:soft_weather_tennis/util/exception_handler.dart';
 
 ///
 class BestPageModel extends ElementaryModel {
@@ -10,4 +12,14 @@ class BestPageModel extends ElementaryModel {
     this._bestPageRepository,
     ErrorHandler errorHandler,
   ) : super(errorHandler: errorHandler);
+
+  /// Получение данных страницы
+  Future<BestDataList> getBestListData() async {
+    late final BestDataList res;
+    await ExceptionHandler.shellException(() async {
+      res = (await _bestPageRepository.getBestListData())!;
+      return res;
+    });
+    return res;
+  }
 }

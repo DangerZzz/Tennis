@@ -8,7 +8,7 @@ class UsefulPageRepository {
   /// Конструктор [UsefulPageRepository]
   UsefulPageRepository(this._usefulPageClient);
 
-  /// Возвращает данные страницы информация
+  /// Возвращает данные страницы полезное
   Future<UsefulData?> getUsefulData() => _usefulPageClient.getUsefulData().then(
         (dto) {
           return null;

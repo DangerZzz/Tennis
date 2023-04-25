@@ -16,12 +16,6 @@ abstract class IUsefulPageWidgetModel extends IWidgetModel {
 
   /// Обновление страницы
   Future<void> onRefresh();
-//
-// ///
-// String get b;
-//
-// ///
-// void c(String p);
 }
 
 ///
