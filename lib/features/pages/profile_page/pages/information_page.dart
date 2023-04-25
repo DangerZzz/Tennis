@@ -70,7 +70,6 @@ class InformationPage extends StatelessWidget {
                           ),
                           Text(
                             '/${state?.trophiesAllCount}',
-                            // TODO(daniil): wm
                             style: AppTextStyles()
                                 .regular_10_14
                                 .copyWith(color: AppColors().secondaryText),

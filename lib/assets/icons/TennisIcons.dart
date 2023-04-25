@@ -12,8 +12,8 @@ class TennisIcons {
 
   static const String _fontFamily = 'TennisIcons';
 
-  static const IconData trophy = IconData(0xe900, fontFamily: _fontFamily);
-  static const IconData user_updade = IconData(0xe90e, fontFamily: _fontFamily);
+  static const IconData user_updade = IconData(0xe900, fontFamily: _fontFamily);
+  static const IconData trophy = IconData(0xe901, fontFamily: _fontFamily);
   static const IconData useful = IconData(0xe91a, fontFamily: _fontFamily);
   static const IconData rating = IconData(0xe91b, fontFamily: _fontFamily);
   static const IconData grid = IconData(0xe91c, fontFamily: _fontFamily);

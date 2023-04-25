@@ -50,7 +50,8 @@ class _AchievementsPageState extends State<AchievementsPage> {
         titleSpacing: 0,
         shadowColor: Colors.transparent,
         leading: GestureDetector(
-          onTap: () => Navigator.pop(context),
+          onTap: () =>
+              Navigator.pop(context), // TODO(daniil): coordinator.pop();
           child: Icon(
             TennisIcons.back,
             color: AppColors().primaryText,

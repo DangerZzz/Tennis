@@ -133,13 +133,13 @@ class MainScreenWidgetModel
     _currentPage = StateNotifier<CoordinateBuilder>()..accept(builder);
     _updateIndexByName(name);
     coordinator.addListener(_coordinatorUpdate);
-    // _userNotifier.addListener(userListener);
+    _userNotifier.addListener(userListener);
   }
 
   @override
   void dispose() {
     coordinator.removeListener(_coordinatorUpdate);
-    // _userNotifier.removeListener(userListener);
+    _userNotifier.removeListener(userListener);
     super.dispose();
   }
 
@@ -238,12 +238,10 @@ class MainScreenWidgetModel
     return true;
   }
 
-  // /// Обновляет состояние авторизации пользоваетля
-  // @visibleForTesting
-  // void userListener() {
-  //   _authorizationState.accept(_userNotifier.isLogin);
-  //   onIndexChanged(0);
-  // }
+  /// Обновляет состояние тренера
+  void userListener() {
+    _isTrainerState.accept(_userNotifier.isTrainer);
+  }
 
   /// Функция отслеживания изменений в [coordinator]. Если последняя страница
   /// внутренняя, передает билдер этой страницы в виджет. Обновляет индекс

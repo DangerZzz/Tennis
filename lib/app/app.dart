@@ -15,6 +15,7 @@ import 'package:soft_weather_tennis/features/pages/game_page/di/game_page_scope.
 import 'package:soft_weather_tennis/features/pages/main_page/di/main_page_scope.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/di/profile_scope.dart';
 import 'package:soft_weather_tennis/features/pages/rating_page/di/rating_scope.dart';
+import 'package:soft_weather_tennis/features/pages/settings_page/di/settings_scope.dart';
 import 'package:soft_weather_tennis/features/pages/useful_page/di/useful_scope.dart';
 import 'package:soft_weather_tennis/features/temp/di/temp_scope.dart';
 import 'package:soft_weather_tennis/generated/l10n.dart';
@@ -107,6 +108,14 @@ class _AppState extends State<App> {
           MultiDiScopeItem<IUsefulPageScope>(
             factory: () {
               return UsefulPageScope(
+                dio: _scope.dio,
+                errorHandler: _scope.errorHandler,
+              );
+            },
+          ),
+          MultiDiScopeItem<ISettingsPageScope>(
+            factory: () {
+              return SettingsPageScope(
                 dio: _scope.dio,
                 errorHandler: _scope.errorHandler,
               );

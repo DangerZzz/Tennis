@@ -8,12 +8,14 @@ abstract class Coordinate {
   final String _value;
   final bool _inner;
 
+  ///
+  bool get isInner => _inner;
+
+  ///
+  String get name => _value;
+
   const Coordinate._(this._value, this._inner);
 
   @override
   String toString() => '$_value${_inner ? ' inner' : ''}';
-
-  bool get isInner => _inner;
-
-  String get name => _value;
 }

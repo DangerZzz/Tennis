@@ -81,6 +81,9 @@ abstract class IProfilePageWidgetModel extends IWidgetModel {
   /// Переход на страницу достижений
   void toAchievementsPage();
 
+  /// Переход на страницу настроек
+  void toSettingsPage();
+
   /// Нажатие на календарь на вкладке "Статистика"
   void onCalendar();
 
@@ -229,6 +232,8 @@ class ProfilePageWidgetModel
     _index.content(2);
     _statisticsData.loading();
     final res = await model.getStatisticsData();
+    _spots = [];
+
     for (var index = 0; index < res.efficiencyList.length; index++) {
       if (res.efficiencyList.length == 1) {
         _spots.add(
@@ -264,6 +269,15 @@ class ProfilePageWidgetModel
       arguments: _allAchievementsData,
     );
     _achievementsButtonIsLoading.content(false);
+  }
+
+  @override
+  Future<void> toSettingsPage() async {
+    coordinator.navigate(
+      context,
+      AppCoordinate.settingsPage,
+      arguments: _userInfo.value?.data,
+    );
   }
 
   @override
@@ -343,8 +357,9 @@ class ProfilePageWidgetModel
       ),
     );
     if (res != null) {
+      final a = res.millisecondsSinceEpoch;
       text = '${res.day}.${res.month}.${res.year}';
-      _index.content(3);
+      await onWorkoutInformation(a);
     }
   }
 
