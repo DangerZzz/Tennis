@@ -50,18 +50,18 @@ class AppCoordinate implements Coordinate {
 
   final String _value;
 
-  bool _inner;
-
-  AppCoordinate._(this._value, {bool inner = false}) : _inner = inner;
-
-  @override
-  String toString() => _value;
+  final bool _inner;
 
   @override
   bool get isInner => _inner;
 
   @override
   String get name => _value;
+
+  AppCoordinate._(this._value, {bool inner = false}) : _inner = inner;
+
+  @override
+  String toString() => _value;
 }
 
 /// List of main routes of the app.

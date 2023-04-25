@@ -13,4 +13,8 @@ abstract class SettingsPageClient {
   ///
   @GET('/order/{cityCode}/deleteCart')
   Future<DTO> getCharactersInfo();
+
+  ///
+  @GET('/order/{cityCode}/deleteCart')
+  Future<DTO> getAvatarsData();
 }

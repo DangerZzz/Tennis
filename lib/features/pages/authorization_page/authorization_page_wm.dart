@@ -229,8 +229,16 @@ class AuthorizationPageWidgetModel
   @override
   Future<void> initWidgetModel() async {
     super.initWidgetModel();
+
+    final indexCheck =
+        (ModalRoute.of(context)?.settings.arguments ?? '') as String;
     _index = EntityStateNotifier<int>();
-    _index.content((_userNotifier.loginCode.codeHash == null) ? 0 : 1);
+    // _index.content((_userNotifier.loginCode.codeHash == null) ? 0 : 1);
+    _index.content(indexCheck == 'pinPage'
+        ? 1
+        : indexCheck == 'rolePage'
+            ? 3
+            : 0);
     _phoneButtonAvailability = EntityStateNotifier<bool>();
     _phoneButtonAvailability.content(false);
     _codeButtonAvailability = EntityStateNotifier<bool>();
@@ -406,7 +414,7 @@ class AuthorizationPageWidgetModel
               CupertinoDialogAction(
                 onPressed: () {
                   _acceptBiometrics.content(false);
-                  Navigator.pop(context);
+                  Navigator.pop(context); // TODO(daniil): coordinator.pop();
                 },
                 child: Text(
                   'Нет',
@@ -418,7 +426,7 @@ class AuthorizationPageWidgetModel
               CupertinoDialogAction(
                 onPressed: () {
                   onBiometrics();
-                  Navigator.pop(context);
+                  Navigator.pop(context); // TODO(daniil): coordinator.pop();
                 },
                 child: Text(
                   'Да',
@@ -510,14 +518,27 @@ class AuthorizationPageWidgetModel
 
   @override
   Future<void> completeRegistration(bool isTrainer) async {
-    await _userNotifier.updateUser(
-      isTrainer,
-      '001',
-      _nameController.text,
-      _surnameController.text,
-      _phoneController.text,
-    ); // TODO(daniil): исправить
-    toMain();
+    if ((ModalRoute.of(context)?.settings.arguments ?? '') as String !=
+        'rolePage') {
+      await _userNotifier.updateUser(
+        isTrainer,
+        '001',
+        _nameController.text,
+        _surnameController.text,
+        _phoneController.text,
+      ); // TODO(daniil): исправить
+
+      toMain();
+    } else {
+      await _userNotifier.updateUser(
+        isTrainer,
+        _userNotifier.id,
+        _userNotifier.name,
+        _userNotifier.surname,
+        _userNotifier.phone,
+      );
+      backToSettings();
+    }
   }
 
   @override
@@ -536,6 +557,11 @@ class AuthorizationPageWidgetModel
     } else {
       _firstEnter.content(true);
     }
+  }
+
+  ///
+  void backToSettings() {
+    coordinator.pop();
   }
 
   ///

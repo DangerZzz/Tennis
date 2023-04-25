@@ -8,43 +8,6 @@ class Coordinator extends ChangeNotifier {
   final _coordinates = <Coordinate, _Route>{};
 
   final _pages = [
-    // MaterialPage<void>(
-    //   key: const ValueKey('/main'),
-    //   name: 'main',
-    //   child: MainScreenWidget(),
-    // ),
-    // const MaterialPage<void>(
-    //   key: ValueKey('/temp'),
-    //   name: 'temp',
-    //   child: TempScreen(),
-    // ),
-    //
-    // const MaterialPage<void>(
-    //   key: ValueKey('/best'),
-    //   name: 'best',
-    //   child: BestPageWidget(),
-    // ),
-    // const MaterialPage<void>(
-    //   key: ValueKey('/game'),
-    //   name: 'game',
-    //   child: GamePageWidget(),
-    // ),
-    // const MaterialPage<void>(
-    //   key: ValueKey('/profile'),
-    //   name: 'profile',
-    //   child: ProfilePageWidget(),
-    // ),
-    // const MaterialPage<void>(
-    //   key: ValueKey('/rating'),
-    //   name: 'rating',
-    //   child: RatingPageWidget(),
-    // ),
-    // const MaterialPage<void>(
-    //   key: ValueKey('/useful'),
-    //   name: 'useful',
-    //   child: UsefulPageWidget(),
-    // ),
-
     /// Не менять, должно быть последним
     const MaterialPage<void>(
       key: ValueKey('/auth'),
@@ -73,6 +36,7 @@ class Coordinator extends ChangeNotifier {
           key: ValueKey('/auth'),
           name: 'auth',
           child: AuthorizationPageWidget(),
+          arguments: 'pinPage',
         ),
       );
     }

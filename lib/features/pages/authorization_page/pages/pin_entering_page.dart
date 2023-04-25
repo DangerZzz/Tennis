@@ -58,7 +58,10 @@ class PinEnteringPage extends StatelessWidget {
                           suffixIcon: flag!
                               ? GestureDetector(
                                   onTap: wm.biometricEnter,
-                                  child: const Icon(TennisIcons.face_id),
+                                  child: const Icon(
+                                    TennisIcons.face_id,
+                                    size: 22,
+                                  ),
                                 )
                               : null,
                           suffixIconColor: AppColors().accentGreen,

@@ -6,6 +6,7 @@ import 'package:soft_weather_tennis/config/app_config.dart';
 import 'package:soft_weather_tennis/config/environment/environment.dart';
 import 'package:soft_weather_tennis/features/navigation/service/coordinator.dart';
 import 'package:soft_weather_tennis/user_notifier/api/client.dart';
+import 'package:soft_weather_tennis/user_notifier/domain/login_code.dart';
 import 'package:soft_weather_tennis/user_notifier/repository/mock/mock_user_repository.dart';
 import 'package:soft_weather_tennis/user_notifier/repository/user_repository.dart';
 import 'package:soft_weather_tennis/user_notifier/user_notifier.dart';
@@ -18,6 +19,7 @@ class AppScope implements IAppScope {
   late final String _buildVersion;
   late final String _apiVersion;
   late final String _platform;
+  late final LoginCode _loginCode;
 
   late final Map<String, dynamic> _headersVersion;
   late final Dio _dio;
@@ -255,14 +257,14 @@ class AppScope implements IAppScope {
     _headersVersion = _initHeaders();
     _dio = _initDio(); //additionalInterceptors);
     _errorHandler = DefaultErrorHandler();
+    _loginCode = LoginCode();
     // _webSockets = WebSockets.init(_errorHandler, headers: headersVersion);
     _initSession();
-
     _coordinator = Coordinator(
-      codeBioLogin: _userNotifier.loginCode.code?.isNotEmpty ?? false,
+      codeBioLogin: _loginCode.codeHash?.isNotEmpty ?? false,
     );
 
-    /// Иництилизации моделей страниц тут
+    /// Иницилизации моделей страниц тут
   }
 
   Map<String, dynamic> _initHeaders() {
