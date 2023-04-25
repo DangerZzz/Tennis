@@ -1,6 +1,6 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
-import 'package:soft_weather_tennis/assets/icons/tennis_icons_icons.dart';
+import 'package:soft_weather_tennis/assets/icons/TennisIcons.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
 import 'package:soft_weather_tennis/components/adaptive_activity_indicator.dart';
@@ -42,7 +42,7 @@ class WorkoutInformationPage extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(right: 2.0),
                       child: Icon(
-                        Tennis_icons.back1,
+                        TennisIcons.back,
                         color: AppColors().white,
                         size: 12,
                       ),
@@ -86,7 +86,7 @@ class WorkoutInformationPage extends StatelessWidget {
                   child: Row(
                     children: [
                       Icon(
-                        Tennis_icons.calendar1,
+                        TennisIcons.calendar,
                         color: AppColors().white,
                         size: 12,
                       ),
@@ -117,7 +117,7 @@ class WorkoutInformationPage extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(right: 2.0),
                     child: Icon(
-                      Tennis_icons.refresh1,
+                      TennisIcons.update,
                       color: AppColors().accentGreen,
                       size: 18,
                     ),
@@ -283,7 +283,7 @@ class WorkoutInformationPage extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.only(right: 2.0),
                               child: Icon(
-                                Tennis_icons.back1,
+                                TennisIcons.back,
                                 size: 12,
                                 color: AppColors().white,
                               ),
@@ -424,7 +424,7 @@ class WorkoutInformationPage extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(40),
                               ),
                               child: Icon(
-                                Tennis_icons.check,
+                                TennisIcons.check,
                                 size: 16,
                                 color: AppColors().white,
                               ),
@@ -452,7 +452,7 @@ class WorkoutInformationPage extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(40),
                               ),
                               child: Icon(
-                                Tennis_icons.grid,
+                                TennisIcons.grid,
                                 size: 16,
                                 color: AppColors().white,
                               ),
@@ -480,7 +480,7 @@ class WorkoutInformationPage extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(40),
                               ),
                               child: Icon(
-                                Tennis_icons.out1,
+                                TennisIcons.arrow_diagonal,
                                 size: 14,
                                 color: AppColors().white,
                               ),
@@ -552,7 +552,7 @@ class WorkoutInformationPage extends StatelessWidget {
                                                 BorderRadius.circular(40),
                                           ),
                                           child: Icon(
-                                            Tennis_icons.check,
+                                            TennisIcons.check,
                                             color: AppColors().white,
                                             size: 22,
                                           ),
@@ -611,7 +611,7 @@ class WorkoutInformationPage extends StatelessWidget {
                                               BorderRadius.circular(40),
                                         ),
                                         child: Icon(
-                                          Tennis_icons.check,
+                                          TennisIcons.check,
                                           color: AppColors().white,
                                           size: 22,
                                         ),

@@ -1,6 +1,6 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
-import 'package:soft_weather_tennis/assets/icons/tennis_icons_icons.dart';
+import 'package:soft_weather_tennis/assets/icons/TennisIcons.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 import 'package:soft_weather_tennis/features/navigation/domain/entity/coordinate.dart';
 import 'package:soft_weather_tennis/features/pages/main_page/domain/navigation_bar_item.dart';
@@ -51,26 +51,26 @@ class MainScreenWidget extends ElementaryWidget<IMainScreenWidgetModel> {
             onTap: wm.onIndexChanged,
             items: [
               const NavigationBarItem(
-                icon: Icon(Tennis_icons.game1),
+                icon: Icon(TennisIcons.ball),
                 label: 'Игра', //wm.localization.bargaining,
               ),
               NavigationBarItem(
-                icon: const Icon(Tennis_icons.rating1),
+                icon: const Icon(TennisIcons.rating),
                 label: 'Рейтинг', //wm.localization.schedule,
                 isTrainer: wm.isTrainerState.value ?? true,
               ),
               // if (!(wm.isTrainerState.value ?? true))
               NavigationBarItem(
-                icon: const Icon(Tennis_icons.useful1),
+                icon: const Icon(TennisIcons.useful),
                 label: 'Полезное', //wm.localization.schedule,
                 isTrainer: wm.isTrainerState.value ?? true,
               ),
               const NavigationBarItem(
-                icon: Icon(Tennis_icons.best1),
+                icon: Icon(TennisIcons.best),
                 label: 'Лучшие', //wm.localization.schedule,
               ),
               const NavigationBarItem(
-                icon: Icon(Tennis_icons.profile),
+                icon: Icon(TennisIcons.user),
                 label: 'Профиль', //wm.localization.schedule,
               ),
             ],

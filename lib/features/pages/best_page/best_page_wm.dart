@@ -6,18 +6,16 @@ import 'package:soft_weather_tennis/features/navigation/service/coordinator.dart
 import 'package:soft_weather_tennis/features/pages/best_page/best_page_model.dart';
 import 'package:soft_weather_tennis/features/pages/best_page/best_page_widget.dart';
 import 'package:soft_weather_tennis/features/pages/best_page/di/best_page_scope.dart';
+import 'package:soft_weather_tennis/features/pages/best_page/domain/best_data_list.dart';
 import 'package:soft_weather_tennis/user_notifier/user_notifier.dart';
 
 ///
 abstract class IBestPageWidgetModel extends IWidgetModel {
-  // ///
-  // ListenableState<EntityState<bool>> get a;
-  //
-  // ///
-  // String get b;
-  //
-  // ///
-  // void c(String p);
+  ///Данные страницы
+  ListenableState<EntityState<BestDataList>> get bestDataList;
+
+  /// Обновление страницы
+  Future<void> onRefresh();
 }
 
 ///
@@ -44,6 +42,11 @@ class BestPageWidgetModel extends WidgetModel<BestPageWidget, BestPageModel>
 
   final UserNotifier _userNotifier;
 
+  @override
+  ListenableState<EntityState<BestDataList>> get bestDataList => _bestDataList;
+
+  late EntityStateNotifier<BestDataList> _bestDataList;
+
   /// Конструктор
   BestPageWidgetModel(
     BestPageModel model, {
@@ -51,4 +54,22 @@ class BestPageWidgetModel extends WidgetModel<BestPageWidget, BestPageModel>
     required UserNotifier userNotifier,
   })  : _userNotifier = userNotifier,
         super(model);
+
+  @override
+  Future<void> initWidgetModel() async {
+    super.initWidgetModel();
+    await _initLoad();
+  }
+
+  @override
+  Future<void> onRefresh() async {
+    await _initLoad();
+  }
+
+  Future<void> _initLoad() async {
+    _bestDataList = EntityStateNotifier<BestDataList>();
+    _bestDataList.loading();
+    final data = await model.getBestListData();
+    _bestDataList.content(data);
+  }
 }

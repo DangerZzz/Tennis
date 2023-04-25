@@ -1,6 +1,6 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
-import 'package:soft_weather_tennis/assets/icons/tennis_icons_icons.dart';
+import 'package:soft_weather_tennis/assets/icons/TennisIcons.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
 import 'package:soft_weather_tennis/components/adaptive_activity_indicator.dart';
@@ -28,7 +28,7 @@ class SettingsPageWidget extends ElementaryWidget<ISettingsPageWidgetModel> {
         leading: GestureDetector(
           // onTap: () => Navigator.pop(context),
           child: Icon(
-            Tennis_icons.back1,
+            TennisIcons.back,
             color: AppColors().primaryText,
             size: 12,
           ),
@@ -78,7 +78,7 @@ class SettingsPageWidget extends ElementaryWidget<ISettingsPageWidgetModel> {
                           Row(
                             children: [
                               Icon(
-                                Tennis_icons.profile,
+                                TennisIcons.user,
                                 color: AppColors().accentGreen,
                                 size: 26,
                               ),
@@ -94,7 +94,7 @@ class SettingsPageWidget extends ElementaryWidget<ISettingsPageWidgetModel> {
                             ],
                           ),
                           Icon(
-                            Tennis_icons.edit1,
+                            TennisIcons.user_edit,
                             size: 16,
                             color: AppColors().secondaryText,
                           ),
@@ -116,7 +116,7 @@ class SettingsPageWidget extends ElementaryWidget<ISettingsPageWidgetModel> {
                           Row(
                             children: [
                               Icon(
-                                Tennis_icons.user1,
+                                TennisIcons.user,
                                 color: AppColors().accentGreen,
                                 size: 26,
                               ),
@@ -143,7 +143,7 @@ class SettingsPageWidget extends ElementaryWidget<ISettingsPageWidgetModel> {
                                 width: 8,
                               ),
                               Icon(
-                                Tennis_icons.edit1,
+                                TennisIcons.user_edit,
                                 size: 16,
                                 color: AppColors().secondaryText,
                               ),
@@ -167,7 +167,7 @@ class SettingsPageWidget extends ElementaryWidget<ISettingsPageWidgetModel> {
                           Row(
                             children: [
                               Icon(
-                                Tennis_icons.role1,
+                                TennisIcons.user_tag,
                                 color: AppColors().accentGreen,
                                 size: 26,
                               ),
@@ -194,7 +194,7 @@ class SettingsPageWidget extends ElementaryWidget<ISettingsPageWidgetModel> {
                                 width: 8,
                               ),
                               Icon(
-                                Tennis_icons.edit1,
+                                TennisIcons.user_edit,
                                 size: 16,
                                 color: AppColors().secondaryText,
                               ),
@@ -215,7 +215,7 @@ class SettingsPageWidget extends ElementaryWidget<ISettingsPageWidgetModel> {
                       Row(
                         children: [
                           Icon(
-                            Tennis_icons.back1,
+                            TennisIcons.back,
                             color: AppColors().accentGreen,
                             size: 26,
                           ),
@@ -511,7 +511,7 @@ class SettingsPageWidget extends ElementaryWidget<ISettingsPageWidgetModel> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(
-                                    Tennis_icons.edit1,
+                                    TennisIcons.user_edit,
                                     color: AppColors().white,
                                     size: 16,
                                   ),

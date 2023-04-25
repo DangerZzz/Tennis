@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dropdown/flutter_dropdown.dart';
-import 'package:soft_weather_tennis/assets/icons/tennis_icons_icons.dart';
+import 'package:soft_weather_tennis/assets/icons/TennisIcons.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/achievement.dart';
@@ -52,7 +52,7 @@ class _AchievementsPageState extends State<AchievementsPage> {
         leading: GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Icon(
-            Tennis_icons.back1,
+            TennisIcons.back,
             color: AppColors().primaryText,
             size: 12,
           ),

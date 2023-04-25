@@ -1,6 +1,6 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
-import 'package:soft_weather_tennis/assets/icons/tennis_icons_icons.dart';
+import 'package:soft_weather_tennis/assets/icons/TennisIcons.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
 import 'package:soft_weather_tennis/features/pages/authorization_page/authorization_page_wm.dart';
@@ -58,7 +58,7 @@ class PinEnteringPage extends StatelessWidget {
                           suffixIcon: flag!
                               ? GestureDetector(
                                   onTap: wm.biometricEnter,
-                                  child: const Icon(Tennis_icons.face_id1),
+                                  child: const Icon(TennisIcons.face_id),
                                 )
                               : null,
                           suffixIconColor: AppColors().accentGreen,
