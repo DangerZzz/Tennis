@@ -1,5 +1,6 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:octo_image/octo_image.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
@@ -85,11 +86,14 @@ class UsefulPageWidget extends ElementaryWidget<IUsefulPageWidgetModel> {
                                               ),
                                         ),
                                       ),
-                                      Container(
-                                        width: 90,
-                                        height: 90,
+                                      DecoratedBox(
                                         decoration: BoxDecoration(
-                                          color: AppColors().white,
+                                          color: const Color.fromRGBO(
+                                            190,
+                                            228,
+                                            83,
+                                            1,
+                                          ),
                                           borderRadius:
                                               BorderRadius.circular(50),
                                         ),
@@ -97,14 +101,28 @@ class UsefulPageWidget extends ElementaryWidget<IUsefulPageWidgetModel> {
                                           borderRadius:
                                               BorderRadius.circular(50),
                                           child: OctoImage(
-                                            fit: BoxFit.contain,
+                                            fit: BoxFit.cover,
+                                            width: 90,
+                                            height: 90,
                                             placeholderBuilder: (context) =>
-                                                const Icon(
-                                              Icons.refresh,
+                                                const SizedBox(
+                                              child: Center(
+                                                child:
+                                                    AdaptiveActivityIndicator(),
+                                              ),
                                             ),
-                                            errorBuilder: (c, e, s) =>
-                                                const Icon(
-                                              Icons.error,
+                                            errorBuilder: (c, e, s) => SizedBox(
+                                              child: Center(
+                                                child: SvgPicture.asset(
+                                                  'assets/images/error_placeholder.svg',
+                                                  colorFilter: ColorFilter.mode(
+                                                    AppColors().white,
+                                                    BlendMode.srcIn,
+                                                  ),
+                                                  height: 40,
+                                                  width: 40,
+                                                ),
+                                              ),
                                             ),
                                             image: Image.network(
                                               usefulData?.fastAdviceImageUrl ??
@@ -153,25 +171,66 @@ class UsefulPageWidget extends ElementaryWidget<IUsefulPageWidgetModel> {
                                                   topLeft: Radius.circular(10),
                                                 ),
                                                 child: OctoImage(
+                                                  width: wm.width,
+                                                  height: 300,
+                                                  fit: BoxFit.cover,
                                                   placeholderBuilder:
                                                       (context) =>
                                                           const SizedBox(
-                                                    height: 200,
-                                                    child: Icon(
-                                                      Icons.refresh,
+                                                    child: Center(
+                                                      child:
+                                                          AdaptiveActivityIndicator(
+                                                        radius: 40,
+                                                      ),
                                                     ),
                                                   ),
                                                   errorBuilder: (c, e, s) =>
-                                                      const SizedBox(
-                                                    height: 200,
-                                                    child: Icon(
-                                                      Icons.error,
+                                                      SizedBox(
+                                                    child: Center(
+                                                      child: SvgPicture.asset(
+                                                        'assets/images/error_placeholder.svg',
+                                                        colorFilter:
+                                                            ColorFilter.mode(
+                                                          AppColors()
+                                                              .accentGreen,
+                                                          BlendMode.srcIn,
+                                                        ),
+                                                        height: 60,
+                                                        width: 60,
+                                                      ),
                                                     ),
                                                   ),
                                                   image: Image.network(
                                                     advice.imageUrl,
-                                                    fit: BoxFit.fitWidth,
                                                   ).image,
+                                                ),
+                                              ),
+                                            ),
+                                            Positioned(
+                                              bottom: 0,
+                                              left: 0,
+                                              right: 0,
+                                              child: Container(
+                                                height: 73,
+                                                decoration: const BoxDecoration(
+                                                  gradient: LinearGradient(
+                                                    begin: Alignment.topCenter,
+                                                    end: Alignment.bottomCenter,
+                                                    colors: [
+                                                      Color.fromRGBO(
+                                                        17,
+                                                        17,
+                                                        17,
+                                                        0,
+                                                      ),
+                                                      Color.fromRGBO(
+                                                        17,
+                                                        17,
+                                                        17,
+                                                        0.74,
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -230,24 +289,28 @@ class UsefulPageWidget extends ElementaryWidget<IUsefulPageWidgetModel> {
                                         ),
                                       ),
                                       Center(
-                                        child: DecoratedBox(
-                                          decoration: BoxDecoration(
-                                            color: AppColors().accentGreen,
-                                            borderRadius:
-                                                BorderRadius.circular(200),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0,
-                                              horizontal: 16,
+                                        child: GestureDetector(
+                                          onTap: () => wm.toInfoPage(1),
+                                          child: DecoratedBox(
+                                            decoration: BoxDecoration(
+                                              color: AppColors().accentGreen,
+                                              borderRadius:
+                                                  BorderRadius.circular(200),
                                             ),
-                                            child: Text(
-                                              'Читать далее',
-                                              style: AppTextStyles()
-                                                  .semibold_14_21
-                                                  .copyWith(
-                                                    color: AppColors().white,
-                                                  ),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                vertical: 8.0,
+                                                horizontal: 16,
+                                              ),
+                                              child: Text(
+                                                'Читать далее',
+                                                style: AppTextStyles()
+                                                    .semibold_14_21
+                                                    .copyWith(
+                                                      color: AppColors().white,
+                                                    ),
+                                              ),
                                             ),
                                           ),
                                         ),

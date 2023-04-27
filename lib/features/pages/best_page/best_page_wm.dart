@@ -14,6 +14,9 @@ abstract class IBestPageWidgetModel extends IWidgetModel {
   ///Данные страницы
   ListenableState<EntityState<BestDataList>> get bestDataList;
 
+  ///
+  double get width;
+
   /// Обновление страницы
   Future<void> onRefresh();
 }
@@ -41,6 +44,9 @@ class BestPageWidgetModel extends WidgetModel<BestPageWidget, BestPageModel>
   final Coordinator coordinator;
 
   final UserNotifier _userNotifier;
+
+  @override
+  double get width => MediaQuery.of(context).size.width;
 
   @override
   ListenableState<EntityState<BestDataList>> get bestDataList => _bestDataList;

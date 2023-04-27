@@ -1,5 +1,6 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:octo_image/octo_image.dart';
 import 'package:soft_weather_tennis/assets/icons/TennisIcons.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
@@ -112,16 +113,27 @@ class ProfilePageWidget extends ElementaryWidget<IProfilePageWidgetModel> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(50),
                             child: OctoImage(
-                              fit: BoxFit.contain,
-                              placeholderBuilder: (context) => const Icon(
-                                Icons.refresh,
+                              width: 72,
+                              height: 72,
+                              fit: BoxFit.cover,
+                              placeholderBuilder: (context) => const Center(
+                                child: AdaptiveActivityIndicator(),
                               ),
-                              errorBuilder: (c, e, s) => const Icon(
-                                Icons.error,
+                              errorBuilder: (c, e, s) => SizedBox(
+                                child: Center(
+                                  child: SvgPicture.asset(
+                                    'assets/images/error_placeholder.svg',
+                                    colorFilter: ColorFilter.mode(
+                                      AppColors().accentGreen,
+                                      BlendMode.srcIn,
+                                    ),
+                                    height: 40,
+                                    width: 40,
+                                  ),
+                                ),
                               ),
                               image: Image.network(
                                 state?.avatarUrl ?? '',
-                                fit: BoxFit.contain,
                               ).image,
                             ),
                           ),
