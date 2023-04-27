@@ -37,6 +37,7 @@ class BestPageWidget extends ElementaryWidget<IBestPageWidgetModel> {
               padding: const EdgeInsets.only(
                 left: 16.0,
                 top: 16,
+                bottom: 12,
               ),
               child: Text(
                 'Галерея славы',

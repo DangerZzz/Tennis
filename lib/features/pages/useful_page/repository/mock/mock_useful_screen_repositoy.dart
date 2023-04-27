@@ -7,7 +7,7 @@ class MockUsefulPageRepository implements UsefulPageRepository {
   ///
   @override
   Future<UsefulData> getUsefulData() async {
-    await Future<void>.delayed(const Duration(seconds: 1));
+    await Future<void>.delayed(const Duration(seconds: 2));
     return UsefulData(
       fastAdvice:
           'Отличный перекус для настоящих спортсменов - питательные батончики. '
@@ -61,7 +61,7 @@ class MockUsefulPageRepository implements UsefulPageRepository {
   ///
   @override
   Future<UsefulInfoData> usefulDataByIndex() async {
-    await Future<void>.delayed(const Duration(seconds: 1));
+    await Future<void>.delayed(const Duration(seconds: 2));
     return UsefulInfoData(
       id: 1,
       imageUrl: 'https://picsum.photos/500/500',

@@ -237,7 +237,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
             ),
             Game(
               percent: 80,
-              gameNumber: 1,
+              gameNumber: 2,
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
               ],
@@ -270,7 +270,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
             ),
             Game(
               percent: 80,
-              gameNumber: 1,
+              gameNumber: 2,
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
               ],
@@ -292,7 +292,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
             ),
             Game(
               percent: 80,
-              gameNumber: 1,
+              gameNumber: 2,
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
@@ -303,7 +303,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
             ),
             Game(
               percent: 80,
-              gameNumber: 1,
+              gameNumber: 3,
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
@@ -314,7 +314,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
             ),
             Game(
               percent: 80,
-              gameNumber: 1,
+              gameNumber: 4,
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
@@ -325,7 +325,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
             ),
             Game(
               percent: 80,
-              gameNumber: 1,
+              gameNumber: 5,
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
@@ -336,7 +336,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
             ),
             Game(
               percent: 80,
-              gameNumber: 1,
+              gameNumber: 6,
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
@@ -347,7 +347,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
             ),
             Game(
               percent: 80,
-              gameNumber: 1,
+              gameNumber: 7,
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
               ],
