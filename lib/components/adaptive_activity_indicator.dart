@@ -8,9 +8,13 @@ class AdaptiveActivityIndicator extends StatelessWidget {
   final Brightness brightness;
 
   ///
+  final double radius;
+
+  ///
   const AdaptiveActivityIndicator({
     Key? key,
     this.brightness = Brightness.light,
+    this.radius = 20,
   }) : super(key: key);
 
   @override
@@ -30,7 +34,7 @@ class AdaptiveActivityIndicator extends StatelessWidget {
           )
         : CupertinoTheme(
             data: CupertinoTheme.of(context).copyWith(brightness: brightness),
-            child: const CupertinoActivityIndicator(),
+            child: CupertinoActivityIndicator(radius: radius / 2),
           );
   }
 }

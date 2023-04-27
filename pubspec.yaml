@@ -19,6 +19,7 @@ dependencies:
   flutter_secure_storage: ^8.0.0
   flutter_shimmer: ^2.1.2
   flutter_state_notifier: ^0.7.3
+  flutter_svg: ^2.0.5
   flutter_swiper_null_safety: ^1.0.2
   intl: ^0.17.0
   local_auth: ^2.1.6

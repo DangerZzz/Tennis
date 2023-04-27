@@ -1,5 +1,6 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:octo_image/octo_image.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
@@ -103,24 +104,31 @@ class BestPageWidget extends ElementaryWidget<IBestPageWidgetModel> {
                                                   topLeft: Radius.circular(10),
                                                 ),
                                                 child: OctoImage(
+                                                  fit: BoxFit.cover,
+                                                  width: wm.width,
+                                                  height: 300,
                                                   placeholderBuilder:
-                                                      (context) =>
-                                                          const SizedBox(
-                                                    height: 200,
-                                                    child: Icon(
-                                                      Icons.refresh,
+                                                      (context) => const Center(
+                                                    child:
+                                                        AdaptiveActivityIndicator(
+                                                      radius: 40,
                                                     ),
                                                   ),
                                                   errorBuilder: (c, e, s) =>
-                                                      const SizedBox(
-                                                    height: 200,
-                                                    child: Icon(
-                                                      Icons.error,
+                                                      Center(
+                                                    child: SvgPicture.asset(
+                                                      'assets/images/error_placeholder.svg',
+                                                      colorFilter:
+                                                          ColorFilter.mode(
+                                                        AppColors().accentGreen,
+                                                        BlendMode.srcIn,
+                                                      ),
+                                                      height: 60,
+                                                      width: 60,
                                                     ),
                                                   ),
                                                   image: Image.network(
                                                     bestData.imageUrl,
-                                                    fit: BoxFit.fitWidth,
                                                   ).image,
                                                 ),
                                               ),

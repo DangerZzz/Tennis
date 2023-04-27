@@ -13,4 +13,8 @@ abstract class UsefulPageClient {
   ///
   @GET('/order/{cityCode}/deleteCart')
   Future<DTO> getUsefulData();
+
+  ///
+  @GET('/order/{cityCode}/deleteCart')
+  Future<DTO> usefulDataByIndex();
 }
