@@ -71,6 +71,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   onChanged: (_) {
                     widget.wm.phoneButtonAvailabilityFunction();
                   },
+                  onEditingComplete: () {
+                    FocusScope.of(context).unfocus();
+                  },
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
                     hintText: 'Введите номер телефона',

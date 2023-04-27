@@ -50,6 +50,9 @@ class NameLoginPage extends StatelessWidget {
                 child: TextField(
                   controller: wm.nameController,
                   keyboardType: TextInputType.text,
+                  onEditingComplete: () {
+                    FocusScope.of(context).unfocus();
+                  },
                   onChanged: (_) {
                     wm.nameEnterButtonAvailabilityFunction();
                   },
@@ -74,6 +77,9 @@ class NameLoginPage extends StatelessWidget {
                 child: TextField(
                   controller: wm.surnameController,
                   keyboardType: TextInputType.text,
+                  onEditingComplete: () {
+                    FocusScope.of(context).unfocus();
+                  },
                   onChanged: (_) {
                     wm.nameEnterButtonAvailabilityFunction();
                   },

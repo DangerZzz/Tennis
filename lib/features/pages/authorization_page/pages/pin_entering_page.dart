@@ -64,6 +64,9 @@ class PinEnteringPage extends StatelessWidget {
                             controller: wm.pinController,
                             keyboardType: TextInputType.number,
                             inputFormatters: [wm.pinMaskFormatter],
+                            onEditingComplete: () {
+                              FocusScope.of(context).unfocus();
+                            },
                             onChanged: (_) {
                               wm.pinButtonAvailabilityFunction();
                             },

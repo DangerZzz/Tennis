@@ -177,6 +177,9 @@ class BestPageWidget extends ElementaryWidget<IBestPageWidgetModel> {
                                                 ],
                                               ),
                                             ),
+                                            const SizedBox(
+                                              width: 8,
+                                            ),
                                             DecoratedBox(
                                               decoration: BoxDecoration(
                                                 color: AppColors().primaryText,

@@ -229,8 +229,18 @@ class AuthorizationPageWidgetModel
   @override
   Future<void> initWidgetModel() async {
     super.initWidgetModel();
-
-    _initIndex();
+    _index = EntityStateNotifier<int>();
+    _index.loading();
+    _acceptBiometrics = EntityStateNotifier<bool>();
+    _acceptBiometrics.content(false);
+    _biometricEnterFlag = EntityStateNotifier<bool>();
+    await _userNotifier.loginCode.loadCode();
+    _biometricEnterFlag.content(_userNotifier.loginCode.codeHash != null &&
+        _userNotifier.canUseBiometric &&
+        _userNotifier.biometricLogin);
+    _firstEnter = EntityStateNotifier<bool>();
+    _firstEnter.content(_userNotifier.loginCode.codeHash == null);
+    await _initIndex();
     _phoneButtonAvailability = EntityStateNotifier<bool>();
     _phoneButtonAvailability.content(false);
     _codeButtonAvailability = EntityStateNotifier<bool>();
@@ -243,14 +253,6 @@ class AuthorizationPageWidgetModel
     _codeIsSend.content(false);
     _equalsPin = EntityStateNotifier<bool>();
     _equalsPin.content(false);
-    _acceptBiometrics = EntityStateNotifier<bool>();
-    _acceptBiometrics.content(false);
-    _biometricEnterFlag = EntityStateNotifier<bool>();
-    _biometricEnterFlag.content(_userNotifier.loginCode.codeHash != null &&
-        _userNotifier.canUseBiometric &&
-        _userNotifier.biometricLogin);
-    _firstEnter = EntityStateNotifier<bool>();
-    _firstEnter.content(_userNotifier.loginCode.codeHash == null);
   }
 
   @override
@@ -368,12 +370,15 @@ class AuthorizationPageWidgetModel
 
   @override
   void sendCode(String code) {
+    FocusScope.of(context).unfocus();
+
     //api
     _index.content(1);
   }
 
   @override
   Future<void> setPin(String code) async {
+    FocusScope.of(context).unfocus();
     await _userNotifier.loginCode.loadCode();
 
     ///Разрешить использование биометрии
@@ -442,6 +447,7 @@ class AuthorizationPageWidgetModel
           debugPrint('Биометрия сохранена');
         }
       }
+
       _index.content(2);
       return;
     }
@@ -489,12 +495,15 @@ class AuthorizationPageWidgetModel
 
   @override
   void setName(String name, String surname) {
+    FocusScope.of(context).unfocus();
+
     //api
     _index.content(3);
   }
 
   @override
   void toMain() {
+    FocusScope.of(context).unfocus();
     coordinator.navigate(
       context,
       AppCoordinate.mainScreen,
@@ -528,6 +537,7 @@ class AuthorizationPageWidgetModel
 
   @override
   void toRestorePass() {
+    FocusScope.of(context).unfocus();
     _userNotifier.removeUser();
     _biometricEnterFlag.content(false);
     _firstEnter.content(true);
@@ -558,17 +568,20 @@ class AuthorizationPageWidgetModel
 
   ///
   Future<void> _initIndex() async {
-    _index = EntityStateNotifier<int>();
     _index.loading();
+    await _userNotifier.loginCode.loadCode();
+    _biometricEnterFlag.content(_userNotifier.loginCode.codeHash != null &&
+        _userNotifier.canUseBiometric &&
+        _userNotifier.biometricLogin);
+    _firstEnter.content(_userNotifier.loginCode.codeHash == null);
     final indexCheck =
+        //ignore: use_build_context_synchronously
         (ModalRoute.of(context)?.settings.arguments ?? '') as String;
 
-    await _userNotifier.loginCode.loadCode();
-
-    _index.content((_userNotifier.loginCode.codeHash?.isNotEmpty ?? false)
-        ? 1
-        : indexCheck == 'rolePage'
-            ? 3
-            : 0);
+    indexCheck == 'rolePage'
+        ? _index.content(3)
+        : (_userNotifier.loginCode.codeHash?.isNotEmpty ?? false)
+            ? _index.content(1)
+            : _index.content(0);
   }
 }

@@ -44,6 +44,7 @@ class MainScreenWidget extends ElementaryWidget<IMainScreenWidgetModel> {
         bottomNavigationBar: MultiListenerRebuilder(
           listenableList: [
             wm.indexState,
+            wm.isTrainerState,
             // TODO(daniil): add pages
           ],
           builder: (_) => nav.NavigationBar(

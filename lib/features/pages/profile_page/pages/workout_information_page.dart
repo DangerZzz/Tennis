@@ -384,7 +384,7 @@ class WorkoutInformationPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(9.5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -503,68 +503,65 @@ class WorkoutInformationPage extends StatelessWidget {
                     height: 16,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 16.0),
-                        child: Column(
-                          children: [
-                            for (var i = 0; i < 3; i++) ...[
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 16.0),
-                                child: DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    color: AppColors().white,
-                                    borderRadius: BorderRadius.circular(12),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Color.fromRGBO(241, 241, 241, 1),
-                                        offset: Offset(1, 2),
-                                        spreadRadius: 0.1,
-                                        blurRadius: 20,
+                      Column(
+                        children: [
+                          for (var i = 0; i < 3; i++) ...[
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 16.0),
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  color: AppColors().white,
+                                  borderRadius: BorderRadius.circular(12),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Color.fromRGBO(241, 241, 241, 1),
+                                      offset: Offset(1, 2),
+                                      spreadRadius: 0.1,
+                                      blurRadius: 20,
+                                    ),
+                                  ],
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 8.0,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        '1. Forehand',
+                                        style: AppTextStyles()
+                                            .semibold_16_21
+                                            .copyWith(
+                                              color: AppColors().primaryText,
+                                            ),
+                                      ),
+                                      const SizedBox(
+                                        width: 16,
+                                      ),
+                                      Container(
+                                        width: 28,
+                                        height: 28,
+                                        decoration: BoxDecoration(
+                                          color: AppColors().accentGreen,
+                                          borderRadius:
+                                              BorderRadius.circular(40),
+                                        ),
+                                        child: Icon(
+                                          TennisIcons.check,
+                                          color: AppColors().white,
+                                          size: 22,
+                                        ),
                                       ),
                                     ],
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 16,
-                                      vertical: 8.0,
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          '1. Forehand',
-                                          style: AppTextStyles()
-                                              .semibold_16_21
-                                              .copyWith(
-                                                color: AppColors().primaryText,
-                                              ),
-                                        ),
-                                        const SizedBox(
-                                          width: 16,
-                                        ),
-                                        Container(
-                                          width: 28,
-                                          height: 28,
-                                          decoration: BoxDecoration(
-                                            color: AppColors().accentGreen,
-                                            borderRadius:
-                                                BorderRadius.circular(40),
-                                          ),
-                                          child: Icon(
-                                            TennisIcons.check,
-                                            color: AppColors().white,
-                                            size: 22,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
                                 ),
                               ),
-                            ],
+                            ),
                           ],
-                        ),
+                        ],
                       ),
                       Column(
                         children: [
@@ -586,7 +583,7 @@ class WorkoutInformationPage extends StatelessWidget {
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
-                                    horizontal: 16,
+                                    horizontal: 12,
                                     vertical: 8.0,
                                   ),
                                   child: Row(

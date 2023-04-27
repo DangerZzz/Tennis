@@ -32,7 +32,7 @@ class UsefulFullInfoPageWidget
               left: 0,
               right: 0,
               child: OctoImage(
-                height: 346,
+                height: 288,
                 width: wm.width,
                 fit: BoxFit.cover,
                 placeholderBuilder: (context) => const Center(
@@ -81,7 +81,7 @@ class UsefulFullInfoPageWidget
               ),
             ),
             Positioned(
-              top: 314,
+              top: 254,
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.only(
@@ -223,7 +223,7 @@ class UsefulFullInfoPageWidget
                             ],
                           ],
                           const SizedBox(
-                            height: 200,
+                            height: 20,
                           ),
                         ],
                       ),

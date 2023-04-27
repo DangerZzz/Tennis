@@ -42,7 +42,7 @@ class AchievementsDialog extends StatelessWidget {
           ),
         ),
         child: Container(
-          height: isInfo ? 410 : 380,
+          height: isInfo ? 426 : 380,
           width: width * .8,
           clipBehavior: Clip.hardEdge,
           decoration: const BoxDecoration(

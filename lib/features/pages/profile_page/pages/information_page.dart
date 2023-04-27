@@ -54,11 +54,17 @@ class InformationPage extends StatelessWidget {
                             .regular_14_19
                             .copyWith(color: AppColors().primaryText),
                       ),
+                      const SizedBox(
+                        width: 4,
+                      ),
                       Text(
                         'Эффективность: ${state?.efficiency}',
                         style: AppTextStyles()
                             .regular_14_19
                             .copyWith(color: AppColors().primaryText),
+                      ),
+                      const SizedBox(
+                        width: 4,
                       ),
                       Row(
                         children: [

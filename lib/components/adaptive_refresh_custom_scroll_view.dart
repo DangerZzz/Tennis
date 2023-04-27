@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
@@ -131,20 +129,11 @@ class _AdaptiveRefreshCustomScrollViewState
           ) {
             return ColoredBox(
               color: AppColors().white,
-              child: Center(
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: <Widget>[
-                    Positioned(
-                      top: 16.0,
-                      left: 0.0,
-                      right: 0.0,
-                      child: Transform.scale(
-                        scale: min(pulledExtent / refreshIndicatorExtent, 1),
-                        child: const AdaptiveActivityIndicator(),
-                      ),
-                    ),
-                  ],
+              child: const Center(
+                child: SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: AdaptiveActivityIndicator(),
                 ),
               ),
             );

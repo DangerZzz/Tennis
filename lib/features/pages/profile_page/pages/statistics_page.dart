@@ -87,7 +87,7 @@ class StatisticsPage extends StatelessWidget {
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
-                                    horizontal: 18,
+                                    horizontal: 16,
                                     vertical: 11,
                                   ),
                                   child: Text(

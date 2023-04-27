@@ -60,9 +60,11 @@ abstract class ISettingsPageWidgetModel extends IWidgetModel {
 
 ///
 SettingsPageWidgetModel defaultSettingsPageWidgetModelFactory(
-  BuildContext context,
-) {
-  final arguments = ModalRoute.of(context)?.settings.arguments as UserInfo;
+    BuildContext context,) {
+  final arguments = ModalRoute
+      .of(context)
+      ?.settings
+      .arguments as UserInfo;
   final scope = context.read<ISettingsPageScope>();
   final appDependencies = context.read<IAppScope>();
   final userNotifier = appDependencies.userNotifier;
@@ -90,7 +92,11 @@ class SettingsPageWidgetModel
   final _nameController = TextEditingController();
 
   @override
-  double get width => MediaQuery.of(context).size.width;
+  double get width =>
+      MediaQuery
+          .of(context)
+          .size
+          .width;
 
   @override
   UserNotifier get userNotifier => _userNotifier;
@@ -122,12 +128,12 @@ class SettingsPageWidgetModel
   late EntityStateNotifier<int> _index;
 
   ///Конструктор [SettingsPageWidgetModel]
-  SettingsPageWidgetModel(
-    SettingsPageModel model, {
+  SettingsPageWidgetModel(SettingsPageModel model, {
     required this.coordinator,
     required UserNotifier userNotifier,
     required UserInfo userInfo,
-  })  : _userNotifier = userNotifier,
+  })
+      : _userNotifier = userNotifier,
         _userInfo = userInfo,
         super(model);
 
@@ -167,8 +173,8 @@ class SettingsPageWidgetModel
 
   @override
   Future<void> toAvatarPage() async {
-    _avatarImagesData = EntityStateNotifier<AvatarImages>();
-    _avatarImagesData.loading();
+    // _avatarImagesData = EntityStateNotifier<AvatarImages>();
+    // _avatarImagesData.loading();
     _index.content(1);
     final res = await model.getAvatarsData();
     _avatarImagesData.content(res);
@@ -176,8 +182,6 @@ class SettingsPageWidgetModel
 
   @override
   Future<void> toEditName() async {
-    _avatarImagesData = EntityStateNotifier<AvatarImages>();
-    _avatarImagesData.loading();
     _index.content(2);
     final res = await model.getAvatarsData();
     _avatarImagesData.content(res);
@@ -185,8 +189,8 @@ class SettingsPageWidgetModel
 
   @override
   Future<void> toCharacteristicsPage() async {
-    _charactersInfo = EntityStateNotifier<CharactersInfo>();
-    _charactersInfo.loading();
+    // _charactersInfo = EntityStateNotifier<CharactersInfo>();
+    // _charactersInfo.loading();
     _index.content(3);
     final res = await model.getCharactersInfo();
     _charactersInfo.content(res);
@@ -198,7 +202,12 @@ class SettingsPageWidgetModel
   }
 
   Future<void> _initLoad() async {
+    _avatarImagesData = EntityStateNotifier<AvatarImages>();
+    _avatarImagesData.loading();
+    _charactersInfo = EntityStateNotifier<CharactersInfo>();
+    _charactersInfo.loading();
     _index = EntityStateNotifier<int>();
+
     _index.content(0);
   }
 }
