@@ -6,6 +6,9 @@ import 'package:soft_weather_tennis/features/pages/main_page/main_screen_widget.
 import 'package:soft_weather_tennis/features/pages/profile_page/pages/achievements_page.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/profile_page_widget.dart';
 import 'package:soft_weather_tennis/features/pages/rating_page/rating_page_widget.dart';
+import 'package:soft_weather_tennis/features/pages/settings_page/pages/avatar_page/avatar_page_widget.dart';
+import 'package:soft_weather_tennis/features/pages/settings_page/pages/characteristics_page/characteristics_page_widget.dart';
+import 'package:soft_weather_tennis/features/pages/settings_page/pages/name_edit_page/name_edit_page_widget.dart';
 import 'package:soft_weather_tennis/features/pages/settings_page/settings_page_widget.dart';
 import 'package:soft_weather_tennis/features/pages/useful_page/pages/useful_full_info_page/useful_full_info_page_widget.dart';
 import 'package:soft_weather_tennis/features/pages/useful_page/useful_page_widget.dart';
@@ -46,8 +49,19 @@ class AppCoordinate implements Coordinate {
   /// Initialization screens([SettingsPageWidget]).
   static final settingsPage = AppCoordinate._('settings');
 
+  /// Initialization screens([AvatarPageWidget]).
+  static final avatarPage = AppCoordinate._('avatar');
+
+  /// Initialization screens([CharacteristicsPageWidget]).
+  static final characteristicsPage = AppCoordinate._('characteristics');
+
+  /// Initialization screens([NameEditPageWidget]).
+  static final nameEditPage = AppCoordinate._('nameEditPage');
+
   /// Initialization screens([UsefulFullInfoPageWidget]).
   static final usefulFullInfoPage = AppCoordinate._('usefulDescription');
+
+  // TODO(daniil): add new page here
 
   /// Initialization screens(it can be any screens).
   static final initial = initScreen;
@@ -82,5 +96,9 @@ final Map<AppCoordinate, CoordinateBuilder> appCoordinates = {
   AppCoordinate.bestPage: (_, __) => const BestPageWidget(),
   AppCoordinate.achievementsPage: (_, __) => const AchievementsPage(),
   AppCoordinate.settingsPage: (_, __) => const SettingsPageWidget(),
+  AppCoordinate.avatarPage: (_, __) => const AvatarPageWidget(),
+  AppCoordinate.characteristicsPage: (_, __) =>
+      const CharacteristicsPageWidget(),
+  AppCoordinate.nameEditPage: (_, __) => const NameEditPageWidget(),
   AppCoordinate.usefulFullInfoPage: (_, __) => const UsefulFullInfoPageWidget(),
 };

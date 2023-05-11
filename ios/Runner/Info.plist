@@ -40,6 +40,12 @@
 			<string>UIInterfaceOrientationLandscapeLeft</string>
 			<string>UIInterfaceOrientationLandscapeRight</string>
 		</array>
+		<key>NSCameraUsageDescription</key>
+        <string>Доступ к камере позволит делать фотографии на мобильном устройстве и сразу загружать их в приложение</string>
+        <key>NSFaceIDUsageDescription</key>
+        <string>Аутентификации с использованием FaceID</string>
+        <key>NSPhotoLibraryUsageDescription</key>
+        <string>Необходимо для загрузки фотографий в приложение из галереи мобильного устройства</string>
 		<key>UISupportedInterfaceOrientations~ipad</key>
 		<array>
 			<string>UIInterfaceOrientationPortrait</string>
