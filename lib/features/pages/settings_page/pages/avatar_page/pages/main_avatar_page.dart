@@ -246,7 +246,7 @@ class MainAvatarPage extends StatelessWidget {
                     const SizedBox(
                       height: 16,
                     ),
-                    GestureDetector(
+                    InkWell(
                       onTap: () => widgetModel.toChooseImage(isAvatar: false),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

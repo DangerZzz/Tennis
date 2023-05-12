@@ -20,6 +20,9 @@ abstract class IAvatarPageWidgetModel extends IWidgetModel {
   /// Контролер перехода на страницу с аватаром/обложкой
   ListenableState<EntityState<bool>> get isAvatar;
 
+  /// Контролер перехода на страницу с аватаром/обложкой
+  ListenableState<EntityState<bool>> get buttonAvailability;
+
   /// Данные пользователя с бэка
   ListenableState<EntityState<AvatarImages>> get avatarImagesData;
 
@@ -31,6 +34,12 @@ abstract class IAvatarPageWidgetModel extends IWidgetModel {
 
   /// Аватар
   XFile get avatarImage;
+
+  /// Аватар
+  ListenableState<EntityState<Uint8List>> get avatarImageBytes;
+
+  /// Аватар
+  ListenableState<EntityState<MemoryImage>> get avatarImageCropped;
 
   /// Обложка
   XFile get backgroundImage;
@@ -76,7 +85,7 @@ class AvatarPageWidgetModel
   double get width => MediaQuery.of(context).size.width;
 
   @override
-  CustomImageCropController get controller => CustomImageCropController();
+  CustomImageCropController get controller => _controller;
 
   @override
   XFile get avatarImage => _avatarImage;
@@ -86,6 +95,18 @@ class AvatarPageWidgetModel
 
   @override
   ListenableState<EntityState<bool>> get isAvatar => _isAvatar;
+
+  @override
+  ListenableState<EntityState<bool>> get buttonAvailability =>
+      _buttonAvailability;
+
+  @override
+  ListenableState<EntityState<Uint8List>> get avatarImageBytes =>
+      _avatarImageBytes;
+
+  @override
+  ListenableState<EntityState<MemoryImage>> get avatarImageCropped =>
+      _avatarImageCropped;
 
   @override
   ListenableState<EntityState<AvatarImages>> get avatarImagesData =>
@@ -98,9 +119,14 @@ class AvatarPageWidgetModel
 
   late EntityStateNotifier<int> _index;
   late EntityStateNotifier<bool> _isAvatar;
+  late EntityStateNotifier<bool> _buttonAvailability;
+  late EntityStateNotifier<Uint8List> _avatarImageBytes;
+  late EntityStateNotifier<MemoryImage> _avatarImageCropped;
 
   late XFile _avatarImage;
   late XFile _backgroundImage;
+
+  late CustomImageCropController _controller;
 
   ///
   AvatarPageWidgetModel(
@@ -111,7 +137,7 @@ class AvatarPageWidgetModel
   @override
   void toChooseImage({required bool isAvatar}) {
     _isAvatar.content(isAvatar);
-    _index.content(1);
+    chooseDirectory();
   }
 
   @override
@@ -131,6 +157,7 @@ class AvatarPageWidgetModel
     await showDialog<void>(
       builder: (context) {
         return DirectoryDialog(
+          isAvatar: _isAvatar.value?.data ?? false,
           onCamera: () async {
             final picker = ImagePicker();
             try {
@@ -139,10 +166,9 @@ class AvatarPageWidgetModel
               if (image == null) {
                 //ignore: use_build_context_synchronously
                 Navigator.pop(context);
-                _index.content(2);
               } else {
                 _avatarImage = image;
-                _index.content(2);
+                _index.content(1);
                 //ignore: use_build_context_synchronously
                 Navigator.pop(context);
               }
@@ -161,7 +187,9 @@ class AvatarPageWidgetModel
                 Navigator.pop(context);
               } else {
                 _avatarImage = image;
-                _index.content(2);
+                final imageBytes = await image.readAsBytes();
+                _avatarImageBytes.content(imageBytes);
+                _index.content(1);
                 //ignore: use_build_context_synchronously
                 Navigator.pop(context);
               }
@@ -178,10 +206,13 @@ class AvatarPageWidgetModel
 
   @override
   Future<void> cropImage() async {
-    final image = await controller.onCropImage();
+    _buttonAvailability.loading();
+    final image = await _controller.onCropImage();
     if (image != null) {
-      debugPrint('jsndv');
+      _avatarImageCropped.content(image);
+      _index.content(2);
     }
+    _buttonAvailability.content(true);
   }
 
   @override
@@ -197,6 +228,7 @@ class AvatarPageWidgetModel
 
   @override
   void dispose() {
+    _controller.dispose();
     super.dispose();
   }
 
@@ -209,6 +241,13 @@ class AvatarPageWidgetModel
     _isAvatar.content(true);
     _avatarImagesData = EntityStateNotifier<AvatarImages>();
     _avatarImagesData.loading();
+    _controller = CustomImageCropController();
+    _avatarImageBytes = EntityStateNotifier<Uint8List>();
+    _avatarImageBytes.loading();
+    _buttonAvailability = EntityStateNotifier<bool>();
+    _buttonAvailability.content(true);
+    _avatarImageCropped = EntityStateNotifier<MemoryImage>();
+    _avatarImageCropped.loading();
     final res = await model.getAvatarsData();
     _avatarImagesData.content(res);
   }

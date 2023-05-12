@@ -5,6 +5,9 @@ import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
 ///
 class DirectoryDialog extends StatelessWidget {
   ///
+  final bool isAvatar;
+
+  ///
   final VoidCallback onGallery;
 
   ///
@@ -14,6 +17,7 @@ class DirectoryDialog extends StatelessWidget {
   const DirectoryDialog({
     required this.onCamera,
     required this.onGallery,
+    required this.isAvatar,
     Key? key,
   }) : super(key: key);
 
@@ -31,13 +35,15 @@ class DirectoryDialog extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Как вы хотите загрузить фото?',
+              isAvatar
+                  ? 'Как вы хотите загрузить аватар?'
+                  : 'Как вы хотите загрузить обложку?',
               style: AppTextStyles()
                   .bold_20_27
                   .copyWith(color: AppColors().primaryText),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 15),
+            const SizedBox(height: 24),
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -77,7 +83,7 @@ class DirectoryDialog extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                         vertical: 8.0,
-                        horizontal: 64,
+                        horizontal: 38,
                       ),
                       child: Center(
                         child: Text(

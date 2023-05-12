@@ -6,8 +6,8 @@ import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
 import 'package:soft_weather_tennis/components/fade_indexed_stack.dart';
 import 'package:soft_weather_tennis/features/pages/settings_page/pages/avatar_page/avatar_page_wm.dart';
 import 'package:soft_weather_tennis/features/pages/settings_page/pages/avatar_page/pages/edit_image_page.dart';
-import 'package:soft_weather_tennis/features/pages/settings_page/pages/avatar_page/pages/image_upload.dart';
 import 'package:soft_weather_tennis/features/pages/settings_page/pages/avatar_page/pages/main_avatar_page.dart';
+import 'package:soft_weather_tennis/features/pages/settings_page/pages/avatar_page/pages/test.dart';
 
 /// Main widget for AvatarPage module
 class AvatarPageWidget extends ElementaryWidget<IAvatarPageWidgetModel> {
@@ -23,7 +23,7 @@ class AvatarPageWidget extends ElementaryWidget<IAvatarPageWidgetModel> {
       listenableEntityState: wm.index,
       builder: (_, state) => Scaffold(
         backgroundColor: AppColors().white,
-        appBar: state != 2
+        appBar: state != 1
             ? AppBar(
                 centerTitle: false,
                 backgroundColor: AppColors().white,
@@ -52,11 +52,11 @@ class AvatarPageWidget extends ElementaryWidget<IAvatarPageWidgetModel> {
             ///Главная страница
             MainAvatarPage(widgetModel: wm),
 
-            ///Страница загрузки изображения
-            ImageUpload(widgetModel: wm),
-
             ///Страница редактирования изображения
             EditImagePage(widgetModel: wm),
+
+            ///Удалить
+            Test(widgetModel: wm),
           ],
         ),
       ),
