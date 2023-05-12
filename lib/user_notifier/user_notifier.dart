@@ -96,7 +96,7 @@ class UserNotifier extends ChangeNotifier implements IUserNotifier {
       : _dio = dio,
         _errorHandler = errorHandler {
     loginCode.loadCode();
-    _loadLoginSettings();
+    loadLoginSettings();
     _repository = Environment<AppConfig>.instance().useMock
         ? MockUserRepository()
         : UserRepository(UserClient(_dio));
@@ -243,7 +243,9 @@ class UserNotifier extends ChangeNotifier implements IUserNotifier {
   @override
   Future<void> authorizeBiometrics() async {
     final code = await _tokenStorage.getBiometricsCode();
-    await _loginCode.updateCode(code);
+    if (code != null) {
+      await _loginCode.updateCode(code);
+    }
   }
 
   /// Установка флага входа по коду
@@ -254,7 +256,7 @@ class UserNotifier extends ChangeNotifier implements IUserNotifier {
     notifyListeners();
   }
 
-  Future<void> _loadLoginSettings() async {
+  Future<void> loadLoginSettings() async {
     final prefs = await SharedPreferences.getInstance();
     final biometricLoginPref = prefs.getBool('biometricLogin');
     // final codeLoginPref = prefs.getInt('codeLoginState');

@@ -231,16 +231,6 @@ class AuthorizationPageWidgetModel
     super.initWidgetModel();
     _index = EntityStateNotifier<int>();
     _index.loading();
-    _acceptBiometrics = EntityStateNotifier<bool>();
-    _acceptBiometrics.content(false);
-    _biometricEnterFlag = EntityStateNotifier<bool>();
-    await _userNotifier.loginCode.loadCode();
-    _biometricEnterFlag.content(_userNotifier.loginCode.codeHash != null &&
-        _userNotifier.canUseBiometric &&
-        _userNotifier.biometricLogin);
-    _firstEnter = EntityStateNotifier<bool>();
-    _firstEnter.content(_userNotifier.loginCode.codeHash == null);
-    await _initIndex();
     _phoneButtonAvailability = EntityStateNotifier<bool>();
     _phoneButtonAvailability.content(false);
     _codeButtonAvailability = EntityStateNotifier<bool>();
@@ -253,6 +243,17 @@ class AuthorizationPageWidgetModel
     _codeIsSend.content(false);
     _equalsPin = EntityStateNotifier<bool>();
     _equalsPin.content(false);
+    _acceptBiometrics = EntityStateNotifier<bool>();
+    _acceptBiometrics.content(false);
+    _biometricEnterFlag = EntityStateNotifier<bool>();
+    _firstEnter = EntityStateNotifier<bool>();
+    await _userNotifier.loginCode.loadCode();
+    await _userNotifier.loadLoginSettings();
+    _biometricEnterFlag.content(_userNotifier.loginCode.codeHash != null &&
+        _userNotifier.canUseBiometric &&
+        _userNotifier.biometricLogin);
+    _firstEnter.content(_userNotifier.loginCode.codeHash == null);
+    await _initIndex();
   }
 
   @override
@@ -364,14 +365,18 @@ class AuthorizationPageWidgetModel
   }
 
   @override
-  void getCode(String code) {
+  Future<void> getCode(String code) async {
+    _codeIsSend.loading();
+    await Future<void>.delayed(const Duration(seconds: 2));
     _codeIsSend.content(true);
   }
 
   @override
-  void sendCode(String code) {
+  Future<void> sendCode(String code) async {
     FocusScope.of(context).unfocus();
-
+    _codeButtonAvailability.loading();
+    await Future<void>.delayed(const Duration(seconds: 2));
+    _codeButtonAvailability.content(true);
     //api
     _index.content(1);
   }
@@ -514,6 +519,7 @@ class AuthorizationPageWidgetModel
   Future<void> completeRegistration(bool isTrainer) async {
     if ((ModalRoute.of(context)?.settings.arguments ?? '') as String !=
         'rolePage') {
+      await Future<void>.delayed(const Duration(seconds: 2));
       await _userNotifier.updateUser(
         isTrainer,
         '001',
@@ -524,6 +530,8 @@ class AuthorizationPageWidgetModel
 
       toMain();
     } else {
+      await Future<void>.delayed(const Duration(seconds: 2));
+
       await _userNotifier.updateUser(
         isTrainer,
         _userNotifier.id,

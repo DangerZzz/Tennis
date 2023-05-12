@@ -4,6 +4,7 @@ import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
+import 'package:soft_weather_tennis/components/adaptive_activity_indicator.dart';
 import 'package:soft_weather_tennis/features/pages/authorization_page/authorization_page_wm.dart';
 import 'package:soft_weather_tennis/features/pages/authorization_page/widgets/code_field.dart';
 
@@ -93,7 +94,27 @@ class _RegistrationPageState extends State<RegistrationPage> {
               ),
               EntityStateNotifierBuilder<bool>(
                 listenableEntityState: widget.wm.codeIsSend,
-                builder: (_, state) => state!
+                loadingBuilder: (_, __) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Container(
+                    height: 58,
+                    decoration: BoxDecoration(
+                      color: AppColors().accentGreen,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 12,
+                      ),
+                      child: Center(
+                        child: AdaptiveActivityIndicator(
+                          brightness: Brightness.dark,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                builder: (_, codeIsSend) => codeIsSend!
                     ? Column(
                         children: [
                           Center(
@@ -159,12 +180,33 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           EntityStateNotifierBuilder<bool>(
                             listenableEntityState:
                                 widget.wm.codeButtonAvailability,
-                            builder: (_, state) => Padding(
+                            loadingBuilder: (_, __) => Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: Container(
+                                height: 58,
+                                decoration: BoxDecoration(
+                                  color: AppColors().accentGreen,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 12,
+                                  ),
+                                  child: Center(
+                                    child: AdaptiveActivityIndicator(
+                                      brightness: Brightness.dark,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            builder: (_, codeButtonAvailability) => Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 16.0),
                               child: GestureDetector(
                                 onTap: () {
-                                  if (state!) {
+                                  if (codeButtonAvailability!) {
                                     widget.wm.sendCode(widget
                                         .wm
                                         .codeTextFieldTool
@@ -175,7 +217,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 child: Container(
                                   height: 58,
                                   decoration: BoxDecoration(
-                                    color: state!
+                                    color: codeButtonAvailability!
                                         ? AppColors().accentGreen
                                         : AppColors().secondaryText,
                                     borderRadius: BorderRadius.circular(8),
@@ -205,12 +247,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           EntityStateNotifierBuilder<bool>(
                             listenableEntityState:
                                 widget.wm.phoneButtonAvailability,
-                            builder: (_, state) => Padding(
+                            builder: (_, phoneButtonAvailability) => Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 16.0),
                               child: GestureDetector(
                                 onTap: () {
-                                  if (state!) {
+                                  if (phoneButtonAvailability!) {
                                     widget.wm.getCode(
                                       widget.wm.phoneController.text,
                                     );
@@ -220,7 +262,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                                 child: Container(
                                   height: 58,
                                   decoration: BoxDecoration(
-                                    color: state!
+                                    color: phoneButtonAvailability!
                                         ? AppColors().accentGreen
                                         : AppColors().secondaryText,
                                     borderRadius: BorderRadius.circular(8),
