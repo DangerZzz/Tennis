@@ -16,6 +16,9 @@ import 'package:soft_weather_tennis/features/pages/main_page/di/main_page_scope.
 import 'package:soft_weather_tennis/features/pages/profile_page/di/profile_scope.dart';
 import 'package:soft_weather_tennis/features/pages/rating_page/di/rating_scope.dart';
 import 'package:soft_weather_tennis/features/pages/settings_page/di/settings_scope.dart';
+import 'package:soft_weather_tennis/features/pages/settings_page/pages/avatar_page/di/avatar_scope.dart';
+import 'package:soft_weather_tennis/features/pages/settings_page/pages/characteristics_page/di/characteristics_page_scope.dart';
+import 'package:soft_weather_tennis/features/pages/settings_page/pages/name_edit_page/di/name_edit_page_scope.dart';
 import 'package:soft_weather_tennis/features/pages/useful_page/di/useful_scope.dart';
 import 'package:soft_weather_tennis/features/pages/useful_page/pages/useful_full_info_page/di/useful_scope.dart';
 import 'package:soft_weather_tennis/features/temp/di/temp_scope.dart';
@@ -130,6 +133,33 @@ class _AppState extends State<App> {
               );
             },
           ),
+
+          MultiDiScopeItem<IAvatarPageScope>(
+            factory: () {
+              return AvatarPageScope(
+                dio: _scope.dio,
+                errorHandler: _scope.errorHandler,
+              );
+            },
+          ),
+          MultiDiScopeItem<ICharacteristicsPageScope>(
+            factory: () {
+              return CharacteristicsPageScope(
+                dio: _scope.dio,
+                errorHandler: _scope.errorHandler,
+              );
+            },
+          ),
+          MultiDiScopeItem<INameEditPageScope>(
+            factory: () {
+              return NameEditPageScope(
+                dio: _scope.dio,
+                errorHandler: _scope.errorHandler,
+              );
+            },
+          ),
+
+          // TODO(daniil): add new page here
         ],
         child: MaterialApp.router(
           /// Localization.

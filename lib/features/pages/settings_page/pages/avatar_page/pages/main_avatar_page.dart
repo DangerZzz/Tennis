@@ -5,18 +5,15 @@ import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
 import 'package:soft_weather_tennis/components/animation_part.dart';
 import 'package:soft_weather_tennis/features/pages/settings_page/domain/avatar_images.dart';
-import 'package:soft_weather_tennis/features/pages/settings_page/settings_page_wm.dart';
+import 'package:soft_weather_tennis/features/pages/settings_page/pages/avatar_page/avatar_page_wm.dart';
 
 ///
-class AvatarsPage extends StatelessWidget {
-  ///
-  final ISettingsPageWidgetModel wm;
+class MainAvatarPage extends StatelessWidget {
+  /// wm
+  final IAvatarPageWidgetModel widgetModel;
 
   ///
-  const AvatarsPage({
-    required this.wm,
-    Key? key,
-  }) : super(key: key);
+  const MainAvatarPage({required this.widgetModel, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,20 +23,20 @@ class AvatarsPage extends StatelessWidget {
         child: Column(
           children: [
             EntityStateNotifierBuilder<AvatarImages>(
-              listenableEntityState: wm.avatarImagesData,
+              listenableEntityState: widgetModel.avatarImagesData,
               loadingBuilder: (_, __) => Stack(
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(bottom: 46.0),
                     child: AnimationPart(
-                      width: wm.width - 32,
+                      width: widgetModel.width - 32,
                       height: 128,
                       color: AppColors().secondaryText.withOpacity(0.5),
                     ),
                   ),
                   Positioned(
                     top: 80,
-                    left: wm.width / 2 - 45,
+                    left: widgetModel.width / 2 - 45 - 16,
                     child: Container(
                       width: 90,
                       height: 90,
@@ -63,7 +60,7 @@ class AvatarsPage extends StatelessWidget {
                 fit: StackFit.passthrough,
                 children: [
                   SizedBox(
-                    width: wm.width - 32,
+                    width: widgetModel.width - 32,
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 48),
                       child: ClipRRect(
@@ -78,7 +75,7 @@ class AvatarsPage extends StatelessWidget {
                   ),
                   Positioned(
                     top: 80,
-                    left: wm.width / 2 - 45,
+                    left: widgetModel.width / 2 - 45 - 16,
                     child: Container(
                       width: 90,
                       height: 90,
@@ -159,21 +156,24 @@ class AvatarsPage extends StatelessWidget {
                     const SizedBox(
                       height: 16,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Загрузить',
-                          style: AppTextStyles().regular_14_19.copyWith(
-                                color: AppColors().primaryText,
-                              ),
-                        ),
-                        Icon(
-                          TennisIcons.forward,
-                          size: 14,
-                          color: AppColors().secondaryText,
-                        ),
-                      ],
+                    InkWell(
+                      onTap: () => widgetModel.toChooseImage(isAvatar: true),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Загрузить',
+                            style: AppTextStyles().regular_14_19.copyWith(
+                                  color: AppColors().primaryText,
+                                ),
+                          ),
+                          Icon(
+                            TennisIcons.forward,
+                            size: 14,
+                            color: AppColors().secondaryText,
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(
                       height: 4,
@@ -246,21 +246,24 @@ class AvatarsPage extends StatelessWidget {
                     const SizedBox(
                       height: 16,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Загрузить',
-                          style: AppTextStyles().regular_14_19.copyWith(
-                                color: AppColors().primaryText,
-                              ),
-                        ),
-                        Icon(
-                          TennisIcons.forward,
-                          size: 14,
-                          color: AppColors().secondaryText,
-                        ),
-                      ],
+                    InkWell(
+                      onTap: () => widgetModel.toChooseImage(isAvatar: false),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Загрузить',
+                            style: AppTextStyles().regular_14_19.copyWith(
+                                  color: AppColors().primaryText,
+                                ),
+                          ),
+                          Icon(
+                            TennisIcons.forward,
+                            size: 14,
+                            color: AppColors().secondaryText,
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(
                       height: 4,
@@ -337,8 +340,10 @@ class AvatarsPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 46, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 46,
+                      vertical: 8,
+                    ),
                     child: Text(
                       'Отмена',
                       style: AppTextStyles()
@@ -353,8 +358,10 @@ class AvatarsPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 60, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 60,
+                      vertical: 8,
+                    ),
                     child: Text(
                       'Сохранить',
                       style: AppTextStyles()
