@@ -123,7 +123,7 @@ class TokenStorage {
   }
 
   /// получение кода из биометрического харнилища
-  Future<String> getBiometricsCode() async {
+  Future<String?> getBiometricsCode() async {
     final storage = await _biometricStorage.getStorage(
       'TennisLoginCode',
       // forceInit: true,
@@ -142,7 +142,7 @@ class TokenStorage {
       ),
     );
     debugPrint('код прочитан');
-    return (await storage.read())!;
+    return (await storage.read());
   }
 
   /// очистка кода из биометрического харнилища
