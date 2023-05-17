@@ -41,12 +41,30 @@ void _runApp() {
     () async {
       // FlutterError.onError =
       //     FirebaseCrashlytics.instance.recordFlutterFatalError;
-      runApp(const App());
+      runApp(
+        Builder(
+          builder: (context) {
+            return GestureDetector(
+              onTap: () {
+                _hideKeyboard(context);
+              },
+              child: const App(),
+            );
+          },
+        ),
+      );
     },
     (exception, stack) {
       // FirebaseCrashlytics.instance.recordError(exception, stack);
     },
   );
+}
+
+void _hideKeyboard(BuildContext context) {
+  final currentFocus = FocusScope.of(context);
+  if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
+    FocusManager.instance.primaryFocus?.unfocus();
+  }
 }
 
 void _initLogger() {

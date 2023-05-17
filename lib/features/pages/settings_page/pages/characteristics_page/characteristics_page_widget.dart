@@ -293,7 +293,9 @@ class CharacteristicsPageWidget
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 46, vertical: 8),
+                        horizontal: 46,
+                        vertical: 8,
+                      ),
                       child: Text(
                         'Отмена',
                         style: AppTextStyles()
@@ -309,7 +311,9 @@ class CharacteristicsPageWidget
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 60, vertical: 8),
+                        horizontal: 60,
+                        vertical: 8,
+                      ),
                       child: Text(
                         'Сохранить',
                         style: AppTextStyles()
