@@ -12,6 +12,9 @@ import 'package:soft_weather_tennis/features/navigation/service/coordinator.dart
 import 'package:soft_weather_tennis/features/pages/authorization_page/di/authorizarion_scope.dart';
 import 'package:soft_weather_tennis/features/pages/best_page/di/best_page_scope.dart';
 import 'package:soft_weather_tennis/features/pages/game_page/di/game_page_scope.dart';
+import 'package:soft_weather_tennis/features/pages/game_page/pages/new_game_pages/di/new_game_page_scope.dart';
+import 'package:soft_weather_tennis/features/pages/game_page/pages/pro_player_info_page/di/pro_player_info_scope.dart';
+import 'package:soft_weather_tennis/features/pages/game_page/pages/statistics_in_game/di/statistics_in_game_scope.dart';
 import 'package:soft_weather_tennis/features/pages/main_page/di/main_page_scope.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/di/profile_scope.dart';
 import 'package:soft_weather_tennis/features/pages/rating_page/di/rating_scope.dart';
@@ -153,6 +156,32 @@ class _AppState extends State<App> {
           MultiDiScopeItem<INameEditPageScope>(
             factory: () {
               return NameEditPageScope(
+                dio: _scope.dio,
+                errorHandler: _scope.errorHandler,
+              );
+            },
+          ),
+          MultiDiScopeItem<IProPlayerInfoPageScope>(
+            factory: () {
+              return ProPlayerInfoPageScope(
+                dio: _scope.dio,
+                errorHandler: _scope.errorHandler,
+              );
+            },
+          ),
+
+          MultiDiScopeItem<IStatisticsInGameScope>(
+            factory: () {
+              return StatisticsInGameScope(
+                dio: _scope.dio,
+                errorHandler: _scope.errorHandler,
+              );
+            },
+          ),
+
+          MultiDiScopeItem<INewGamePageScope>(
+            factory: () {
+              return NewGamePageScope(
                 dio: _scope.dio,
                 errorHandler: _scope.errorHandler,
               );

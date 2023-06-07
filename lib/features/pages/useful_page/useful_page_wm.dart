@@ -96,7 +96,12 @@ class UsefulPageWidgetModel
   Future<void> _initLoad() async {
     _usefulData = EntityStateNotifier<UsefulData>();
     _usefulData.loading();
-    final data = await model.getUsefulData();
-    _usefulData.content(data);
+
+    try {
+      final data = await model.getUsefulData();
+      _usefulData.content(data);
+    } on FormatException catch (e) {
+      _usefulData.error(e);
+    }
   }
 }

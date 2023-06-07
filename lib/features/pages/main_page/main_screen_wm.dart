@@ -11,7 +11,7 @@ import 'package:soft_weather_tennis/features/pages/main_page/main_screen_widget.
 import 'package:soft_weather_tennis/generated/l10n.dart';
 import 'package:soft_weather_tennis/user_notifier/user_notifier.dart';
 
-///страница Ошибки связи
+///страница-обертка
 abstract class IMainScreenWidgetModel extends IWidgetModel {
   ///локализация
   AppLocalizations get localization;

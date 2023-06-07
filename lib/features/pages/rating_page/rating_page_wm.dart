@@ -111,7 +111,6 @@ class RatingPageWidgetModel
     _searchController = TextEditingController();
     _searchFocusNode = FocusNode();
     _searchedList = EntityStateNotifier<SearchRatingList>();
-
     await _initLoad();
   }
 
@@ -166,7 +165,6 @@ class RatingPageWidgetModel
   }
 
   Future<void> _initLoad() async {
-    _ratingList = EntityStateNotifier<RatingList>();
     _ratingList.loading();
     _isSearching.content(false);
     _searchedList.content(
@@ -175,7 +173,12 @@ class RatingPageWidgetModel
         probablyRatingData: [],
       ),
     );
-    final data = await model.getRatingList();
-    _ratingList.content(data);
+
+    try {
+      final data = await model.getRatingList();
+      _ratingList.content(data);
+    } on FormatException catch (e) {
+      _ratingList.error(e);
+    }
   }
 }

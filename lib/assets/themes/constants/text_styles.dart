@@ -108,6 +108,13 @@ class AppTextStyles {
     // height: 2.182,
   );
 
+  final semibold_18_21 = const TextStyle(
+    fontFamily: 'Nunito',
+    fontWeight: FontWeight.w600,
+    fontSize: 18,
+    // height: 2.182,
+  );
+
   final bold_16_21 = const TextStyle(
     fontFamily: 'Nunito',
     fontWeight: FontWeight.w700,
@@ -174,6 +181,13 @@ class AppTextStyles {
     fontFamily: 'Nunito',
     fontWeight: FontWeight.w700,
     fontSize: 32,
+    // height: 3.224,
+  );
+
+  final super_bold_23_27 = const TextStyle(
+    fontFamily: 'Nunito',
+    fontWeight: FontWeight.w900,
+    fontSize: 23,
     // height: 3.224,
   );
 

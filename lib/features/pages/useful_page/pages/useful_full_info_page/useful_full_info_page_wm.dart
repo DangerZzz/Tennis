@@ -21,6 +21,9 @@ abstract class IUsefulFullInfoPageWidgetModel extends IWidgetModel {
 
   ///
   void onBack();
+
+  /// Страница конкретного совета
+  void toInfoPage(int index);
 }
 
 ///
@@ -69,6 +72,16 @@ class UsefulFullInfoPageWidgetModel
   }
 
   @override
+  Future<void> toInfoPage(int index) async {
+    // TODO(daniil): исправить
+    //   coordinator.navigate(
+    //     context,
+    //     AppCoordinate.usefulFullInfoPage,
+    //     arguments: index,
+    //   );
+  }
+
+  @override
   void onBack() {
     coordinator.pop();
   }
@@ -77,7 +90,12 @@ class UsefulFullInfoPageWidgetModel
     _usefulDataByIndex = EntityStateNotifier<UsefulInfoData>();
     _usefulDataByIndex.loading();
     final index = ModalRoute.of(context)?.settings.arguments as int;
-    final data = await model.usefulDataByIndex(index);
-    _usefulDataByIndex.content(data);
+
+    try {
+      final data = await model.usefulDataByIndex(index);
+      _usefulDataByIndex.content(data);
+    } on FormatException catch (e) {
+      _usefulDataByIndex.error(e);
+    }
   }
 }

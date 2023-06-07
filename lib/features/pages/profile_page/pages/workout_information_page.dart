@@ -1,9 +1,12 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:soft_weather_tennis/assets/icons/TennisIcons.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
+import 'package:soft_weather_tennis/assets/themes/constants/component_styles.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
 import 'package:soft_weather_tennis/components/adaptive_activity_indicator.dart';
+import 'package:soft_weather_tennis/components/state_widgets/error_state_widget.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/training_info.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/profile_page_wm.dart';
 
@@ -24,7 +27,7 @@ class WorkoutInformationPage extends StatelessWidget {
       listenableEntityState: wm.workoutData,
       loadingBuilder: (_, __) =>
           const Center(child: AdaptiveActivityIndicator()),
-      builder: (_, workoutData) => Column(
+      errorBuilder: (_, __, ___) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
@@ -64,18 +67,52 @@ class WorkoutInformationPage extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          Divider(
-            color: AppColors().secondaryText.withOpacity(0.1),
-            thickness: 1,
-          ),
-          const SizedBox(
-            height: 16,
-          ),
+          const ErrorStateWidget(refresh: null),
+        ],
+      ),
+      builder: (_, workoutData) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: wm.onStatistics,
+                    child: Container(
+                      height: 32,
+                      width: 32,
+                      decoration: BoxDecoration(
+                        color: AppColors().primaryText,
+                        borderRadius: BorderRadius.circular(40),
+                      ),
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 2.0),
+                          child: Icon(
+                            TennisIcons.back,
+                            color: AppColors().white,
+                            size: 12,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  Text(
+                    'Тренировки',
+                    style: AppTextStyles()
+                        .regular_14_19
+                        .copyWith(color: AppColors().primaryText),
+                  ),
+                ],
+              ),
               DecoratedBox(
                 decoration: BoxDecoration(
-                  color: AppColors().accentGreen,
+                  color: AppColors().primaryText,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Padding(
@@ -85,10 +122,13 @@ class WorkoutInformationPage extends StatelessWidget {
                   ),
                   child: Row(
                     children: [
-                      Icon(
-                        TennisIcons.calendar,
-                        color: AppColors().white,
-                        size: 12,
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 2.0),
+                        child: Icon(
+                          TennisIcons.calendar,
+                          color: AppColors().accentGreen,
+                          size: 16,
+                        ),
                       ),
                       const SizedBox(
                         width: 8,
@@ -96,152 +136,21 @@ class WorkoutInformationPage extends StatelessWidget {
                       Text(
                         '20.01.2023',
                         style: AppTextStyles().medium_14_19.copyWith(
-                              color: AppColors().white,
+                              color: AppColors().accentGreen,
                             ),
                       ),
                     ],
                   ),
                 ),
               ),
-              const SizedBox(
-                width: 16,
-              ),
-              Container(
-                height: 29,
-                width: 29,
-                decoration: BoxDecoration(
-                  color: AppColors().primaryText,
-                  borderRadius: BorderRadius.circular(40),
-                ),
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 2.0),
-                    child: Icon(
-                      TennisIcons.update,
-                      color: AppColors().accentGreen,
-                      size: 18,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-              Text(
-                'Повторить',
-                style: AppTextStyles()
-                    .regular_14_19
-                    .copyWith(color: AppColors().secondaryText),
-              ),
             ],
           ),
           const SizedBox(
-            height: 24,
+            height: 16,
           ),
-          DecoratedBox(
-            decoration: BoxDecoration(
-              color: AppColors().white,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16.0, 16, 16, 8),
-                  child: Text(
-                    'Прогресс',
-                    style: AppTextStyles()
-                        .medium_18_24
-                        .copyWith(color: AppColors().primaryText),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 16),
-                  child: Text(
-                    'Уровень: ${workoutData?.level}',
-                    style: AppTextStyles().regular_14_19.copyWith(
-                          color: AppColors().secondaryText,
-                        ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 16, bottom: 16),
-                  child: Text(
-                    'Сложность: ${workoutData?.complexity}',
-                    style: AppTextStyles().regular_14_19.copyWith(
-                          color: AppColors().secondaryText,
-                        ),
-                  ),
-                ),
-                Container(
-                  width: wm.width,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        AppColors().gradientStart,
-                        AppColors().gradientStart.withOpacity(0),
-                      ],
-                    ),
-                    borderRadius: const BorderRadius.only(
-                      bottomRight: Radius.circular(16),
-                      bottomLeft: Radius.circular(16),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 7.0),
-                          child: Container(
-                            height: 20,
-                            width: 20,
-                            decoration: BoxDecoration(
-                              color: AppColors().white,
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                            child: Center(
-                              child: Text(
-                                '${workoutData?.level}',
-                                style: AppTextStyles().regular_14_19.copyWith(
-                                      color: AppColors().accentGreen,
-                                    ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Text(
-                          '${workoutData?.percent}%',
-                          style: AppTextStyles()
-                              .regular_16_21
-                              .copyWith(color: AppColors().white),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 7.0),
-                          child: Container(
-                            height: 20,
-                            width: 20,
-                            decoration: BoxDecoration(
-                              color: AppColors().white,
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                            child: Center(
-                              child: Text(
-                                '${(workoutData?.level.toInt() ?? 0) + 1}',
-                                style: AppTextStyles().regular_14_19.copyWith(
-                                      color: AppColors().accentGreen,
-                                    ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
+          Divider(
+            color: AppColors().secondaryText.withOpacity(0.1),
+            thickness: 1,
           ),
           const SizedBox(
             height: 24,
@@ -259,6 +168,7 @@ class WorkoutInformationPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           'Показатели ${currentSet! + 1} сета',
@@ -269,49 +179,51 @@ class WorkoutInformationPage extends StatelessWidget {
                         const SizedBox(
                           width: 24,
                         ),
-                        GestureDetector(
-                          onTap: () => wm.changeSet(currentSet - 1),
-                          child: Container(
-                            width: 24,
-                            height: 24,
-                            decoration: BoxDecoration(
-                              color: (currentSet + 1) == 1
-                                  ? AppColors().accentGreen.withOpacity(0.4)
-                                  : AppColors().accentGreen,
-                              borderRadius: BorderRadius.circular(40),
+                        Row(children: [
+                          GestureDetector(
+                            onTap: () => wm.changeSet(currentSet - 1),
+                            child: Container(
+                              width: 20,
+                              height: 20,
+                              decoration: BoxDecoration(
+                                color: (currentSet + 1) == 1
+                                    ? AppColors().accentGreen.withOpacity(0.4)
+                                    : AppColors().accentGreen,
+                                borderRadius: BorderRadius.circular(40),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 2.0),
+                                child: Icon(
+                                  TennisIcons.back,
+                                  size: 10,
+                                  color: AppColors().white,
+                                ),
+                              ),
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 2.0),
+                          ),
+                          const SizedBox(
+                            width: 12,
+                          ),
+                          GestureDetector(
+                            onTap: () => wm.changeSet(currentSet + 1),
+                            child: Container(
+                              width: 20,
+                              height: 20,
+                              decoration: BoxDecoration(
+                                color: ((currentSet + 1) !=
+                                        workoutData?.sets.length)
+                                    ? AppColors().accentGreen
+                                    : AppColors().accentGreen.withOpacity(0.4),
+                                borderRadius: BorderRadius.circular(40),
+                              ),
                               child: Icon(
-                                TennisIcons.back,
-                                size: 12,
+                                Icons.chevron_right,
+                                size: 18,
                                 color: AppColors().white,
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          width: 16,
-                        ),
-                        GestureDetector(
-                          onTap: () => wm.changeSet(currentSet + 1),
-                          child: Container(
-                            width: 24,
-                            height: 24,
-                            decoration: BoxDecoration(
-                              color: ((currentSet + 1) !=
-                                      workoutData?.sets.length)
-                                  ? AppColors().accentGreen
-                                  : AppColors().accentGreen.withOpacity(0.4),
-                              borderRadius: BorderRadius.circular(40),
-                            ),
-                            child: Icon(
-                              Icons.chevron_right,
-                              size: 22,
-                              color: AppColors().white,
-                            ),
-                          ),
-                        ),
+                        ]),
                       ],
                     ),
                     const SizedBox(
@@ -384,14 +296,14 @@ class WorkoutInformationPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(9.5),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Отработанные удары',
                     style: AppTextStyles()
-                        .medium_18_24
+                        .bold_16_21
                         .copyWith(color: AppColors().primaryText),
                   ),
                   const SizedBox(
@@ -400,101 +312,106 @@ class WorkoutInformationPage extends StatelessWidget {
                   DecoratedBox(
                     decoration: BoxDecoration(
                       color: AppColors().white,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Color.fromRGBO(241, 241, 241, 1),
-                          offset: Offset(1, 2),
-                          spreadRadius: 0.1,
-                          blurRadius: 20,
-                        ),
-                      ],
+                      borderRadius: BorderRadius.circular(200),
+                      boxShadow: AppComponentStyles().boxShadow,
+                      border: AppComponentStyles().boxBorder,
                     ),
                     child: IntrinsicHeight(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(16, 16, 8, 16),
-                            child: Container(
-                              width: 24,
-                              height: 24,
-                              decoration: BoxDecoration(
-                                color: AppColors().accentGreen,
-                                borderRadius: BorderRadius.circular(40),
-                              ),
-                              child: Icon(
-                                TennisIcons.check,
-                                size: 16,
-                                color: AppColors().white,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            'Ок: ${workoutData?.sets[wm.currentSet.value?.data ?? 0].game[wm.currentGame.value?.data ?? 0].practicedBeats.where((element) => element.state == 'Ok').length}',
-                            style: AppTextStyles().regular_18_24.copyWith(
-                                  color: AppColors().primaryText,
-                                ),
-                          ),
-                          const VerticalDivider(
-                            color: Color.fromRGBO(157, 157, 157, 1),
-                            thickness: 1,
-                            endIndent: 8,
-                            indent: 8,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
-                            child: Container(
-                              width: 24,
-                              height: 24,
-                              decoration: BoxDecoration(
-                                color: AppColors().gridRed,
-                                borderRadius: BorderRadius.circular(40),
-                              ),
-                              child: Icon(
-                                TennisIcons.grid,
-                                size: 16,
-                                color: AppColors().white,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            'Сетка: 0',
-                            style: AppTextStyles().regular_18_24.copyWith(
-                                  color: AppColors().secondaryText,
-                                ),
-                          ),
-                          const VerticalDivider(
-                            color: Color.fromRGBO(157, 157, 157, 1),
-                            thickness: 1,
-                            endIndent: 8,
-                            indent: 8,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
-                            child: Container(
-                              width: 24,
-                              height: 24,
-                              decoration: BoxDecoration(
-                                color: AppColors().outYellow,
-                                borderRadius: BorderRadius.circular(40),
-                              ),
-                              child: Icon(
-                                TennisIcons.arrow_diagonal,
-                                size: 14,
-                                color: AppColors().white,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 16.0),
-                            child: Text(
-                              'Аут: ${workoutData?.sets[wm.currentSet.value?.data ?? 0].game[wm.currentGame.value?.data ?? 0].practicedBeats.where((element) => element.state == 'Out').length}',
-                              style: AppTextStyles().regular_18_24.copyWith(
-                                    color: AppColors().primaryText,
+                          Row(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(16, 16, 8, 16),
+                                child: Container(
+                                  width: 16,
+                                  height: 16,
+                                  decoration: BoxDecoration(
+                                    color: AppColors().accentGreen,
+                                    borderRadius: BorderRadius.circular(40),
                                   ),
-                            ),
+                                  child: Icon(
+                                    TennisIcons.check,
+                                    size: 12,
+                                    color: AppColors().white,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                'Ок: ${workoutData?.sets[wm.currentSet.value?.data ?? 0].game[wm.currentGame.value?.data ?? 0].practicedBeats.where((element) => element.state == 'Ok').length}',
+                                style: AppTextStyles().medium_16_21.copyWith(
+                                      color: AppColors().primaryText,
+                                    ),
+                              ),
+                            ],
                           ),
+                          const VerticalDivider(
+                            color: Color.fromRGBO(157, 157, 157, 1),
+                            thickness: 1,
+                            endIndent: 8,
+                            indent: 8,
+                          ),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: Container(
+                                  width: 16,
+                                  height: 16,
+                                  decoration: BoxDecoration(
+                                    color: AppColors().gridRed,
+                                    borderRadius: BorderRadius.circular(40),
+                                  ),
+                                  child: Icon(
+                                    TennisIcons.grid,
+                                    size: 12,
+                                    color: AppColors().white,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                'Сетка: 0',
+                                style: AppTextStyles().medium_16_21.copyWith(
+                                      color: AppColors().secondaryText,
+                                    ),
+                              ),
+                            ],
+                          ),
+                          const VerticalDivider(
+                            color: Color.fromRGBO(157, 157, 157, 1),
+                            thickness: 1,
+                            endIndent: 8,
+                            indent: 8,
+                          ),
+                          Row(children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: Container(
+                                width: 16,
+                                height: 16,
+                                decoration: BoxDecoration(
+                                  color: AppColors().outYellow,
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
+                                child: Icon(
+                                  TennisIcons.arrow_diagonal,
+                                  size: 10,
+                                  color: AppColors().white,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 16.0),
+                              child: Text(
+                                'Аут: ${workoutData?.sets[wm.currentSet.value?.data ?? 0].game[wm.currentGame.value?.data ?? 0].practicedBeats.where((element) => element.state == 'Out').length}',
+                                style: AppTextStyles().medium_16_21.copyWith(
+                                      color: AppColors().primaryText,
+                                    ),
+                              ),
+                            ),
+                          ]),
                         ],
                       ),
                     ),
@@ -513,7 +430,7 @@ class WorkoutInformationPage extends StatelessWidget {
                               child: DecoratedBox(
                                 decoration: BoxDecoration(
                                   color: AppColors().white,
-                                  borderRadius: BorderRadius.circular(12),
+                                  borderRadius: BorderRadius.circular(200),
                                   boxShadow: const [
                                     BoxShadow(
                                       color: Color.fromRGBO(241, 241, 241, 1),
@@ -525,25 +442,27 @@ class WorkoutInformationPage extends StatelessWidget {
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: 8.0,
+                                    horizontal: 15,
+                                    vertical: 9.0,
                                   ),
                                   child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         '1. Forehand',
                                         style: AppTextStyles()
-                                            .semibold_16_21
+                                            .regular_16_21
                                             .copyWith(
                                               color: AppColors().primaryText,
                                             ),
                                       ),
                                       const SizedBox(
-                                        width: 16,
+                                        width: 8,
                                       ),
                                       Container(
-                                        width: 28,
-                                        height: 28,
+                                        width: 24,
+                                        height: 24,
                                         decoration: BoxDecoration(
                                           color: AppColors().accentGreen,
                                           borderRadius:
@@ -552,7 +471,7 @@ class WorkoutInformationPage extends StatelessWidget {
                                         child: Icon(
                                           TennisIcons.check,
                                           color: AppColors().white,
-                                          size: 22,
+                                          size: 16,
                                         ),
                                       ),
                                     ],
@@ -563,6 +482,9 @@ class WorkoutInformationPage extends StatelessWidget {
                           ],
                         ],
                       ),
+                      const SizedBox(
+                        width: 16,
+                      ),
                       Column(
                         children: [
                           for (var i = 0; i < 3; i++) ...[
@@ -571,7 +493,7 @@ class WorkoutInformationPage extends StatelessWidget {
                               child: DecoratedBox(
                                 decoration: BoxDecoration(
                                   color: AppColors().white,
-                                  borderRadius: BorderRadius.circular(12),
+                                  borderRadius: BorderRadius.circular(200),
                                   boxShadow: const [
                                     BoxShadow(
                                       color: Color.fromRGBO(241, 241, 241, 1),
@@ -583,25 +505,27 @@ class WorkoutInformationPage extends StatelessWidget {
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: 8.0,
+                                    horizontal: 15,
+                                    vertical: 9.0,
                                   ),
                                   child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         '1. Forehand',
                                         style: AppTextStyles()
-                                            .semibold_16_21
+                                            .regular_16_21
                                             .copyWith(
                                               color: AppColors().primaryText,
                                             ),
                                       ),
                                       const SizedBox(
-                                        width: 16,
+                                        width: 8,
                                       ),
                                       Container(
-                                        width: 28,
-                                        height: 28,
+                                        width: 24,
+                                        height: 24,
                                         decoration: BoxDecoration(
                                           color: AppColors().accentGreen,
                                           borderRadius:
@@ -610,7 +534,7 @@ class WorkoutInformationPage extends StatelessWidget {
                                         child: Icon(
                                           TennisIcons.check,
                                           color: AppColors().white,
-                                          size: 22,
+                                          size: 16,
                                         ),
                                       ),
                                     ],
@@ -622,6 +546,106 @@ class WorkoutInformationPage extends StatelessWidget {
                         ],
                       ),
                     ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 24,
+          ),
+          DecoratedBox(
+            decoration: BoxDecoration(
+              color: AppColors().primaryText,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Прогресс',
+                            style: AppTextStyles()
+                                .bold_16_21
+                                .copyWith(color: AppColors().white),
+                          ),
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          Text(
+                            'Уровень: ${workoutData?.level}',
+                            style: AppTextStyles().regular_14_19.copyWith(
+                                  color: AppColors().white,
+                                ),
+                          ),
+                          Text(
+                            'Сложность: ${workoutData?.complexity}',
+                            style: AppTextStyles().regular_14_19.copyWith(
+                                  color: AppColors().white,
+                                ),
+                          ),
+                        ],
+                      ),
+                      CircularPercentIndicator(
+                        radius: 54.0,
+                        lineWidth: 18.0,
+                        linearGradient: workoutData?.percent == 100
+                            ? null
+                            : AppComponentStyles().greenGradientForCircular,
+                        progressColor: workoutData?.percent == 100
+                            ? AppColors().white
+                            : null,
+                        rotateLinearGradient: true,
+                        percent: (workoutData?.percent.toDouble() ?? 0) / 100,
+                        center: Text(
+                          '80%',
+                          style: AppTextStyles().bold_14_19.copyWith(
+                                color: AppColors().accentGreen,
+                              ),
+                        ),
+                        backgroundColor: Colors.transparent,
+                        circularStrokeCap: CircularStrokeCap.round,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 32,
+                  ),
+                  Container(
+                    width: wm.width,
+                    decoration: BoxDecoration(
+                      gradient: AppComponentStyles().greenGradient,
+                      borderRadius: BorderRadius.circular(200),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            TennisIcons.ball_filled,
+                            size: 20,
+                            color: AppColors().white,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'Повторить тренировку',
+                            style: AppTextStyles()
+                                .semibold_16_21
+                                .copyWith(color: AppColors().white),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),

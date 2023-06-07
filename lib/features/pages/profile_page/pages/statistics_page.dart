@@ -5,6 +5,7 @@ import 'package:soft_weather_tennis/assets/icons/TennisIcons.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
 import 'package:soft_weather_tennis/components/adaptive_activity_indicator.dart';
+import 'package:soft_weather_tennis/components/state_widgets/error_state_widget.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/statistics_list.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/profile_page_wm.dart';
 
@@ -25,6 +26,7 @@ class StatisticsPage extends StatelessWidget {
       listenableEntityState: wm.statisticsData,
       loadingBuilder: (_, __) =>
           const Center(child: AdaptiveActivityIndicator()),
+      errorBuilder: (_, __, ___) => ErrorStateWidget(refresh: wm.onStatistics),
       builder: (_, statisticsData) => (statisticsData
                   ?.efficiencyList.isNotEmpty ??
               false)
@@ -295,6 +297,9 @@ class StatisticsPage extends StatelessWidget {
                               ),
                             ),
                           ),
+                        ),
+                        const SizedBox(
+                          height: 32,
                         ),
                       ],
                     ),

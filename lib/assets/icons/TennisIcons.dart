@@ -12,6 +12,7 @@ class TennisIcons {
 
   static const String _fontFamily = 'TennisIcons';
 
+  static const IconData star_filled = IconData(0xe902, fontFamily: _fontFamily);
   static const IconData user_updade = IconData(0xe900, fontFamily: _fontFamily);
   static const IconData trophy = IconData(0xe901, fontFamily: _fontFamily);
   static const IconData useful = IconData(0xe91a, fontFamily: _fontFamily);
@@ -24,7 +25,6 @@ class TennisIcons {
   static const IconData search = IconData(0xe921, fontFamily: _fontFamily);
   static const IconData settings = IconData(0xe922, fontFamily: _fontFamily);
   static const IconData star_empty = IconData(0xe923, fontFamily: _fontFamily);
-  static const IconData star_filled = IconData(0xe924, fontFamily: _fontFamily);
   static const IconData ball = IconData(0xe925, fontFamily: _fontFamily);
   static const IconData user_edit = IconData(0xe926, fontFamily: _fontFamily);
   static const IconData user_tag = IconData(0xe927, fontFamily: _fontFamily);

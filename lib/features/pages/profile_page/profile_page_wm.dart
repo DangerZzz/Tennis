@@ -210,8 +210,12 @@ class ProfilePageWidgetModel
   Future<void> onInformation() async {
     _index.content(0);
     _informationData.loading();
-    final res = await model.getInformationData();
-    _informationData.content(res);
+    try {
+      final res = await model.getInformationData();
+      _informationData.content(res);
+    } on FormatException catch (e) {
+      _informationData.error(e);
+    }
   }
 
   @override
@@ -231,28 +235,32 @@ class ProfilePageWidgetModel
   Future<void> onStatistics() async {
     _index.content(2);
     _statisticsData.loading();
-    final res = await model.getStatisticsData();
-    _spots = [];
+    try {
+      final res = await model.getStatisticsData();
+      _spots = [];
 
-    for (var index = 0; index < res.efficiencyList.length; index++) {
-      if (res.efficiencyList.length == 1) {
+      for (var index = 0; index < res.efficiencyList.length; index++) {
+        if (res.efficiencyList.length == 1) {
+          _spots.add(
+            FlSpot.zero,
+          );
+        }
+        var indexClean = index.toDouble();
+        if (res.efficiencyList.length == 1) {
+          indexClean = index + 1;
+        }
         _spots.add(
-          FlSpot.zero,
+          FlSpot(
+            indexClean,
+            res.efficiencyList[index].efficiency.toDouble(),
+          ),
         );
       }
-      var indexClean = index.toDouble();
-      if (res.efficiencyList.length == 1) {
-        indexClean = index + 1;
-      }
-      _spots.add(
-        FlSpot(
-          indexClean,
-          res.efficiencyList[index].efficiency.toDouble(),
-        ),
-      );
-    }
 
-    _statisticsData.content(res);
+      _statisticsData.content(res);
+    } on FormatException catch (e) {
+      _statisticsData.error(e);
+    }
   }
 
   @override
@@ -285,9 +293,13 @@ class ProfilePageWidgetModel
     _index.content(3);
 
     _workoutData.loading();
-    final res = await model.getTrainingData();
-    _workoutData.content(res);
-    _gameListData = workoutData.value?.data?.sets[0].game ?? [];
+    try {
+      final res = await model.getTrainingData();
+      _workoutData.content(res);
+      _gameListData = workoutData.value?.data?.sets[0].game ?? [];
+    } on FormatException catch (e) {
+      _workoutData.error(e);
+    }
   }
 
   /// изменение уровня сложности
@@ -446,8 +458,10 @@ class ProfilePageWidgetModel
     _gameData = EntityStateNotifier<GameData>();
     _statisticsData = EntityStateNotifier<StatisticsList>();
     _workoutData = EntityStateNotifier<TrainingInfo>();
-    await onInformation();
 
+    // await onInformation();
+
+    await onWorkoutInformation(1);
     if (newAchievements) {
       achievementsDialog();
     }
