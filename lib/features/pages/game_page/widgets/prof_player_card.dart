@@ -9,10 +9,42 @@ import 'package:soft_weather_tennis/components/adaptive_activity_indicator.dart'
 ///
 class PlayerCard extends StatelessWidget {
   ///
-  const PlayerCard({Key? key}) : super(key: key);
+  final String name;
+
+  ///
+  final String description;
+
+  ///
+  final String imageUrl;
+
+  ///
+  final int rating;
+
+  ///
+  final VoidCallback info;
+
+  ///
+  final VoidCallback call;
+
+  ///
+  const PlayerCard({
+    required this.name,
+    required this.description,
+    required this.rating,
+    required this.imageUrl,
+    required this.info,
+    required this.call,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    String nameSub;
+    if (name.length > 12) {
+      nameSub = '${name.substring(0, 12)}...';
+    } else {
+      nameSub = name;
+    }
     return Container(
       height: 129,
       decoration: BoxDecoration(
@@ -21,7 +53,6 @@ class PlayerCard extends StatelessWidget {
         boxShadow: const [
           BoxShadow(
             color: Color.fromRGBO(238, 238, 238, 0.7),
-            // offset: Offset(, 2),
             spreadRadius: 0.1,
             blurRadius: 20,
           ),
@@ -68,7 +99,7 @@ class PlayerCard extends StatelessWidget {
                       ),
                     ),
                     image: Image.network(
-                      'https://picsum.photos/500/400',
+                      imageUrl,
                     ).image,
                   ),
                 ),
@@ -82,7 +113,7 @@ class PlayerCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Карлос Алькарас',
+                        nameSub,
                         style: AppTextStyles().medium_16_21.copyWith(
                               color: AppColors().primaryText,
                             ),
@@ -90,18 +121,21 @@ class PlayerCard extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          for (var i = 0; i < 1; i++) ...[
+                          for (var i = 0; i < rating; i++) ...[
                             Icon(
                               TennisIcons.star_filled,
-                              size: 30,
+                              size: 22,
                               color: AppColors().outYellow,
                             ),
                           ],
-                          for (var i = 0; i < 5 - 4; i++) ...[
-                            Icon(
-                              TennisIcons.star_empty,
-                              size: 30,
-                              color: AppColors().outYellow,
+                          for (var i = 0; i < 5 - rating; i++) ...[
+                            Padding(
+                              padding: const EdgeInsets.only(right: 4.0),
+                              child: Icon(
+                                TennisIcons.star_empty,
+                                size: 18,
+                                color: AppColors().outYellow,
+                              ),
                             ),
                           ],
                         ],
@@ -109,7 +143,7 @@ class PlayerCard extends StatelessWidget {
                     ],
                   ),
                   Text(
-                    'Действующая 1-я ракетка',
+                    description,
                     style: AppTextStyles().light_12_16.copyWith(
                           color: AppColors().secondaryText,
                         ),
@@ -118,31 +152,37 @@ class PlayerCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Подробнее',
-                        style: AppTextStyles().light_12_16.copyWith(
-                              color: AppColors().secondaryText,
-                            ),
+                      InkWell(
+                        onTap: info,
+                        child: Text(
+                          'Подробнее',
+                          style: AppTextStyles().light_12_16.copyWith(
+                                color: AppColors().secondaryText,
+                              ),
+                        ),
                       ),
                       const SizedBox(
                         width: 12,
                       ),
                       Expanded(
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: AppColors().accentGreen,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 7,
+                        child: GestureDetector(
+                          onTap: call,
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: AppColors().accentGreen,
+                              borderRadius: BorderRadius.circular(8),
                             ),
-                            child: Center(
-                              child: Text(
-                                'Вызов',
-                                style: AppTextStyles().bold_12_14.copyWith(
-                                      color: AppColors().white,
-                                    ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 7,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Вызов',
+                                  style: AppTextStyles().bold_12_14.copyWith(
+                                        color: AppColors().white,
+                                      ),
+                                ),
                               ),
                             ),
                           ),

@@ -1,5 +1,5 @@
 name: soft_weather_tennis
-version: "0.0.2"
+version: "0.0.3"
 publish_to: none
 
 dependencies:
@@ -31,6 +31,7 @@ dependencies:
   mask_text_input_formatter: ^2.4.0
   octo_image: ^1.0.2
   package_info_plus: ^3.0.3
+  percent_indicator: ^4.2.3
   provider: ^6.0.2
   retrofit: ^3.3.1
   shared_preferences: ^2.0.20
@@ -64,6 +65,7 @@ flutter:
     - assets/images/
     - lib/features/pages/authorization_page/assets/images/
     - lib/features/pages/profile_page/assets/images/
+    - lib/features/pages/game_page/pages/new_game_pages/assets/
 
   fonts:
     - family: Nunito

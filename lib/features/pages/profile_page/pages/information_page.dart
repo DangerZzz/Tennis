@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
 import 'package:soft_weather_tennis/components/adaptive_activity_indicator.dart';
+import 'package:soft_weather_tennis/components/state_widgets/error_state_widget.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/information.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/profile_page_wm.dart';
 
@@ -21,6 +22,7 @@ class InformationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return EntityStateNotifierBuilder<Information>(
       listenableEntityState: wm.informationData,
+      errorBuilder: (_, __, ___) => ErrorStateWidget(refresh: wm.onInformation),
       loadingBuilder: (_, __) =>
           const Center(child: AdaptiveActivityIndicator()),
       builder: (_, state) => Column(
@@ -386,6 +388,9 @@ class InformationPage extends StatelessWidget {
                 ),
               ),
             ),
+          const SizedBox(
+            height: 32,
+          ),
         ],
       ),
     );

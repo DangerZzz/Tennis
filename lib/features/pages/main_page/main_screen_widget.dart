@@ -2,6 +2,7 @@ import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:soft_weather_tennis/assets/icons/TennisIcons.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
+import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
 import 'package:soft_weather_tennis/features/navigation/domain/entity/coordinate.dart';
 import 'package:soft_weather_tennis/features/pages/main_page/domain/navigation_bar_item.dart';
 import 'package:soft_weather_tennis/features/pages/main_page/main_screen_wm.dart';
@@ -50,6 +51,9 @@ class MainScreenWidget extends ElementaryWidget<IMainScreenWidgetModel> {
           builder: (_) => nav.NavigationBar(
             selectedIndex: wm.indexState.value ?? 0,
             onTap: wm.onIndexChanged,
+            selectedLabelStyle: AppTextStyles().light_12_16.copyWith(
+                  color: AppColors().accentGreen,
+                ),
             items: [
               const NavigationBarItem(
                 icon: Icon(TennisIcons.ball),

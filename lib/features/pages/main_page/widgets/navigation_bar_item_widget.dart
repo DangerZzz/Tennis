@@ -43,6 +43,9 @@ class NavigationBarItemWidget extends StatelessWidget {
                 ),
                 child: item.icon,
               ),
+              const SizedBox(
+                height: 1,
+              ),
               Text(
                 item.label,
                 style: (item.isTrainer ?? false)

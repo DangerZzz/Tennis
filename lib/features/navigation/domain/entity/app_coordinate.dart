@@ -2,6 +2,9 @@ import 'package:soft_weather_tennis/features/navigation/domain/entity/coordinate
 import 'package:soft_weather_tennis/features/pages/authorization_page/authorization_page_widget.dart';
 import 'package:soft_weather_tennis/features/pages/best_page/best_page_widget.dart';
 import 'package:soft_weather_tennis/features/pages/game_page/game_page_widget.dart';
+import 'package:soft_weather_tennis/features/pages/game_page/pages/new_game_pages/new_game_page_widget.dart';
+import 'package:soft_weather_tennis/features/pages/game_page/pages/pro_player_info_page/pro_player_info_page_widget.dart';
+import 'package:soft_weather_tennis/features/pages/game_page/pages/statistics_in_game/statistics_in_game_widget.dart';
 import 'package:soft_weather_tennis/features/pages/main_page/main_screen_widget.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/pages/achievements_page.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/profile_page_widget.dart';
@@ -61,6 +64,15 @@ class AppCoordinate implements Coordinate {
   /// Initialization screens([UsefulFullInfoPageWidget]).
   static final usefulFullInfoPage = AppCoordinate._('usefulDescription');
 
+  /// Initialization screens([ProPlayerInfoPageWidget]).
+  static final proPlayerInfoPage = AppCoordinate._('proPlayerInfo');
+
+  /// Initialization screens([StatisticsInGameWidget]).
+  static final statisticInGamePage = AppCoordinate._('statisticInGame');
+
+  /// Initialization screens([NewGamePageWidget]).
+  static final newGamePage = AppCoordinate._('newGame');
+
   // TODO(daniil): add new page here
 
   /// Initialization screens(it can be any screens).
@@ -101,4 +113,7 @@ final Map<AppCoordinate, CoordinateBuilder> appCoordinates = {
       const CharacteristicsPageWidget(),
   AppCoordinate.nameEditPage: (_, __) => const NameEditPageWidget(),
   AppCoordinate.usefulFullInfoPage: (_, __) => const UsefulFullInfoPageWidget(),
+  AppCoordinate.proPlayerInfoPage: (_, __) => const ProPlayerInfoPageWidget(),
+  AppCoordinate.statisticInGamePage: (_, __) => const StatisticsInGameWidget(),
+  AppCoordinate.newGamePage: (_, __) => const NewGamePageWidget(),
 };

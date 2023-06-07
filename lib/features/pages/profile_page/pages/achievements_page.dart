@@ -263,13 +263,7 @@ class _AchievementsPageState extends State<AchievementsPage> {
                                 ),
                                 Text(
                                   notGettingAchievements[i].name,
-                                  style: AppTextStyles().bold_16_21.copyWith(
-                                        color: AppColors().primaryText,
-                                      ),
-                                ),
-                                Text(
-                                  notGettingAchievements[i].date ?? '',
-                                  style: AppTextStyles().regular_12_16.copyWith(
+                                  style: AppTextStyles().medium_16_21.copyWith(
                                         color: AppColors().secondaryText,
                                       ),
                                 ),

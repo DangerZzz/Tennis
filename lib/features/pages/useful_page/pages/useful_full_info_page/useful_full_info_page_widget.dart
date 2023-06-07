@@ -4,8 +4,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:octo_image/octo_image.dart';
 import 'package:soft_weather_tennis/assets/icons/TennisIcons.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
+import 'package:soft_weather_tennis/assets/themes/constants/component_styles.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
 import 'package:soft_weather_tennis/components/adaptive_activity_indicator.dart';
+import 'package:soft_weather_tennis/components/state_widgets/error_state_widget.dart';
 import 'package:soft_weather_tennis/features/pages/useful_page/domain/useful_info.dart';
 import 'package:soft_weather_tennis/features/pages/useful_page/pages/useful_full_info_page/useful_full_info_page_wm.dart';
 
@@ -25,6 +27,26 @@ class UsefulFullInfoPageWidget
         listenableEntityState: wm.usefulDataByIndex,
         loadingBuilder: (_, __) =>
             const Center(child: AdaptiveActivityIndicator()),
+        errorBuilder: (_, __, ___) => Scaffold(
+          backgroundColor: AppColors().white,
+          appBar: AppBar(
+            centerTitle: false,
+            backgroundColor: AppColors().white,
+            leading: InkWell(
+              onTap: wm.onBack,
+              child: Icon(
+                TennisIcons.back,
+                color: AppColors().primaryText,
+                size: 18,
+              ),
+            ),
+            titleSpacing: 0,
+            shadowColor: Colors.transparent,
+          ),
+          body: const ErrorStateWidget(
+            refresh: null,
+          ),
+        ),
         builder: (_, usefulDataByIndex) => Stack(
           children: [
             Positioned(
@@ -139,81 +161,84 @@ class UsefulFullInfoPageWidget
                               height: 24,
                             ),
                             for (var advice in usefulDataByIndex!.advices) ...[
-                              DecoratedBox(
-                                decoration: BoxDecoration(
-                                  color: AppColors().white,
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: const [
-                                    BoxShadow(
-                                      color: Color.fromRGBO(241, 241, 241, 1),
-                                      offset: Offset(1, 2),
-                                      spreadRadius: 0.1,
-                                      blurRadius: 20,
-                                    ),
-                                  ],
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              advice.theme,
-                                              style: AppTextStyles()
-                                                  .bold_16_21
-                                                  .copyWith(
-                                                    color:
-                                                        AppColors().primaryText,
-                                                  ),
-                                            ),
-                                            const SizedBox(
-                                              height: 12,
-                                            ),
-                                            Text(
-                                              advice.text,
-                                              maxLines: 4,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: AppTextStyles()
-                                                  .regular_14_19
-                                                  .copyWith(
-                                                    color:
-                                                        AppColors().primaryText,
-                                                  ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 25,
-                                      ),
-                                      OctoImage(
-                                        width: 105,
-                                        height: 82,
-                                        fit: BoxFit.cover,
-                                        placeholderBuilder: (context) =>
-                                            const Center(
-                                          child: AdaptiveActivityIndicator(),
-                                        ),
-                                        errorBuilder: (c, e, s) => Center(
-                                          child: SvgPicture.asset(
-                                            'assets/images/error_placeholder.svg',
-                                            colorFilter: ColorFilter.mode(
-                                              AppColors().accentGreen,
-                                              BlendMode.srcIn,
-                                            ),
-                                            height: 40,
-                                            width: 40,
+                              GestureDetector(
+                                onTap: () => wm.toInfoPage(advice.id),
+                                child: DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    color: AppColors().white,
+                                    borderRadius: BorderRadius.circular(12),
+                                    boxShadow: AppComponentStyles().boxShadow,
+                                    border: AppComponentStyles().boxBorder,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                advice.theme,
+                                                style: AppTextStyles()
+                                                    .bold_16_21
+                                                    .copyWith(
+                                                      color: AppColors()
+                                                          .primaryText,
+                                                    ),
+                                              ),
+                                              const SizedBox(
+                                                height: 12,
+                                              ),
+                                              Text(
+                                                advice.text,
+                                                maxLines: 4,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: AppTextStyles()
+                                                    .regular_14_19
+                                                    .copyWith(
+                                                      color: AppColors()
+                                                          .primaryText,
+                                                    ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        image: Image.network(
-                                          advice.imageUrl,
-                                        ).image,
-                                      ),
-                                    ],
+                                        const SizedBox(
+                                          width: 8,
+                                        ),
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
+                                          child: OctoImage(
+                                            width: 105,
+                                            height: 82,
+                                            fit: BoxFit.cover,
+                                            placeholderBuilder: (context) =>
+                                                const Center(
+                                              child:
+                                                  AdaptiveActivityIndicator(),
+                                            ),
+                                            errorBuilder: (c, e, s) => Center(
+                                              child: SvgPicture.asset(
+                                                'assets/images/error_placeholder.svg',
+                                                colorFilter: ColorFilter.mode(
+                                                  AppColors().accentGreen,
+                                                  BlendMode.srcIn,
+                                                ),
+                                                height: 40,
+                                                width: 40,
+                                              ),
+                                            ),
+                                            image: Image.network(
+                                              advice.imageUrl,
+                                            ).image,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -223,7 +248,7 @@ class UsefulFullInfoPageWidget
                             ],
                           ],
                           const SizedBox(
-                            height: 20,
+                            height: 48,
                           ),
                         ],
                       ),
