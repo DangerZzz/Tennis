@@ -30,7 +30,7 @@ class TrainerConnectionPage extends StatelessWidget {
           bottom: 10,
           right: 1,
           left: 1,
-          top: wm.height - 225,
+          top: wm.height / 2,
           child: ClipRRect(
             child: BackdropFilter(
               filter: ImageFilter.blur(
@@ -116,7 +116,7 @@ class TrainerConnectionPage extends StatelessWidget {
         Positioned(
           left: 16,
           right: 16,
-          bottom: 135,
+          bottom: wm.height / 3,
           child: GestureDetector(
             child: Container(
               decoration: BoxDecoration(
@@ -137,25 +137,22 @@ class TrainerConnectionPage extends StatelessWidget {
                     sigmaY: 10.0,
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(32.0, 32, 32, 23),
+                    padding: const EdgeInsets.fromLTRB(24.0, 44, 24, 24),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Подключение\nтренера'.toUpperCase(),
-                          style: AppTextStyles().super_bold_23_27.copyWith(
-                                color: AppColors().accentGreen,
-                              ),
+                        Image.asset(
+                          'lib/features/pages/game_page/pages/new_game_pages/assets/images/qr_temp.png',
+                          width: 200,
+                          height: 200,
+                          color: AppColors().white,
                         ),
                         const SizedBox(
-                          height: 16,
+                          height: 44,
                         ),
                         Text(
-                          'Подожди, пока тренер все подготовит. '
-                          'Можешь воспользоваться моментом, '
-                          'чтобы приготовиться морально.',
-                          style: AppTextStyles().regular_16_21.copyWith(
-                                color: AppColors().white,
+                          'Подключение тренера'.toUpperCase(),
+                          style: AppTextStyles().super_bold_23_27.copyWith(
+                                color: AppColors().accentGreen,
                               ),
                         ),
                       ],

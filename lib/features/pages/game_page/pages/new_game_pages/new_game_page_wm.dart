@@ -40,6 +40,9 @@ abstract class INewGamePageWidgetModel extends IWidgetModel {
   ///
   void onStartGame();
 
+  ///Кнопка "назад"
+  void onBackWithIndex();
+
   /// изменение текущего сета
   void changeSet(int set);
 
@@ -165,6 +168,17 @@ class NewGamePageWidgetModel
   }
 
   @override
+  Future<void> onBackWithIndex() async {
+    var tempIndex = _index.value?.data ?? 1;
+    if (tempIndex == 3) {
+      _countdownTime.content(0);
+      timer.cancel();
+    }
+    tempIndex--;
+    _index.content(tempIndex);
+  }
+
+  @override
   String countdown(int countdownTime) {
     final min = countdownTime ~/ 60;
     final sec = countdownTime % 60;
@@ -188,7 +202,7 @@ class NewGamePageWidgetModel
 
   ///
   Future<void> startTimer() async {
-    _countdownTime.content(5);
+    _countdownTime.content(80);
     var countdown = _countdownTime.value?.data ?? 0;
     while ((_countdownTime.value?.data ?? 0) > 0) {
       await Future<void>.delayed(const Duration(seconds: 1));

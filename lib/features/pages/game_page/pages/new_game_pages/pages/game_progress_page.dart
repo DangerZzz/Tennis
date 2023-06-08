@@ -158,7 +158,6 @@ class GameProgressPage extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: AppColors().white,
                         borderRadius: BorderRadius.circular(12),
-                        boxShadow: AppComponentStyles().boxShadow,
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
@@ -166,6 +165,7 @@ class GameProgressPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
                                   'Показатели ${currentSet! + 1} сета',
@@ -176,54 +176,56 @@ class GameProgressPage extends StatelessWidget {
                                 const SizedBox(
                                   width: 24,
                                 ),
-                                GestureDetector(
-                                  onTap: () => wm.changeSet(currentSet - 1),
-                                  child: Container(
-                                    width: 24,
-                                    height: 24,
-                                    decoration: BoxDecoration(
-                                      color: (currentSet + 1) == 1
-                                          ? AppColors()
-                                              .accentGreen
-                                              .withOpacity(0.4)
-                                          : AppColors().accentGreen,
-                                      borderRadius: BorderRadius.circular(40),
+                                Row(children: [
+                                  GestureDetector(
+                                    onTap: () => wm.changeSet(currentSet - 1),
+                                    child: Container(
+                                      width: 20,
+                                      height: 20,
+                                      decoration: BoxDecoration(
+                                        color: (currentSet + 1) == 1
+                                            ? AppColors()
+                                                .accentGreen
+                                                .withOpacity(0.4)
+                                            : AppColors().accentGreen,
+                                        borderRadius: BorderRadius.circular(40),
+                                      ),
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 2.0),
+                                        child: Icon(
+                                          TennisIcons.back,
+                                          size: 10,
+                                          color: AppColors().white,
+                                        ),
+                                      ),
                                     ),
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 2.0),
+                                  ),
+                                  const SizedBox(
+                                    width: 12,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () => wm.changeSet(currentSet + 1),
+                                    child: Container(
+                                      width: 20,
+                                      height: 20,
+                                      decoration: BoxDecoration(
+                                        color: ((currentSet + 1) !=
+                                                workoutData?.sets.length)
+                                            ? AppColors().accentGreen
+                                            : AppColors()
+                                                .accentGreen
+                                                .withOpacity(0.4),
+                                        borderRadius: BorderRadius.circular(40),
+                                      ),
                                       child: Icon(
-                                        TennisIcons.back,
-                                        size: 12,
+                                        Icons.chevron_right,
+                                        size: 18,
                                         color: AppColors().white,
                                       ),
                                     ),
                                   ),
-                                ),
-                                const SizedBox(
-                                  width: 16,
-                                ),
-                                GestureDetector(
-                                  onTap: () => wm.changeSet(currentSet + 1),
-                                  child: Container(
-                                    width: 24,
-                                    height: 24,
-                                    decoration: BoxDecoration(
-                                      color: ((currentSet + 1) !=
-                                              workoutData?.sets.length)
-                                          ? AppColors().accentGreen
-                                          : AppColors()
-                                              .accentGreen
-                                              .withOpacity(0.4),
-                                      borderRadius: BorderRadius.circular(40),
-                                    ),
-                                    child: Icon(
-                                      Icons.chevron_right,
-                                      size: 22,
-                                      color: AppColors().white,
-                                    ),
-                                  ),
-                                ),
+                                ]),
                               ],
                             ),
                             const SizedBox(
@@ -299,17 +301,16 @@ class GameProgressPage extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: AppColors().white,
                       borderRadius: BorderRadius.circular(12),
-                      boxShadow: AppComponentStyles().boxShadow,
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(9.5),
+                      padding: const EdgeInsets.all(16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Отработанные удары',
                             style: AppTextStyles()
-                                .medium_18_24
+                                .bold_16_21
                                 .copyWith(color: AppColors().primaryText),
                           ),
                           const SizedBox(
@@ -318,37 +319,44 @@ class GameProgressPage extends StatelessWidget {
                           DecoratedBox(
                             decoration: BoxDecoration(
                               color: AppColors().white,
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(200),
                               boxShadow: AppComponentStyles().boxShadow,
+                              border: AppComponentStyles().boxBorder,
                             ),
                             child: IntrinsicHeight(
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        16, 16, 8, 16),
-                                    child: Container(
-                                      width: 24,
-                                      height: 24,
-                                      decoration: BoxDecoration(
-                                        color: AppColors().accentGreen,
-                                        borderRadius: BorderRadius.circular(40),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            16, 16, 8, 16),
+                                        child: Container(
+                                          width: 16,
+                                          height: 16,
+                                          decoration: BoxDecoration(
+                                            color: AppColors().accentGreen,
+                                            borderRadius:
+                                                BorderRadius.circular(40),
+                                          ),
+                                          child: Icon(
+                                            TennisIcons.check,
+                                            size: 12,
+                                            color: AppColors().white,
+                                          ),
+                                        ),
                                       ),
-                                      child: Icon(
-                                        TennisIcons.check,
-                                        size: 16,
-                                        color: AppColors().white,
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    'Ок: ${workoutData?.sets[wm.currentSet.value?.data ?? 0].game[wm.currentGame.value?.data ?? 0].practicedBeats.where((element) => element.state == 'Ok').length}',
-                                    style:
-                                        AppTextStyles().regular_18_24.copyWith(
+                                      Text(
+                                        'Ок: ${workoutData?.sets[wm.currentSet.value?.data ?? 0].game[wm.currentGame.value?.data ?? 0].practicedBeats.where((element) => element.state == 'Ok').length}',
+                                        style: AppTextStyles()
+                                            .medium_16_21
+                                            .copyWith(
                                               color: AppColors().primaryText,
                                             ),
+                                      ),
+                                    ],
                                   ),
                                   const VerticalDivider(
                                     color: Color.fromRGBO(157, 157, 157, 1),
@@ -356,28 +364,35 @@ class GameProgressPage extends StatelessWidget {
                                     endIndent: 8,
                                     indent: 8,
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 8.0),
-                                    child: Container(
-                                      width: 24,
-                                      height: 24,
-                                      decoration: BoxDecoration(
-                                        color: AppColors().gridRed,
-                                        borderRadius: BorderRadius.circular(40),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 8.0),
+                                        child: Container(
+                                          width: 16,
+                                          height: 16,
+                                          decoration: BoxDecoration(
+                                            color: AppColors().gridRed,
+                                            borderRadius:
+                                                BorderRadius.circular(40),
+                                          ),
+                                          child: Icon(
+                                            TennisIcons.grid,
+                                            size: 12,
+                                            color: AppColors().white,
+                                          ),
+                                        ),
                                       ),
-                                      child: Icon(
-                                        TennisIcons.grid,
-                                        size: 16,
-                                        color: AppColors().white,
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    'Сетка: 0',
-                                    style:
-                                        AppTextStyles().regular_18_24.copyWith(
+                                      Text(
+                                        'Сетка: 0',
+                                        style: AppTextStyles()
+                                            .medium_16_21
+                                            .copyWith(
                                               color: AppColors().secondaryText,
                                             ),
+                                      ),
+                                    ],
                                   ),
                                   const VerticalDivider(
                                     color: Color.fromRGBO(157, 157, 157, 1),
@@ -385,33 +400,38 @@ class GameProgressPage extends StatelessWidget {
                                     endIndent: 8,
                                     indent: 8,
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 8.0),
-                                    child: Container(
-                                      width: 24,
-                                      height: 24,
-                                      decoration: BoxDecoration(
-                                        color: AppColors().outYellow,
-                                        borderRadius: BorderRadius.circular(40),
-                                      ),
-                                      child: Icon(
-                                        TennisIcons.arrow_diagonal,
-                                        size: 14,
-                                        color: AppColors().white,
+                                  Row(children: [
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 8.0),
+                                      child: Container(
+                                        width: 16,
+                                        height: 16,
+                                        decoration: BoxDecoration(
+                                          color: AppColors().outYellow,
+                                          borderRadius:
+                                              BorderRadius.circular(40),
+                                        ),
+                                        child: Icon(
+                                          TennisIcons.arrow_diagonal,
+                                          size: 10,
+                                          color: AppColors().white,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 16.0),
-                                    child: Text(
-                                      'Аут: ${workoutData?.sets[wm.currentSet.value?.data ?? 0].game[wm.currentGame.value?.data ?? 0].practicedBeats.where((element) => element.state == 'Out').length}',
-                                      style: AppTextStyles()
-                                          .regular_18_24
-                                          .copyWith(
-                                            color: AppColors().primaryText,
-                                          ),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 16.0),
+                                      child: Text(
+                                        'Аут: ${workoutData?.sets[wm.currentSet.value?.data ?? 0].game[wm.currentGame.value?.data ?? 0].practicedBeats.where((element) => element.state == 'Out').length}',
+                                        style: AppTextStyles()
+                                            .medium_16_21
+                                            .copyWith(
+                                              color: AppColors().primaryText,
+                                            ),
+                                      ),
                                     ),
-                                  ),
+                                  ]),
                                 ],
                               ),
                             ),
@@ -421,9 +441,16 @@ class GameProgressPage extends StatelessWidget {
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Column(
                                 children: [
+                                  // TODO(daniil): исправить сортировку
+                                  // for (var odd in workoutData
+                                  //     ?.sets[wm.currentSet.value?.data ?? 0]
+                                  //     .game[wm.currentGame.value?.data ?? 0]
+                                  //     .practicedBeats ??
+                                  //     <PracticedBeats>[]) ...[
                                   for (var i = 0; i < 3; i++) ...[
                                     Padding(
                                       padding:
@@ -432,7 +459,7 @@ class GameProgressPage extends StatelessWidget {
                                         decoration: BoxDecoration(
                                           color: AppColors().white,
                                           borderRadius:
-                                              BorderRadius.circular(12),
+                                              BorderRadius.circular(200),
                                           boxShadow: const [
                                             BoxShadow(
                                               color: Color.fromRGBO(
@@ -445,26 +472,28 @@ class GameProgressPage extends StatelessWidget {
                                         ),
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(
-                                            horizontal: 12,
-                                            vertical: 8.0,
+                                            horizontal: 15,
+                                            vertical: 9.0,
                                           ),
                                           child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
                                                 '1. Forehand',
                                                 style: AppTextStyles()
-                                                    .semibold_16_21
+                                                    .regular_16_21
                                                     .copyWith(
                                                       color: AppColors()
                                                           .primaryText,
                                                     ),
                                               ),
                                               const SizedBox(
-                                                width: 16,
+                                                width: 8,
                                               ),
                                               Container(
-                                                width: 28,
-                                                height: 28,
+                                                width: 24,
+                                                height: 24,
                                                 decoration: BoxDecoration(
                                                   color:
                                                       AppColors().accentGreen,
@@ -474,7 +503,7 @@ class GameProgressPage extends StatelessWidget {
                                                 child: Icon(
                                                   TennisIcons.check,
                                                   color: AppColors().white,
-                                                  size: 22,
+                                                  size: 16,
                                                 ),
                                               ),
                                             ],
@@ -485,6 +514,9 @@ class GameProgressPage extends StatelessWidget {
                                   ],
                                 ],
                               ),
+                              const SizedBox(
+                                width: 16,
+                              ),
                               Column(
                                 children: [
                                   for (var i = 0; i < 3; i++) ...[
@@ -495,7 +527,7 @@ class GameProgressPage extends StatelessWidget {
                                         decoration: BoxDecoration(
                                           color: AppColors().white,
                                           borderRadius:
-                                              BorderRadius.circular(12),
+                                              BorderRadius.circular(200),
                                           boxShadow: const [
                                             BoxShadow(
                                               color: Color.fromRGBO(
@@ -508,26 +540,28 @@ class GameProgressPage extends StatelessWidget {
                                         ),
                                         child: Padding(
                                           padding: const EdgeInsets.symmetric(
-                                            horizontal: 12,
-                                            vertical: 8.0,
+                                            horizontal: 15,
+                                            vertical: 9.0,
                                           ),
                                           child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
                                                 '1. Forehand',
                                                 style: AppTextStyles()
-                                                    .semibold_16_21
+                                                    .regular_16_21
                                                     .copyWith(
                                                       color: AppColors()
                                                           .primaryText,
                                                     ),
                                               ),
                                               const SizedBox(
-                                                width: 16,
+                                                width: 8,
                                               ),
                                               Container(
-                                                width: 28,
-                                                height: 28,
+                                                width: 24,
+                                                height: 24,
                                                 decoration: BoxDecoration(
                                                   color:
                                                       AppColors().accentGreen,
@@ -537,7 +571,7 @@ class GameProgressPage extends StatelessWidget {
                                                 child: Icon(
                                                   TennisIcons.check,
                                                   color: AppColors().white,
-                                                  size: 22,
+                                                  size: 16,
                                                 ),
                                               ),
                                             ],

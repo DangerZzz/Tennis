@@ -71,67 +71,80 @@ class StatisticsPageInGame extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Expanded(
+                          Flexible(
+                            flex: 2,
                             child: DecoratedBox(
                               decoration: BoxDecoration(
-                                color: AppColors().white,
+                                color: AppColors().primaryText,
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              child: Row(
-                                children: [
-                                  DecoratedBox(
-                                    decoration: BoxDecoration(
-                                      color: AppColors()
-                                          .primaryText
-                                          .withOpacity(0.3),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 16,
-                                        vertical: 11,
-                                      ),
-                                      child: Text(
-                                        wm.yAxisClean(training.date.toInt()),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16.0,
+                                  vertical: 10,
+                                ),
+                                child: IntrinsicHeight(
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        training.type,
                                         style: AppTextStyles()
                                             .medium_14_19
                                             .copyWith(
                                               color: AppColors().white,
                                             ),
                                       ),
-                                    ),
+                                      const SizedBox(
+                                        width: 12,
+                                      ),
+                                      VerticalDivider(
+                                        color: AppColors().white,
+                                        thickness: 1,
+                                        // endIndent: 8,
+                                        // indent: 8,
+                                      ),
+                                      const SizedBox(
+                                        width: 12,
+                                      ),
+                                      Text(
+                                        'КПД ${training.efficiency}%',
+                                        style: AppTextStyles()
+                                            .regular_14_19
+                                            .copyWith(
+                                              color: AppColors().white,
+                                            ),
+                                      ),
+                                    ],
                                   ),
-                                  const SizedBox(
-                                    width: 18,
-                                  ),
-                                  Text(
-                                    'Эффективность ${training.efficiency}%',
-                                    style: AppTextStyles().regular_14_19,
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
                           ),
                           const SizedBox(
                             width: 16,
                           ),
-                          GestureDetector(
-                            onTap: () => wm.onWorkoutInformation(1),
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                color: AppColors().accentGreen,
-                                borderRadius: BorderRadius.circular(8),
+                          Flexible(
+                            flex: 1,
+                            child: GestureDetector(
+                              onTap: () => wm.onWorkoutInformation(
+                                training.date.toInt(),
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 11,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  color: AppColors().accentGreen,
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
-                                child: Text(
-                                  'Открыть',
-                                  style: AppTextStyles().bold_14_19.copyWith(
-                                        color: AppColors().white,
-                                      ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 11,
+                                  ),
+                                  child: Text(
+                                    'Открыть',
+                                    style: AppTextStyles().bold_14_19.copyWith(
+                                          color: AppColors().white,
+                                        ),
+                                  ),
                                 ),
                               ),
                             ),

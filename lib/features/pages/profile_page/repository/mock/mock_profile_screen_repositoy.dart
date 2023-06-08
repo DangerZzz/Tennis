@@ -144,34 +144,42 @@ class MockProfilePageRepository implements ProfilePageRepository {
         Statistics(
           date: 1681171200,
           efficiency: 55,
+          type: 'Стандартная',
         ),
         Statistics(
           date: 1681257600,
           efficiency: 25,
+          type: 'Стандартная',
         ),
         Statistics(
           date: 1681344000,
           efficiency: 12,
+          type: 'Стандартная',
         ),
         Statistics(
           date: 1681430400,
           efficiency: 100,
+          type: 'Стандартная',
         ),
         Statistics(
           date: 1681516800,
           efficiency: 65,
+          type: 'Стандартная',
         ),
         Statistics(
           date: 1681689599,
           efficiency: 45,
+          type: 'Стандартная',
         ),
         Statistics(
           date: 1681775999,
           efficiency: 90,
+          type: 'Стандартная',
         ),
         Statistics(
           date: 1681776000,
           efficiency: 94,
+          type: 'Стандартная',
         ),
       ],
     );
@@ -184,7 +192,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
     return TrainingInfo(
       level: 4,
       complexity: 'Light',
-      percent: 80,
+      percent: 85,
       sets: [
         Sets(
           game: [
@@ -193,7 +201,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
               gameNumber: 1,
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
-                PracticedBeats(name: 'Forehand', state: 'Ok'),
+                PracticedBeats(name: 'Backhand', state: 'Out'),
                 PracticedBeats(name: 'Forehand', state: 'Out'),
                 PracticedBeats(name: 'Forehand', state: 'Out'),
                 PracticedBeats(name: 'Forehand', state: 'Ok'),

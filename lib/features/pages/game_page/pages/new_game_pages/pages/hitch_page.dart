@@ -30,7 +30,7 @@ class HitchPage extends StatelessWidget {
                       ),
                 ),
                 GestureDetector(
-                  // onTap: widgetModel.onBackWithIndex,
+                  onTap: wm.onBackWithIndex,
                   child: Container(
                     height: 32,
                     width: 32,

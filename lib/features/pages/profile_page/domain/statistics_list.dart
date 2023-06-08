@@ -21,9 +21,13 @@ class Statistics {
   /// эффективность
   final num efficiency;
 
+  /// Тип тренировки
+  final String type;
+
   ///конструктор [StatisticsList]
   Statistics({
     required this.efficiency,
     required this.date,
+    required this.type,
   });
 }

@@ -2,8 +2,10 @@ import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:octo_image/octo_image.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:soft_weather_tennis/assets/icons/TennisIcons.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
+import 'package:soft_weather_tennis/assets/themes/constants/component_styles.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
 import 'package:soft_weather_tennis/components/adaptive_activity_indicator.dart';
 import 'package:soft_weather_tennis/components/adaptive_refresh_custom_scroll_view.dart';
@@ -140,91 +142,141 @@ class GamePageWidget extends ElementaryWidget<IGamePageWidgetModel> {
                           ),
                           DecoratedBox(
                             decoration: BoxDecoration(
-                              color: AppColors().white,
+                              color: AppColors().primaryText,
                               borderRadius: BorderRadius.circular(12),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Color.fromRGBO(238, 238, 238, 0.7),
-                                  // offset: Offset(, 2),
-                                  spreadRadius: 0.1,
-                                  blurRadius: 20,
-                                ),
-                              ],
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    'Начать стандартную тренировку?',
-                                    style: AppTextStyles().bold_16_21.copyWith(
-                                          color: AppColors().primaryText,
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Прогресс',
+                                            style: AppTextStyles()
+                                                .bold_16_21
+                                                .copyWith(
+                                                    color: AppColors().white),
+                                          ),
+                                          const SizedBox(
+                                            height: 12,
+                                          ),
+                                          Text(
+                                            'Уровень: 6',
+                                            //${workoutData?.level}',
+                                            style: AppTextStyles()
+                                                .regular_14_19
+                                                .copyWith(
+                                                  color: AppColors().white,
+                                                ),
+                                          ),
+                                          Text(
+                                            'Сложность: Light',
+                                            //${workoutData?.complexity}',
+                                            style: AppTextStyles()
+                                                .regular_14_19
+                                                .copyWith(
+                                                  color: AppColors().white,
+                                                ),
+                                          ),
+                                        ],
+                                      ),
+                                      CircularPercentIndicator(
+                                        radius: 54.0,
+                                        lineWidth: 18.0,
+                                        linearGradient:
+                                            // workoutData?.percent == 100
+                                            //     ? null
+                                            //     :
+                                            AppComponentStyles()
+                                                .greenGradientForCircular,
+                                        progressColor:
+                                            // workoutData?.percent == 100
+                                            //     ? AppColors().white
+                                            //     :
+                                            null,
+                                        rotateLinearGradient: true,
+                                        percent: 0.8,
+                                        // (workoutData?.percent.toDouble() ?? 0) / 100,
+                                        center: Text(
+                                          '80%',
+                                          style: AppTextStyles()
+                                              .bold_14_19
+                                              .copyWith(
+                                                color: AppColors().accentGreen,
+                                              ),
                                         ),
+                                        backgroundColor: Colors.transparent,
+                                        circularStrokeCap:
+                                            CircularStrokeCap.round,
+                                      ),
+                                    ],
                                   ),
                                   const SizedBox(
-                                    height: 16,
+                                    height: 32,
                                   ),
-                                  Text(
-                                    'Уровень: 6',
-                                    style:
-                                        AppTextStyles().regular_14_19.copyWith(
-                                              color: AppColors().primaryText,
-                                            ),
-                                  ),
-                                  const SizedBox(
-                                    height: 2,
-                                  ),
-                                  Text(
-                                    'Сложность: Light',
-                                    style:
-                                        AppTextStyles().regular_14_19.copyWith(
-                                              color: AppColors().primaryText,
-                                            ),
+                                  Center(
+                                    child: Text(
+                                      'Хотите начать стандартную тренировку?',
+                                      style: AppTextStyles()
+                                          .regular_14_19
+                                          .copyWith(
+                                            color: AppColors().white,
+                                          ),
+                                    ),
                                   ),
                                   const SizedBox(
-                                    height: 24,
+                                    height: 12,
                                   ),
                                   GestureDetector(
                                     onTap: wm.toStartGame,
-                                    child: DecoratedBox(
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(200),
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            AppColors().gradientStart,
-                                            AppColors().gradientEnd,
-                                          ],
-                                        ),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 10,
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              TennisIcons.ball_filled,
-                                              size: 16,
-                                              color: AppColors().white,
+                                    child: Builder(
+                                      builder: (context) {
+                                        return Container(
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          decoration: BoxDecoration(
+                                            gradient: AppComponentStyles()
+                                                .greenGradient,
+                                            borderRadius:
+                                                BorderRadius.circular(200),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Icon(
+                                                  TennisIcons.ball_filled,
+                                                  size: 20,
+                                                  color: AppColors().white,
+                                                ),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Text(
+                                                  'Начать',
+                                                  style: AppTextStyles()
+                                                      .semibold_16_21
+                                                      .copyWith(
+                                                        color:
+                                                            AppColors().white,
+                                                      ),
+                                                ),
+                                              ],
                                             ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            Text(
-                                              'Начать',
-                                              style: AppTextStyles()
-                                                  .semibold_16_21
-                                                  .copyWith(
-                                                    color: AppColors().white,
-                                                  ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ),
                                 ],
