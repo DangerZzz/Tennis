@@ -6,7 +6,6 @@ import 'package:soft_weather_tennis/assets/icons/TennisIcons.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
 import 'package:soft_weather_tennis/components/adaptive_activity_indicator.dart';
-import 'package:soft_weather_tennis/components/fade_indexed_stack.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/user_info.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/pages/game_page.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/pages/information_page.dart';
@@ -160,46 +159,6 @@ class ProfilePageWidget extends ElementaryWidget<IProfilePageWidgetModel> {
                         .copyWith(color: AppColors().secondaryText),
                   ),
                 ),
-
-              // TODO(daniil): удалить перед релизом, пока на всякий случай пусть
-              // const SizedBox(
-              //   height: 12,
-              // ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //   children: [
-              //     DecoratedBox(
-              //       decoration: BoxDecoration(
-              //         color: AppColors().primaryText,
-              //         borderRadius: BorderRadius.circular(8),
-              //       ),
-              //       child: Padding(
-              //         padding: const EdgeInsets.symmetric(
-              //           horizontal: 16,
-              //           vertical: 5,
-              //         ),
-              //         child: Text(
-              //           'TOP 14',
-              //           style: AppTextStyles().medium_14_19.copyWith(
-              //                 color: AppColors().accentGreen,
-              //               ),
-              //         ),
-              //       ),
-              //     ),
-              //     const SizedBox(
-              //       width: 4,
-              //     ),
-              //     const Icon(
-              //       Icons.arrow_upward,
-              //       size: 18,
-              //     ),
-              //     Text(
-              //       '+2',
-              //       style: AppTextStyles().regular_12_16,
-              //     ),
-              //   ],
-              // ),
               const SizedBox(
                 height: 22,
               ),
@@ -278,14 +237,14 @@ class ProfilePageWidget extends ElementaryWidget<IProfilePageWidgetModel> {
                 ),
                 child: EntityStateNotifierBuilder<int>(
                   listenableEntityState: wm.index,
-                  builder: (_, state) => state != 3
+                  builder: (_, index) => index != 3
                       ? Row(
                           children: [
                             GestureDetector(
                               onTap: wm.onInformation,
                               child: DecoratedBox(
                                 decoration: BoxDecoration(
-                                  color: state == 0
+                                  color: index == 0
                                       ? AppColors().accentGreen
                                       : AppColors().primaryText,
                                   borderRadius: BorderRadius.circular(8),
@@ -311,7 +270,7 @@ class ProfilePageWidget extends ElementaryWidget<IProfilePageWidgetModel> {
                               onTap: wm.onGame,
                               child: DecoratedBox(
                                 decoration: BoxDecoration(
-                                  color: state == 1
+                                  color: index == 1
                                       ? AppColors().accentGreen
                                       : AppColors().primaryText,
                                   borderRadius: BorderRadius.circular(8),
@@ -337,7 +296,7 @@ class ProfilePageWidget extends ElementaryWidget<IProfilePageWidgetModel> {
                               onTap: wm.onStatistics,
                               child: DecoratedBox(
                                 decoration: BoxDecoration(
-                                  color: state == 2
+                                  color: index == 2
                                       ? AppColors().accentGreen
                                       : AppColors().primaryText,
                                   borderRadius: BorderRadius.circular(8),
@@ -368,16 +327,13 @@ class ProfilePageWidget extends ElementaryWidget<IProfilePageWidgetModel> {
                 ),
                 child: EntityStateNotifierBuilder<int>(
                   listenableEntityState: wm.index,
-                  builder: (_, state) => state != 3
-                      ? FadeIndexedStack(
-                          index: state!.toInt(),
-                          children: [
-                            InformationPage(wm: wm),
-                            GamePage(wm: wm),
-                            StatisticsPage(wm: wm),
-                          ],
-                        )
-                      : const SizedBox(),
+                  builder: (_, index) => index == 0
+                      ? InformationPage(wm: wm)
+                      : index == 1
+                          ? GamePage(wm: wm)
+                          : index == 2
+                              ? StatisticsPage(wm: wm)
+                              : const SizedBox(),
                 ),
               ),
             ],

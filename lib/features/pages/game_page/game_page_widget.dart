@@ -235,45 +235,49 @@ class GamePageWidget extends ElementaryWidget<IGamePageWidgetModel> {
                                   const SizedBox(
                                     height: 12,
                                   ),
-                                  Builder(
-                                    builder: (context) {
-                                      return Container(
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        decoration: BoxDecoration(
-                                          gradient: AppComponentStyles()
-                                              .greenGradient,
-                                          borderRadius:
-                                              BorderRadius.circular(200),
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 10.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Icon(
-                                                TennisIcons.ball_filled,
-                                                size: 20,
-                                                color: AppColors().white,
-                                              ),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              Text(
-                                                'Повторить тренировку',
-                                                style: AppTextStyles()
-                                                    .semibold_16_21
-                                                    .copyWith(
-                                                        color:
-                                                            AppColors().white),
-                                              ),
-                                            ],
+                                  GestureDetector(
+                                    onTap: wm.toStartGame,
+                                    child: Builder(
+                                      builder: (context) {
+                                        return Container(
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          decoration: BoxDecoration(
+                                            gradient: AppComponentStyles()
+                                                .greenGradient,
+                                            borderRadius:
+                                                BorderRadius.circular(200),
                                           ),
-                                        ),
-                                      );
-                                    },
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Icon(
+                                                  TennisIcons.ball_filled,
+                                                  size: 20,
+                                                  color: AppColors().white,
+                                                ),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Text(
+                                                  'Начать',
+                                                  style: AppTextStyles()
+                                                      .semibold_16_21
+                                                      .copyWith(
+                                                        color:
+                                                            AppColors().white,
+                                                      ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
                                   ),
                                 ],
                               ),

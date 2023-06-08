@@ -3,6 +3,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:soft_weather_tennis/assets/icons/TennisIcons.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
+import 'package:soft_weather_tennis/assets/themes/constants/component_styles.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
 import 'package:soft_weather_tennis/components/adaptive_activity_indicator.dart';
 import 'package:soft_weather_tennis/components/state_widgets/error_state_widget.dart';
@@ -33,118 +34,163 @@ class StatisticsPage extends StatelessWidget {
           ? Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Text(
-                      'Последние тренировки',
-                      style: AppTextStyles().bold_18_24.copyWith(
-                            color: AppColors().primaryText,
-                          ),
-                    ),
-                    const SizedBox(
-                      width: 16,
-                    ),
-                    GestureDetector(
-                      onTap: wm.onCalendar,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: AppColors().accentGreen,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 6.0,
-                            horizontal: 16,
-                          ),
-                          child: Icon(
-                            TennisIcons.calendar,
-                            color: AppColors().white,
-                            size: 18,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 24,
-                ),
-                for (var training in statisticsData!.efficiencyList) ...[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: AppColors().white,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Row(
-                            children: [
-                              DecoratedBox(
-                                decoration: BoxDecoration(
-                                  color:
-                                      AppColors().primaryText.withOpacity(0.3),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                    vertical: 11,
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: AppColors().white,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: AppComponentStyles().boxShadow,
+                    border: AppComponentStyles().boxBorder,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Последние тренировки',
+                              style: AppTextStyles().bold_18_24.copyWith(
+                                    color: AppColors().primaryText,
                                   ),
-                                  child: Text(
-                                    wm.yAxisClean(training.date.toInt()),
+                            ),
+                            const SizedBox(
+                              width: 16,
+                            ),
+                            GestureDetector(
+                              onTap: wm.onCalendar,
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'История',
                                     style:
-                                        AppTextStyles().medium_14_19.copyWith(
-                                              color: AppColors().white,
+                                        AppTextStyles().regular_12_16.copyWith(
+                                              color: AppColors().accentGreen,
                                             ),
+                                  ),
+                                  const SizedBox(
+                                    width: 12,
+                                  ),
+                                  Container(
+                                    height: 26,
+                                    width: 26,
+                                    decoration: BoxDecoration(
+                                      color: AppColors().primaryText,
+                                      borderRadius: BorderRadius.circular(200),
+                                    ),
+                                    child: Icon(
+                                      TennisIcons.calendar,
+                                      color: AppColors().accentGreen,
+                                      size: 14,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 24,
+                        ),
+                        for (var training
+                            in statisticsData!.efficiencyList) ...[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                flex: 2,
+                                child: DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    color: AppColors().primaryText,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0,
+                                      vertical: 10,
+                                    ),
+                                    child: IntrinsicHeight(
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            training.type,
+                                            style: AppTextStyles()
+                                                .medium_14_19
+                                                .copyWith(
+                                                  color: AppColors().white,
+                                                ),
+                                          ),
+                                          const SizedBox(
+                                            width: 12,
+                                          ),
+                                          VerticalDivider(
+                                            color: AppColors().white,
+                                            thickness: 1,
+                                            // endIndent: 8,
+                                            // indent: 8,
+                                          ),
+                                          const SizedBox(
+                                            width: 12,
+                                          ),
+                                          Text(
+                                            'КПД ${training.efficiency}%',
+                                            style: AppTextStyles()
+                                                .regular_14_19
+                                                .copyWith(
+                                                  color: AppColors().white,
+                                                ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
                               const SizedBox(
-                                width: 18,
+                                width: 16,
                               ),
-                              Text(
-                                'Эффективность ${training.efficiency}%',
-                                style: AppTextStyles().regular_14_19,
+                              Flexible(
+                                flex: 1,
+                                child: GestureDetector(
+                                  onTap: () => wm.onWorkoutInformation(
+                                    training.date.toInt(),
+                                  ),
+                                  child: DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      color: AppColors().accentGreen,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 16,
+                                        vertical: 11,
+                                      ),
+                                      child: Text(
+                                        'Открыть',
+                                        style:
+                                            AppTextStyles().bold_14_19.copyWith(
+                                                  color: AppColors().white,
+                                                ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ],
                           ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 16,
-                      ),
-                      GestureDetector(
-                        onTap: () =>
-                            wm.onWorkoutInformation(training.date.toInt()),
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: AppColors().accentGreen,
-                            borderRadius: BorderRadius.circular(8),
+                          const SizedBox(
+                            height: 16,
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 11,
-                            ),
-                            child: Text(
-                              'Открыть',
-                              style: AppTextStyles().bold_14_19.copyWith(
-                                    color: AppColors().white,
-                                  ),
-                            ),
-                          ),
+                        ],
+                        const SizedBox(
+                          height: 8,
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                ],
+                ),
                 const SizedBox(
-                  height: 8,
+                  height: 24,
                 ),
                 DecoratedBox(
                   decoration: BoxDecoration(

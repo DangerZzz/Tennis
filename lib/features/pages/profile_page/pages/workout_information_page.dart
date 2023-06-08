@@ -421,9 +421,16 @@ class WorkoutInformationPage extends StatelessWidget {
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(
                         children: [
+                          // TODO(daniil): исправить сортировку
+                          // for (var odd in workoutData
+                          //     ?.sets[wm.currentSet.value?.data ?? 0]
+                          //     .game[wm.currentGame.value?.data ?? 0]
+                          //     .practicedBeats ??
+                          //     <PracticedBeats>[]) ...[
                           for (var i = 0; i < 3; i++) ...[
                             Padding(
                               padding: const EdgeInsets.only(bottom: 16.0),
@@ -600,12 +607,12 @@ class WorkoutInformationPage extends StatelessWidget {
                             ? null
                             : AppComponentStyles().greenGradientForCircular,
                         progressColor: workoutData?.percent == 100
-                            ? AppColors().white
+                            ? AppColors().accentGreen
                             : null,
                         rotateLinearGradient: true,
                         percent: (workoutData?.percent.toDouble() ?? 0) / 100,
                         center: Text(
-                          '80%',
+                          '${workoutData?.percent}%',
                           style: AppTextStyles().bold_14_19.copyWith(
                                 color: AppColors().accentGreen,
                               ),
