@@ -116,7 +116,7 @@ class TrainerConnectionPage extends StatelessWidget {
         Positioned(
           left: 16,
           right: 16,
-          bottom: wm.height / 3,
+          bottom: wm.height - 535,
           child: GestureDetector(
             child: Container(
               decoration: BoxDecoration(
@@ -151,6 +151,7 @@ class TrainerConnectionPage extends StatelessWidget {
                         ),
                         Text(
                           'Подключение тренера'.toUpperCase(),
+                          textAlign: TextAlign.center,
                           style: AppTextStyles().super_bold_23_27.copyWith(
                                 color: AppColors().accentGreen,
                               ),

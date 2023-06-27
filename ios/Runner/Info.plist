@@ -44,6 +44,10 @@
         <string>Доступ к камере позволит делать фотографии на мобильном устройстве и сразу загружать их в приложение</string>
         <key>NSFaceIDUsageDescription</key>
         <string>Аутентификации с использованием FaceID</string>
+        <key>NSSpeechRecognitionUsageDescription</key>
+        <string>Использование распознавания текста</string>
+        <key>NSMicrophoneUsageDescription</key>
+        <string>Использование микрофона</string>
         <key>NSPhotoLibraryUsageDescription</key>
         <string>Необходимо для загрузки фотографий в приложение из галереи мобильного устройства</string>
 		<key>UISupportedInterfaceOrientations~ipad</key>

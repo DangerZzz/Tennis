@@ -72,7 +72,7 @@ class StatisticsPageInGame extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Flexible(
-                            flex: 2,
+                            flex: 11,
                             child: DecoratedBox(
                               decoration: BoxDecoration(
                                 color: AppColors().primaryText,
@@ -85,6 +85,8 @@ class StatisticsPageInGame extends StatelessWidget {
                                 ),
                                 child: IntrinsicHeight(
                                   child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
                                         training.type,
@@ -107,7 +109,7 @@ class StatisticsPageInGame extends StatelessWidget {
                                         width: 12,
                                       ),
                                       Text(
-                                        'КПД ${training.efficiency}%',
+                                        '${training.efficiency}%',
                                         style: AppTextStyles()
                                             .regular_14_19
                                             .copyWith(
@@ -124,7 +126,7 @@ class StatisticsPageInGame extends StatelessWidget {
                             width: 16,
                           ),
                           Flexible(
-                            flex: 1,
+                            flex: 5,
                             child: GestureDetector(
                               onTap: () => wm.onWorkoutInformation(
                                 training.date.toInt(),

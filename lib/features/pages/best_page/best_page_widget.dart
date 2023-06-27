@@ -50,7 +50,7 @@ class BestPageWidget extends ElementaryWidget<IBestPageWidgetModel> {
           loadingBuilder: (_, __) =>
               const Center(child: AdaptiveActivityIndicator()),
           errorBuilder: (_, __, ___) => ErrorStateWidget(
-            refresh: wm.onRefresh,
+            refresh: wm.onRefreshToEmpty,
           ),
           builder: (_, bestDataList) => (bestDataList?.bestData.isNotEmpty ??
                   false)

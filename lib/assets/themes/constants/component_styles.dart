@@ -5,9 +5,17 @@ import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 class AppComponentStyles {
   final boxShadow = const [
     BoxShadow(
-      color: Color.fromRGBO(238, 238, 238, 0.7),
+      color: Color.fromRGBO(229, 229, 229, 0.7019607843137254),
       spreadRadius: 0.1,
       blurRadius: 20,
+    ),
+  ];
+
+  final boxShadowBlur = const [
+    BoxShadow(
+      color: Color.fromRGBO(229, 229, 229, 0.7019607843137254),
+      spreadRadius: 0.1,
+      blurRadius: 8,
     ),
   ];
 

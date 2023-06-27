@@ -28,18 +28,19 @@ class GameProgressPage extends StatelessWidget {
           automaticallyImplyLeading: false,
           titleSpacing: 0,
           shadowColor: Colors.transparent,
-          title: Padding(
-            padding: const EdgeInsets.only(
-              left: 16.0,
-              top: 16,
-              bottom: 32,
+          leading: GestureDetector(
+            onTap: wm.onBack,
+            child: Icon(
+              TennisIcons.back,
+              color: AppColors().primaryText,
+              size: 16,
             ),
-            child: Text(
-              'Игра',
-              style: AppTextStyles().bold_24_32.copyWith(
-                    color: AppColors().primaryText,
-                  ),
-            ),
+          ),
+          title: Text(
+            'Игра',
+            style: AppTextStyles().bold_24_32.copyWith(
+                  color: AppColors().primaryText,
+                ),
           ),
         ),
         body: EntityStateNotifierBuilder<TrainingInfo>(
@@ -158,6 +159,8 @@ class GameProgressPage extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: AppColors().white,
                         borderRadius: BorderRadius.circular(12),
+                        boxShadow: AppComponentStyles().boxShadow,
+                        border: AppComponentStyles().boxBorder,
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
@@ -300,6 +303,8 @@ class GameProgressPage extends StatelessWidget {
                   DecoratedBox(
                     decoration: BoxDecoration(
                       color: AppColors().white,
+                      boxShadow: AppComponentStyles().boxShadow,
+                      border: AppComponentStyles().boxBorder,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Padding(
@@ -320,7 +325,7 @@ class GameProgressPage extends StatelessWidget {
                             decoration: BoxDecoration(
                               color: AppColors().white,
                               borderRadius: BorderRadius.circular(200),
-                              boxShadow: AppComponentStyles().boxShadow,
+                              boxShadow: AppComponentStyles().boxShadowBlur,
                               border: AppComponentStyles().boxBorder,
                             ),
                             child: IntrinsicHeight(
@@ -332,7 +337,11 @@ class GameProgressPage extends StatelessWidget {
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.fromLTRB(
-                                            16, 16, 8, 16),
+                                          16,
+                                          16,
+                                          8,
+                                          16,
+                                        ),
                                         child: Container(
                                           width: 16,
                                           height: 16,
@@ -439,150 +448,181 @@ class GameProgressPage extends StatelessWidget {
                           const SizedBox(
                             height: 16,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Column(
+                          Builder(
+                            builder: (context) {
+                              return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  // TODO(daniil): исправить сортировку
-                                  // for (var odd in workoutData
-                                  //     ?.sets[wm.currentSet.value?.data ?? 0]
-                                  //     .game[wm.currentGame.value?.data ?? 0]
-                                  //     .practicedBeats ??
-                                  //     <PracticedBeats>[]) ...[
-                                  for (var i = 0; i < 3; i++) ...[
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 16.0),
-                                      child: DecoratedBox(
-                                        decoration: BoxDecoration(
-                                          color: AppColors().white,
-                                          borderRadius:
-                                              BorderRadius.circular(200),
-                                          boxShadow: const [
-                                            BoxShadow(
-                                              color: Color.fromRGBO(
-                                                  241, 241, 241, 1),
-                                              offset: Offset(1, 2),
-                                              spreadRadius: 0.1,
-                                              blurRadius: 20,
+                                  Column(
+                                    children: [
+                                      // TODO(daniil): исправить сортировку
+                                      // for (var odd in workoutData
+                                      //     ?.sets[wm.currentSet.value?.data ?? 0]
+                                      //     .game[wm.currentGame.value?.data ?? 0]
+                                      //     .practicedBeats ??
+                                      //     <PracticedBeats>[]) ...[
+                                      for (var i = 0; i < 3; i++) ...[
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 16.0),
+                                          child: Container(
+                                            width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2 -
+                                                40,
+                                            decoration: BoxDecoration(
+                                              color: AppColors().white,
+                                              borderRadius:
+                                                  BorderRadius.circular(200),
+                                              boxShadow: const [
+                                                BoxShadow(
+                                                  color: Color.fromRGBO(
+                                                    241,
+                                                    241,
+                                                    241,
+                                                    1,
+                                                  ),
+                                                  offset: Offset(1, 2),
+                                                  spreadRadius: 0.1,
+                                                  blurRadius: 20,
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 15,
-                                            vertical: 9.0,
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                '1. Forehand',
-                                                style: AppTextStyles()
-                                                    .regular_16_21
-                                                    .copyWith(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 16,
+                                                vertical: 9.0,
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    'Forehand',
+                                                    style: AppTextStyles()
+                                                        .regular_16_21
+                                                        .copyWith(
+                                                          color: AppColors()
+                                                              .primaryText,
+                                                        ),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 16,
+                                                  ),
+                                                  Container(
+                                                    width: 24,
+                                                    height: 24,
+                                                    decoration: BoxDecoration(
                                                       color: AppColors()
-                                                          .primaryText,
+                                                          .accentGreen,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                        40,
+                                                      ),
                                                     ),
+                                                    child: Icon(
+                                                      TennisIcons.check,
+                                                      color: AppColors().white,
+                                                      size: 14,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                              const SizedBox(
-                                                width: 8,
-                                              ),
-                                              Container(
-                                                width: 24,
-                                                height: 24,
-                                                decoration: BoxDecoration(
-                                                  color:
-                                                      AppColors().accentGreen,
-                                                  borderRadius:
-                                                      BorderRadius.circular(40),
-                                                ),
-                                                child: Icon(
-                                                  TennisIcons.check,
-                                                  color: AppColors().white,
-                                                  size: 16,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ],
-                              ),
-                              const SizedBox(
-                                width: 16,
-                              ),
-                              Column(
-                                children: [
-                                  for (var i = 0; i < 3; i++) ...[
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 16.0),
-                                      child: DecoratedBox(
-                                        decoration: BoxDecoration(
-                                          color: AppColors().white,
-                                          borderRadius:
-                                              BorderRadius.circular(200),
-                                          boxShadow: const [
-                                            BoxShadow(
-                                              color: Color.fromRGBO(
-                                                  241, 241, 241, 1),
-                                              offset: Offset(1, 2),
-                                              spreadRadius: 0.1,
-                                              blurRadius: 20,
                                             ),
-                                          ],
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 15,
-                                            vertical: 9.0,
                                           ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                '1. Forehand',
-                                                style: AppTextStyles()
-                                                    .regular_16_21
-                                                    .copyWith(
+                                        ),
+                                      ],
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    width: 16,
+                                  ),
+                                  Column(
+                                    children: [
+                                      for (var i = 0; i < 3; i++) ...[
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 16.0),
+                                          child: Container(
+                                            width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2 -
+                                                40,
+                                            decoration: BoxDecoration(
+                                              color: AppColors().white,
+                                              borderRadius:
+                                                  BorderRadius.circular(200),
+                                              boxShadow: const [
+                                                BoxShadow(
+                                                  color: Color.fromRGBO(
+                                                    241,
+                                                    241,
+                                                    241,
+                                                    1,
+                                                  ),
+                                                  offset: Offset(1, 2),
+                                                  spreadRadius: 0.1,
+                                                  blurRadius: 20,
+                                                ),
+                                              ],
+                                            ),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 15,
+                                                vertical: 9.0,
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    'Forehand',
+                                                    style: AppTextStyles()
+                                                        .regular_16_21
+                                                        .copyWith(
+                                                          color: AppColors()
+                                                              .primaryText,
+                                                        ),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 8,
+                                                  ),
+                                                  Container(
+                                                    width: 24,
+                                                    height: 24,
+                                                    decoration: BoxDecoration(
                                                       color: AppColors()
-                                                          .primaryText,
+                                                          .accentGreen,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                        40,
+                                                      ),
                                                     ),
+                                                    child: Icon(
+                                                      TennisIcons.check,
+                                                      color: AppColors().white,
+                                                      size: 16,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                              const SizedBox(
-                                                width: 8,
-                                              ),
-                                              Container(
-                                                width: 24,
-                                                height: 24,
-                                                decoration: BoxDecoration(
-                                                  color:
-                                                      AppColors().accentGreen,
-                                                  borderRadius:
-                                                      BorderRadius.circular(40),
-                                                ),
-                                                child: Icon(
-                                                  TennisIcons.check,
-                                                  color: AppColors().white,
-                                                  size: 16,
-                                                ),
-                                              ),
-                                            ],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                  ],
+                                      ],
+                                    ],
+                                  ),
                                 ],
-                              ),
-                            ],
+                              );
+                            },
                           ),
                         ],
                       ),

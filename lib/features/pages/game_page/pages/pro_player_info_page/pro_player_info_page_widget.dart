@@ -91,7 +91,7 @@ class ProPlayerInfoPageWidget
                   color: AppColors().accentGreen,
                   child: Center(
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 120.0),
+                      padding: const EdgeInsets.only(top: 150.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -119,7 +119,7 @@ class ProPlayerInfoPageWidget
             Positioned(
               top: 254,
               child: SizedBox(
-                height: wm.height - 230 - 220,
+                height: wm.height * 0.5,
                 child: Container(
                   height: wm.height - 230,
                   decoration: BoxDecoration(

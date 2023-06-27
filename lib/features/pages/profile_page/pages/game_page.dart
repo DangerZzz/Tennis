@@ -204,6 +204,9 @@ class GamePage extends StatelessWidget {
                     ),
                   ),
                 ),
+                const SizedBox(
+                  width: 32,
+                ),
               ],
             ),
           ),

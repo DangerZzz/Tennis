@@ -21,9 +21,6 @@ class PlayerCard extends StatelessWidget {
   final int rating;
 
   ///
-  final VoidCallback info;
-
-  ///
   final VoidCallback call;
 
   ///
@@ -32,21 +29,14 @@ class PlayerCard extends StatelessWidget {
     required this.description,
     required this.rating,
     required this.imageUrl,
-    required this.info,
     required this.call,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String nameSub;
-    if (name.length > 12) {
-      nameSub = '${name.substring(0, 12)}...';
-    } else {
-      nameSub = name;
-    }
     return Container(
-      height: 129,
+      height: 141,
       decoration: BoxDecoration(
         color: AppColors().white,
         borderRadius: BorderRadius.circular(12),
@@ -109,86 +99,75 @@ class PlayerCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4.0),
+                    child: Text(
+                      name,
+                      style: AppTextStyles().medium_16_21.copyWith(
+                            color: AppColors().primaryText,
+                          ),
+                    ),
+                  ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        nameSub,
-                        style: AppTextStyles().medium_16_21.copyWith(
-                              color: AppColors().primaryText,
-                            ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          for (var i = 0; i < rating; i++) ...[
-                            Icon(
-                              TennisIcons.star_filled,
-                              size: 22,
-                              color: AppColors().outYellow,
-                            ),
-                          ],
-                          for (var i = 0; i < 5 - rating; i++) ...[
-                            Padding(
-                              padding: const EdgeInsets.only(right: 4.0),
-                              child: Icon(
-                                TennisIcons.star_empty,
-                                size: 18,
-                                color: AppColors().outYellow,
-                              ),
-                            ),
-                          ],
-                        ],
-                      ),
+                      for (var i = 0; i < rating; i++) ...[
+                        Icon(
+                          TennisIcons.star_filled,
+                          size: 22,
+                          color: AppColors().outYellow,
+                        ),
+                      ],
+                      for (var i = 0; i < 5 - rating; i++) ...[
+                        Padding(
+                          padding: const EdgeInsets.only(right: 4.0),
+                          child: Icon(
+                            TennisIcons.star_empty,
+                            size: 18,
+                            color: AppColors().outYellow,
+                          ),
+                        ),
+                      ],
                     ],
                   ),
-                  Text(
-                    description,
-                    style: AppTextStyles().light_12_16.copyWith(
-                          color: AppColors().secondaryText,
-                        ),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4.0),
+                    child: Text(
+                      description,
+                      style: AppTextStyles().light_12_16.copyWith(
+                            color: AppColors().secondaryText,
+                          ),
+                    ),
                   ),
                   const Spacer(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      InkWell(
-                        onTap: info,
-                        child: Text(
-                          'Подробнее',
-                          style: AppTextStyles().light_12_16.copyWith(
-                                color: AppColors().secondaryText,
-                              ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 12,
-                      ),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: call,
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              color: AppColors().accentGreen,
-                              borderRadius: BorderRadius.circular(8),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4.0),
+                    child: Expanded(
+                      child: GestureDetector(
+                        onTap: call,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: AppColors().accentGreen,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 7,
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 7,
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'Вызов',
-                                  style: AppTextStyles().bold_12_14.copyWith(
-                                        color: AppColors().white,
-                                      ),
-                                ),
+                            child: Center(
+                              child: Text(
+                                'Вызов',
+                                style: AppTextStyles().bold_12_14.copyWith(
+                                      color: AppColors().white,
+                                    ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ],
+                    ),
                   ),
                 ],
               ),

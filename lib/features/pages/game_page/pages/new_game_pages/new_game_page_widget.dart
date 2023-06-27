@@ -16,15 +16,20 @@ class NewGamePageWidget extends ElementaryWidget<INewGamePageWidgetModel> {
 
   @override
   Widget build(INewGamePageWidgetModel wm) {
-    return EntityStateNotifierBuilder<int>(
-      listenableEntityState: wm.index,
-      builder: (_, index) => index == 0
-          ? TrainerConnectionPage(wm: wm)
-          : index == 1
-              ? GameConnectionPage(wm: wm)
-              : index == 2
-                  ? GameProgressPage(wm: wm)
-                  : HitchPage(wm: wm),
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: EntityStateNotifierBuilder<int>(
+        listenableEntityState: wm.index,
+        builder: (_, index) => index == 0
+            ? TrainerConnectionPage(wm: wm)
+            : index == 1
+                ? GameConnectionPage(wm: wm)
+                : index == 2
+                    ? GameProgressPage(wm: wm)
+                    : HitchPage(wm: wm),
+      ),
     );
   }
 }

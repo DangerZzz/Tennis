@@ -12,6 +12,7 @@ import 'package:soft_weather_tennis/components/adaptive_refresh_custom_scroll_vi
 import 'package:soft_weather_tennis/components/state_widgets/error_state_widget.dart';
 import 'package:soft_weather_tennis/features/pages/game_page/domain/game_data.dart';
 import 'package:soft_weather_tennis/features/pages/game_page/game_page_wm.dart';
+import 'package:soft_weather_tennis/features/pages/game_page/pages/speech_to_text.dart';
 import 'package:soft_weather_tennis/features/pages/game_page/widgets/prof_player_card.dart';
 
 /// Main widget for GamePage module
@@ -99,8 +100,7 @@ class GamePageWidget extends ElementaryWidget<IGamePageWidgetModel> {
                               name: gameData?.proPlayers[player].name ?? '',
                               imageUrl:
                                   gameData?.proPlayers[player].imageUrl ?? '',
-                              call: () => wm.toStartGame(),
-                              info: () => wm.toProPlayerInfo(
+                              call: () => wm.toProPlayerInfo(
                                 gameData?.proPlayers[player].id,
                               ),
                             ),
@@ -449,6 +449,7 @@ class GamePageWidget extends ElementaryWidget<IGamePageWidgetModel> {
                                   GestureDetector(
                                     onTap: wm.toStatistics,
                                     child: Container(
+                                      height: 94,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(16),
                                         image: const DecorationImage(
@@ -458,66 +459,58 @@ class GamePageWidget extends ElementaryWidget<IGamePageWidgetModel> {
                                           fit: BoxFit.fill,
                                         ),
                                       ),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                          color: AppColors()
-                                              .primaryText
-                                              .withOpacity(0.88),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 16,
+                                          vertical: 14,
                                         ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 16,
-                                            vertical: 14,
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'Личная статистика',
-                                                    style: AppTextStyles()
-                                                        .bold_20_27
-                                                        .copyWith(
-                                                          color: AppColors()
-                                                              .accentGreen,
-                                                        ),
-                                                  ),
-                                                  Text(
-                                                    'Не забывай отслеживать изменения!',
-                                                    style: AppTextStyles()
-                                                        .light_12_16
-                                                        .copyWith(
-                                                          color:
-                                                              AppColors().white,
-                                                        ),
-                                                  ),
-                                                ],
-                                              ),
-                                              Container(
-                                                width: 32,
-                                                height: 32,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                    200,
-                                                  ),
-                                                  color:
-                                                      AppColors().accentGreen,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  'Личная статистика',
+                                                  style: AppTextStyles()
+                                                      .bold_20_27
+                                                      .copyWith(
+                                                        color: AppColors()
+                                                            .accentGreen,
+                                                      ),
                                                 ),
-                                                child: Icon(
-                                                  Icons.chevron_right,
-                                                  size: 22,
-                                                  color: AppColors().white,
+                                                Text(
+                                                  'Не забывай отслеживать изменения!',
+                                                  style: AppTextStyles()
+                                                      .light_12_16
+                                                      .copyWith(
+                                                        color:
+                                                            AppColors().white,
+                                                      ),
                                                 ),
+                                              ],
+                                            ),
+                                            Container(
+                                              width: 32,
+                                              height: 32,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                  200,
+                                                ),
+                                                color: AppColors().accentGreen,
                                               ),
-                                            ],
-                                          ),
+                                              child: Icon(
+                                                Icons.chevron_right,
+                                                size: 22,
+                                                color: AppColors().white,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ),
@@ -529,71 +522,91 @@ class GamePageWidget extends ElementaryWidget<IGamePageWidgetModel> {
                           const SizedBox(
                             height: 24,
                           ),
-                          DecoratedBox(
-                            decoration: BoxDecoration(
-                              color: AppColors().accentGreen,
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(24),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      'Оставаться в форме тебе помогут\n'
-                                      'пакровские батончики с высоким\n'
-                                      'содержанием чего-нибудь.',
-                                      style:
-                                          AppTextStyles().medium_14_19.copyWith(
-                                                color: AppColors().white,
-                                              ),
+                          Builder(
+                            builder: (context) {
+                              return GestureDetector(
+                                onTap: () async {
+                                  await Navigator.push(
+                                    context,
+                                    MaterialPageRoute<void>(
+                                      builder: (context) => const SpeechPage(),
                                     ),
+                                  );
+                                },
+                                child: DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    color: AppColors().accentGreen,
+                                    borderRadius: BorderRadius.circular(16),
                                   ),
-                                  DecoratedBox(
-                                    decoration: BoxDecoration(
-                                      color: const Color.fromRGBO(
-                                        190,
-                                        228,
-                                        83,
-                                        1,
-                                      ),
-                                      borderRadius: BorderRadius.circular(50),
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(50),
-                                      child: OctoImage(
-                                        fit: BoxFit.cover,
-                                        width: 90,
-                                        height: 90,
-                                        placeholderBuilder: (context) =>
-                                            const SizedBox(
-                                          child: Center(
-                                            child: AdaptiveActivityIndicator(),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(24),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            'Оставаться в форме тебе помогут\n'
+                                            'пакровские батончики с высоким\n'
+                                            'содержанием чего-нибудь.',
+                                            style: AppTextStyles()
+                                                .medium_14_19
+                                                .copyWith(
+                                                  color: AppColors().white,
+                                                ),
                                           ),
                                         ),
-                                        errorBuilder: (c, e, s) => SizedBox(
-                                          child: Center(
-                                            child: SvgPicture.asset(
-                                              'assets/images/error_placeholder.svg',
-                                              colorFilter: ColorFilter.mode(
-                                                AppColors().white,
-                                                BlendMode.srcIn,
+                                        DecoratedBox(
+                                          decoration: BoxDecoration(
+                                            color: const Color.fromRGBO(
+                                              190,
+                                              228,
+                                              83,
+                                              1,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                          ),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                            child: OctoImage(
+                                              fit: BoxFit.cover,
+                                              width: 90,
+                                              height: 90,
+                                              placeholderBuilder: (context) =>
+                                                  const SizedBox(
+                                                child: Center(
+                                                  child:
+                                                      AdaptiveActivityIndicator(),
+                                                ),
                                               ),
-                                              height: 40,
-                                              width: 40,
+                                              errorBuilder: (c, e, s) =>
+                                                  SizedBox(
+                                                child: Center(
+                                                  child: SvgPicture.asset(
+                                                    'assets/images/error_placeholder.svg',
+                                                    colorFilter:
+                                                        ColorFilter.mode(
+                                                      AppColors().white,
+                                                      BlendMode.srcIn,
+                                                    ),
+                                                    height: 40,
+                                                    width: 40,
+                                                  ),
+                                                ),
+                                              ),
+                                              image: Image.network(
+                                                '',
+                                                fit: BoxFit.contain,
+                                              ).image,
                                             ),
                                           ),
                                         ),
-                                        image: Image.network(
-                                          '',
-                                          fit: BoxFit.contain,
-                                        ).image,
-                                      ),
+                                      ],
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
+                                ),
+                              );
+                            },
                           ),
                           const SizedBox(
                             height: 100,

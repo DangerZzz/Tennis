@@ -238,8 +238,7 @@ class ProPlayersPage extends StatelessWidget {
                                         description: searchedData.description,
                                         name: searchedData.name,
                                         imageUrl: searchedData.imageUrl,
-                                        call: toStartGame,
-                                        info: onInfo,
+                                        call: onInfo,
                                       ),
                                     const SizedBox(
                                       height: 16,
@@ -254,8 +253,7 @@ class ProPlayersPage extends StatelessWidget {
                                         description: player.description,
                                         name: player.name,
                                         imageUrl: player.imageUrl,
-                                        call: toStartGame,
-                                        info: onInfo,
+                                        call: onInfo,
                                       ),
                                       const SizedBox(
                                         height: 16,

@@ -1,5 +1,5 @@
 name: soft_weather_tennis
-version: "0.0.3"
+version: "0.0.4"
 publish_to: none
 
 dependencies:
@@ -16,6 +16,7 @@ dependencies:
   fl_chart: ^0.61.0
   flutter:
     sdk: flutter
+  flutter_inset_box_shadow: ^1.0.8
   flutter_localizations:
     sdk: flutter
   flutter_secure_storage: ^8.0.0
@@ -35,6 +36,7 @@ dependencies:
   provider: ^6.0.2
   retrofit: ^3.3.1
   shared_preferences: ^2.0.20
+  speech_to_text: ^6.1.1
   surf_logger: ^1.0.2
 
 

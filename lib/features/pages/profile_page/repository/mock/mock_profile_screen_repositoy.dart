@@ -179,7 +179,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
         Statistics(
           date: 1681776000,
           efficiency: 94,
-          type: 'Стандартная',
+          type: '1',
         ),
       ],
     );

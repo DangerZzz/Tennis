@@ -329,62 +329,56 @@ class InformationPage extends StatelessWidget {
                   fit: BoxFit.fill,
                 ),
               ),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: AppColors().primaryText.withOpacity(0.5),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          DecoratedBox(
-                            decoration: BoxDecoration(
-                              color: AppColors().primaryText,
-                              borderRadius: BorderRadius.circular(16),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: AppColors().primaryText,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 4,
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 4,
-                              ),
-                              child: Text(
-                                '${state.ratingPosition}',
-                                style: AppTextStyles().regular_40_54.copyWith(
-                                      color: AppColors().accentGreen,
-                                    ),
-                              ),
+                            child: Text(
+                              '${state.ratingPosition}',
+                              style: AppTextStyles().regular_40_54.copyWith(
+                                    color: AppColors().accentGreen,
+                                  ),
                             ),
                           ),
-                          const SizedBox(
-                            width: 4,
-                          ),
-                          Icon(
-                            Icons.arrow_upward,
-                            size: 18,
-                            color: AppColors().accentGreen,
-                          ),
-                          Text(
-                            '+${state.ratingChanges}',
-                            style: AppTextStyles().regular_12_16.copyWith(
-                                  color: AppColors().accentGreen,
-                                ),
-                          ),
-                          const SizedBox(width: 16),
-                        ],
-                      ),
-                      Text(
-                        'Место в рейтинге',
-                        style: AppTextStyles()
-                            .medium_20_27
-                            .copyWith(color: AppColors().white),
-                      ),
-                    ],
-                  ),
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        Icon(
+                          Icons.arrow_upward,
+                          size: 18,
+                          color: AppColors().accentGreen,
+                        ),
+                        Text(
+                          '+${state.ratingChanges}',
+                          style: AppTextStyles().regular_12_16.copyWith(
+                                color: AppColors().accentGreen,
+                              ),
+                        ),
+                        const SizedBox(width: 16),
+                      ],
+                    ),
+                    Text(
+                      'Место в рейтинге',
+                      style: AppTextStyles()
+                          .medium_20_27
+                          .copyWith(color: AppColors().white),
+                    ),
+                  ],
                 ),
               ),
             ),

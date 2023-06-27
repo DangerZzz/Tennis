@@ -95,10 +95,9 @@ class StatisticsPage extends StatelessWidget {
                         for (var training
                             in statisticsData!.efficiencyList) ...[
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Flexible(
-                                flex: 2,
+                                flex: 11,
                                 child: DecoratedBox(
                                   decoration: BoxDecoration(
                                     color: AppColors().primaryText,
@@ -111,9 +110,12 @@ class StatisticsPage extends StatelessWidget {
                                     ),
                                     child: IntrinsicHeight(
                                       child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             training.type,
+                                            maxLines: 1,
                                             style: AppTextStyles()
                                                 .medium_14_19
                                                 .copyWith(
@@ -133,7 +135,7 @@ class StatisticsPage extends StatelessWidget {
                                             width: 12,
                                           ),
                                           Text(
-                                            'КПД ${training.efficiency}%',
+                                            '${training.efficiency}%',
                                             style: AppTextStyles()
                                                 .regular_14_19
                                                 .copyWith(
@@ -150,7 +152,7 @@ class StatisticsPage extends StatelessWidget {
                                 width: 16,
                               ),
                               Flexible(
-                                flex: 1,
+                                flex: 5,
                                 child: GestureDetector(
                                   onTap: () => wm.onWorkoutInformation(
                                     training.date.toInt(),

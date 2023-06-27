@@ -28,217 +28,228 @@ class ProfilePageWidget extends ElementaryWidget<IProfilePageWidgetModel> {
         listenableEntityState: wm.userInfo,
         loadingBuilder: (_, __) =>
             const Center(child: AdaptiveActivityIndicator()),
-        builder: (_, state) => SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Stack(
-                fit: StackFit.passthrough,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 48),
-                    child: Image.asset(
-                      state?.backgroundImageUrl ??
-                          'lib/features/pages/profile_page/assets/images/profile_background.png',
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                  Positioned(
-                    right: 16,
-                    top: 16,
-                    child: GestureDetector(
-                      onTap: wm.toSettingsPage,
-                      child: Container(
-                        height: 32,
-                        width: 32,
-                        decoration: BoxDecoration(
-                          color: AppColors().primaryText,
-                          borderRadius: BorderRadius.circular(24),
-                        ),
-                        child: Icon(
-                          TennisIcons.settings,
-                          color: AppColors().white,
-                          size: 22,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    right: 16,
-                    top: 64,
-                    child: EntityStateNotifierBuilder<bool>(
-                      listenableEntityState: wm.achievementsButtonIsLoading,
-                      builder: (_, isLoading) => GestureDetector(
-                        onTap: () {
-                          if (!(isLoading ?? true)) {
-                            wm.toAchievementsPage();
-                          }
-                        },
-                        child: Container(
-                          height: 32,
-                          width: 32,
-                          decoration: BoxDecoration(
-                            color: AppColors().primaryText,
-                            borderRadius: BorderRadius.circular(24),
+        builder: (_, state) => EntityStateNotifierBuilder<int>(
+          listenableEntityState: wm.index,
+          builder: (_, index) => index != 3
+              ? SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Stack(
+                        fit: StackFit.passthrough,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 48),
+                            child: Image.asset(
+                              state?.backgroundImageUrl ??
+                                  'lib/features/pages/profile_page/assets/images/profile_background.png',
+                              fit: BoxFit.contain,
+                            ),
                           ),
-                          child: (isLoading ?? true)
-                              ? const AdaptiveActivityIndicator(
-                                  brightness: Brightness.dark,
-                                )
-                              : Icon(
-                                  TennisIcons.trophy,
-                                  color: AppColors().white,
-                                  size: 18,
+                          Positioned(
+                            right: 16,
+                            top: 16,
+                            child: GestureDetector(
+                              onTap: wm.toSettingsPage,
+                              child: Container(
+                                height: 32,
+                                width: 32,
+                                decoration: BoxDecoration(
+                                  color: AppColors().primaryText,
+                                  borderRadius: BorderRadius.circular(24),
                                 ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 80,
-                    left: wm.width / 2 - 45,
-                    child: Container(
-                      width: 90,
-                      height: 90,
-                      decoration: BoxDecoration(
-                        color: AppColors().white,
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.0),
-                        child: SizedBox(
-                          width: 72,
-                          height: 72,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: OctoImage(
-                              width: 72,
-                              height: 72,
-                              fit: BoxFit.cover,
-                              placeholderBuilder: (context) => const Center(
-                                child: AdaptiveActivityIndicator(),
+                                child: Icon(
+                                  TennisIcons.settings,
+                                  color: AppColors().white,
+                                  size: 22,
+                                ),
                               ),
-                              errorBuilder: (c, e, s) => SizedBox(
-                                child: Center(
-                                  child: SvgPicture.asset(
-                                    'assets/images/error_placeholder.svg',
-                                    colorFilter: ColorFilter.mode(
-                                      AppColors().accentGreen,
-                                      BlendMode.srcIn,
+                            ),
+                          ),
+                          Positioned(
+                            right: 16,
+                            top: 64,
+                            child: EntityStateNotifierBuilder<bool>(
+                              listenableEntityState:
+                                  wm.achievementsButtonIsLoading,
+                              builder: (_, isLoading) => GestureDetector(
+                                onTap: () {
+                                  if (!(isLoading ?? true)) {
+                                    wm.toAchievementsPage();
+                                  }
+                                },
+                                child: Container(
+                                  height: 32,
+                                  width: 32,
+                                  decoration: BoxDecoration(
+                                    color: AppColors().primaryText,
+                                    borderRadius: BorderRadius.circular(24),
+                                  ),
+                                  child: (isLoading ?? true)
+                                      ? const AdaptiveActivityIndicator(
+                                          brightness: Brightness.dark,
+                                        )
+                                      : Icon(
+                                          TennisIcons.trophy,
+                                          color: AppColors().white,
+                                          size: 18,
+                                        ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: 80,
+                            left: wm.width / 2 - 45,
+                            child: Container(
+                              width: 90,
+                              height: 90,
+                              decoration: BoxDecoration(
+                                color: AppColors().white,
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: SizedBox(
+                                  width: 72,
+                                  height: 72,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: OctoImage(
+                                      width: 72,
+                                      height: 72,
+                                      fit: BoxFit.cover,
+                                      placeholderBuilder: (context) =>
+                                          const Center(
+                                        child: AdaptiveActivityIndicator(),
+                                      ),
+                                      errorBuilder: (c, e, s) => SizedBox(
+                                        child: Center(
+                                          child: SvgPicture.asset(
+                                            'assets/images/error_placeholder.svg',
+                                            colorFilter: ColorFilter.mode(
+                                              AppColors().accentGreen,
+                                              BlendMode.srcIn,
+                                            ),
+                                            height: 40,
+                                            width: 40,
+                                          ),
+                                        ),
+                                      ),
+                                      image: Image.network(
+                                        state?.avatarUrl ?? '',
+                                      ).image,
                                     ),
-                                    height: 40,
-                                    width: 40,
                                   ),
                                 ),
                               ),
-                              image: Image.network(
-                                state?.avatarUrl ?? '',
-                              ).image,
                             ),
                           ),
+                        ],
+                      ),
+                      Center(
+                        child: Text(
+                          '${state?.surname ?? ''} ${state?.name ?? ''}',
+                          style: AppTextStyles()
+                              .medium_18_24
+                              .copyWith(color: AppColors().primaryText),
                         ),
                       ),
-                    ),
-                  ),
-                ],
-              ),
-              Center(
-                child: Text(
-                  '${state?.surname ?? ''} ${state?.name ?? ''}',
-                  style: AppTextStyles()
-                      .medium_18_24
-                      .copyWith(color: AppColors().primaryText),
-                ),
-              ),
-              if (state?.rank.isNotEmpty ?? false)
-                Center(
-                  child: Text(
-                    state?.rank ?? '',
-                    style: AppTextStyles()
-                        .regular_14_19
-                        .copyWith(color: AppColors().secondaryText),
-                  ),
-                ),
-              const SizedBox(
-                height: 22,
-              ),
-              if (state?.currentLevel != null)
-                Container(
-                  width: wm.width,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        AppColors().gradientStart,
-                        AppColors().gradientStart.withOpacity(0),
-                      ],
-                    ),
-                    borderRadius: const BorderRadius.only(
-                      bottomRight: Radius.circular(16),
-                      bottomLeft: Radius.circular(16),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 7.0),
-                          child: Container(
-                            height: 20,
-                            width: 20,
-                            decoration: BoxDecoration(
-                              color: AppColors().white,
-                              borderRadius: BorderRadius.circular(24),
+                      if (state?.rank.isNotEmpty ?? false)
+                        Center(
+                          child: Text(
+                            state?.rank ?? '',
+                            style: AppTextStyles()
+                                .regular_14_19
+                                .copyWith(color: AppColors().secondaryText),
+                          ),
+                        ),
+                      const SizedBox(
+                        height: 22,
+                      ),
+                      if (state?.currentLevel != null)
+                        Container(
+                          width: wm.width,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                AppColors().gradientStart,
+                                AppColors().gradientStart.withOpacity(0),
+                              ],
                             ),
-                            child: Center(
-                              child: Text(
-                                '${state?.currentLevel}',
-                                style: AppTextStyles().regular_14_19.copyWith(
-                                      color: AppColors().accentGreen,
+                            borderRadius: const BorderRadius.only(
+                              bottomRight: Radius.circular(16),
+                              bottomLeft: Radius.circular(16),
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 7.0,
+                                  ),
+                                  child: Container(
+                                    height: 20,
+                                    width: 20,
+                                    decoration: BoxDecoration(
+                                      color: AppColors().white,
+                                      borderRadius: BorderRadius.circular(24),
                                     ),
-                              ),
+                                    child: Center(
+                                      child: Text(
+                                        '${state?.currentLevel}',
+                                        style: AppTextStyles()
+                                            .regular_14_19
+                                            .copyWith(
+                                              color: AppColors().accentGreen,
+                                            ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  '${state?.points} очков',
+                                  style: AppTextStyles()
+                                      .regular_16_21
+                                      .copyWith(color: AppColors().white),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 7.0),
+                                  child: Container(
+                                    height: 20,
+                                    width: 20,
+                                    decoration: BoxDecoration(
+                                      color: AppColors().white,
+                                      borderRadius: BorderRadius.circular(24),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        '${state?.nextLevel}',
+                                        style: AppTextStyles()
+                                            .regular_14_19
+                                            .copyWith(
+                                              color: AppColors().accentGreen,
+                                            ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
-                        Text(
-                          '${state?.points} очков',
-                          style: AppTextStyles()
-                              .regular_16_21
-                              .copyWith(color: AppColors().white),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 24,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 7.0),
-                          child: Container(
-                            height: 20,
-                            width: 20,
-                            decoration: BoxDecoration(
-                              color: AppColors().white,
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                            child: Center(
-                              child: Text(
-                                '${state?.nextLevel}',
-                                style: AppTextStyles().regular_14_19.copyWith(
-                                      color: AppColors().accentGreen,
-                                    ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 24,
-                ),
-                child: EntityStateNotifierBuilder<int>(
-                  listenableEntityState: wm.index,
-                  builder: (_, index) => index != 3
-                      ? Row(
+                        child: Row(
                           children: [
                             GestureDetector(
                               onTap: wm.onInformation,
@@ -316,28 +327,25 @@ class ProfilePageWidget extends ElementaryWidget<IProfilePageWidgetModel> {
                               ),
                             ),
                           ],
-                        )
-                      : WorkoutInformationPage(wm: wm),
-                ),
-              ),
-              const SizedBox(height: 24),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                ),
-                child: EntityStateNotifierBuilder<int>(
-                  listenableEntityState: wm.index,
-                  builder: (_, index) => index == 0
-                      ? InformationPage(wm: wm)
-                      : index == 1
-                          ? GamePage(wm: wm)
-                          : index == 2
-                              ? StatisticsPage(wm: wm)
-                              : const SizedBox(),
-                ),
-              ),
-            ],
-          ),
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                        ),
+                        child: index == 0
+                            ? InformationPage(wm: wm)
+                            : index == 1
+                                ? GamePage(wm: wm)
+                                : index == 2
+                                    ? StatisticsPage(wm: wm)
+                                    : const SizedBox(),
+                      ),
+                    ],
+                  ),
+                )
+              : WorkoutInformationPage(wm: wm),
         ),
       ),
     );

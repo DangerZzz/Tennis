@@ -296,6 +296,7 @@ class ProfilePageWidgetModel
     try {
       final res = await model.getTrainingData();
       _workoutData.content(res);
+
       _gameListData = workoutData.value?.data?.sets[0].game ?? [];
     } on FormatException catch (e) {
       _workoutData.error(e);
@@ -459,8 +460,7 @@ class ProfilePageWidgetModel
     _statisticsData = EntityStateNotifier<StatisticsList>();
     _workoutData = EntityStateNotifier<TrainingInfo>();
 
-    await onStatistics();
-    // await onInformation();
+    await onInformation();
 
     if (newAchievements) {
       achievementsDialog();
