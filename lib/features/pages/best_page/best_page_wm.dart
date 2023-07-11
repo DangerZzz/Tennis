@@ -12,17 +12,13 @@ import 'package:soft_weather_tennis/user_notifier/user_notifier.dart';
 ///
 abstract class IBestPageWidgetModel extends IWidgetModel {
   ///Данные страницы
-  ListenableState<EntityState<BestDataList>> get bestDataList;
+  ListenableState<EntityState<List<BestData>>> get bestDataList;
 
   ///
   double get width;
 
   /// Обновление страницы
   Future<void> onRefresh();
-
-  // TODO(daniil): изменить после тестирования QA
-  /// Обновление страницы
-  Future<void> onRefreshToEmpty();
 }
 
 ///
@@ -53,9 +49,10 @@ class BestPageWidgetModel extends WidgetModel<BestPageWidget, BestPageModel>
   double get width => MediaQuery.of(context).size.width;
 
   @override
-  ListenableState<EntityState<BestDataList>> get bestDataList => _bestDataList;
+  ListenableState<EntityState<List<BestData>>> get bestDataList =>
+      _bestDataList;
 
-  late EntityStateNotifier<BestDataList> _bestDataList;
+  late EntityStateNotifier<List<BestData>> _bestDataList;
 
   /// Конструктор
   BestPageWidgetModel(
@@ -68,44 +65,13 @@ class BestPageWidgetModel extends WidgetModel<BestPageWidget, BestPageModel>
   @override
   Future<void> initWidgetModel() async {
     super.initWidgetModel();
-    _bestDataList = EntityStateNotifier<BestDataList>();
-
-    // TODO(daniil): изменить после тестирования QA
-    await _initLoadError();
-    // await _initLoad();
+    _bestDataList = EntityStateNotifier<List<BestData>>();
+    await _initLoad();
   }
 
   @override
   Future<void> onRefresh() async {
     await _initLoad();
-  }
-
-  // TODO(daniil): изменить после тестирования QA
-  @override
-  Future<void> onRefreshToEmpty() async {
-    await _initLoadEmpty();
-  }
-
-  // TODO(daniil): изменить после тестирования QA
-  Future<void> _initLoadError() async {
-    _bestDataList.loading();
-    try {
-      final data = await model.getBestListData();
-      _bestDataList.error();
-    } on FormatException catch (e) {
-      _bestDataList.error(e);
-    }
-  }
-
-  // TODO(daniil): изменить после тестирования QA
-  Future<void> _initLoadEmpty() async {
-    _bestDataList.loading();
-    try {
-      final data = await model.getBestListData();
-      _bestDataList.content(BestDataList(bestData: []));
-    } on FormatException catch (e) {
-      _bestDataList.error(e);
-    }
   }
 
   Future<void> _initLoad() async {

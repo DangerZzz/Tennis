@@ -14,28 +14,28 @@ class ExceptionHandler {
       final msg = _msgError(e);
       if (e is Exception) {
         Logger.e(
-          msg,
+          msg ?? '',
           Exception('exception: ${e.toString()} \n trace: $trace'),
         );
       } else if (e is Error) {
         Logger.e(
-          msg,
+          msg ?? '',
           Exception(trace),
         );
       }
-      throw FormatException(msg);
+      throw FormatException(msg ?? '');
     }
   }
 }
 
-String _msgError(Object error) {
+String? _msgError(Object error) {
   if (error is DioError) {
     if (error.response == null) {
       return 'Ошибка сети';
     } else if (error.response!.data != null) {
       final data = DTO.fromJson(error.response!.data as Map<String, dynamic>);
-      if (data.error != null) {
-        return data.error!.message;
+      if (data.message != null) {
+        return data.message;
       }
       return 'Ошибка по статус коду'; // TODO(daniil): Проработать статусы ошибок
     } else {

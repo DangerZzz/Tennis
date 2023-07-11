@@ -14,11 +14,11 @@ class BestPageModel extends ElementaryModel {
   ) : super(errorHandler: errorHandler);
 
   /// Получение данных страницы
-  Future<BestDataList> getBestListData() async {
-    late final BestDataList res;
+  Future<List<BestData>> getBestListData() async {
+    late final List<BestData> res;
     await ExceptionHandler.shellException(() async {
-      res = (await _bestPageRepository.getBestListData())!;
-      return res;
+      res = await _bestPageRepository.getBestListData();
+      // return res;
     });
     return res;
   }

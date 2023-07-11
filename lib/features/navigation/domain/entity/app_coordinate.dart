@@ -15,15 +15,11 @@ import 'package:soft_weather_tennis/features/pages/settings_page/pages/name_edit
 import 'package:soft_weather_tennis/features/pages/settings_page/settings_page_widget.dart';
 import 'package:soft_weather_tennis/features/pages/useful_page/pages/useful_full_info_page/useful_full_info_page_widget.dart';
 import 'package:soft_weather_tennis/features/pages/useful_page/useful_page_widget.dart';
-import 'package:soft_weather_tennis/features/temp/screens/temp_screen/temp_screen.dart';
 
 /// A set of routes for the entire app.
 class AppCoordinate implements Coordinate {
   /// Initialization screens.
   static final initScreen = AppCoordinate._('auth');
-
-  /// Initialization screens([TempScreen]).
-  static final temp = AppCoordinate._('temp');
 
   /// Initialization screens([AuthorizationPageWidget]).
   static final authScreen = AppCoordinate._('auth');
@@ -98,7 +94,6 @@ class AppCoordinate implements Coordinate {
 final Map<AppCoordinate, CoordinateBuilder> appCoordinates = {
   AppCoordinate.initial: (_, __) => const AuthorizationPageWidget(),
   AppCoordinate.initScreen: (_, __) => const AuthorizationPageWidget(),
-  AppCoordinate.temp: (_, __) => const TempScreen(),
   AppCoordinate.authScreen: (_, __) => const AuthorizationPageWidget(),
   AppCoordinate.mainScreen: (_, __) => MainScreenWidget(),
   AppCoordinate.usefulPage: (_, __) => const UsefulPageWidget(),

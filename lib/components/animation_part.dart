@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 
-///анимация смены прозрачности
+///Анимация смены прозрачности
 class AnimationPart extends StatefulWidget {
   ///ширина
   final double width;

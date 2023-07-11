@@ -32,7 +32,7 @@ class _BestPageClient implements BestPageClient {
     )
             .compose(
               _dio.options,
-              '/order/{cityCode}/deleteCart',
+              '/api/gallery/list',
               queryParameters: queryParameters,
               data: _data,
             )

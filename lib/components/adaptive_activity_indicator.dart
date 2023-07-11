@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 
-///
+/// [AdaptiveActivityIndicator] отображающийся в зависимости от системы
 class AdaptiveActivityIndicator extends StatelessWidget {
   ///
   final Brightness brightness;

@@ -13,13 +13,15 @@ abstract class Url {
   static String get devProxyUrl => '';
 
   /// TRest url.
-  static String get testUrl => 'http://uinames.com/api/';
+  static String get testUrl => 'https://tennis.trackercracker.ru';
+  // TODO(daniil): change url
 
   /// Prod url.
-  static String get prodUrl => 'https://prod.surfstudio.ru/api';
+  static String get prodUrl => 'https://tennis.trackercracker.ru';
+  // TODO(daniil): change url
 
   /// Dev url.
-  static String get devUrl => 'https://localhost:9999/food/hs/ExchangeSotr';
+  static String get devUrl => 'https://tennis.trackercracker.ru';
 
   /// Base url.
   static String get baseUrl => Environment<AppConfig>.instance().config.url;

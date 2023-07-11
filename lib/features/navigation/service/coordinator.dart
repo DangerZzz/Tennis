@@ -8,7 +8,6 @@ class Coordinator extends ChangeNotifier {
   final _coordinates = <Coordinate, _Route>{};
 
   final _pages = [
-    /// Не менять, должно быть последним
     const MaterialPage<void>(
       key: ValueKey('/auth'),
       name: 'auth',

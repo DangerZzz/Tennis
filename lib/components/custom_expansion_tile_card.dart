@@ -3,7 +3,7 @@ library expansion_tile_card;
 import 'package:flutter/material.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 
-///
+///Кастомизированный [ExpansionTileCardCustom] для раскрывающейся информации
 class ExpansionTileCardCustom extends StatefulWidget {
   ///
   final bool isThreeLine;

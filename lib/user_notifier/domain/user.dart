@@ -1,8 +1,5 @@
 /// Сущность, описывающий основные бизнес поля пользователя
 class User {
-  /// id пользователя
-  final String id;
-
   /// Имя пользователя
   final String name;
 
@@ -17,7 +14,6 @@ class User {
 
   /// Конструктор [User]
   User({
-    required this.id,
     required this.name,
     required this.surname,
     required this.phone,
