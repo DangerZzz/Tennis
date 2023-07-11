@@ -9,4 +9,34 @@ part 'client.g.dart';
 abstract class AuthorizationPageClient {
   /// Фабрика возвращающая [AuthorizationPageClient]
   factory AuthorizationPageClient(Dio dio) = _AuthorizationPageClient;
+
+  /// Получение кода авторизации
+  @POST('/api/code')
+  Future<DTO> getCode(
+    @Body() Map<String, dynamic> body,
+  );
+
+  /// Отправка проверочного кода по СМС
+  @POST('/api/code/verify')
+  Future<DTO> sendCode(
+    @Body() Map<String, dynamic> body,
+  );
+
+  /// Отправка проверочного кода по СМС
+  @POST('/api/auth/signup')
+  Future<DTO> registration(
+    @Body() Map<String, dynamic> body,
+  );
+
+  /// Отправка проверочного кода по СМС
+  @POST('/api/auth/signin')
+  Future<DTO> signIn(
+    @Body() Map<String, dynamic> body,
+  );
+
+  /// Отправка проверочного кода по СМС
+  @POST('/api/auth/recovery')
+  Future<DTO> recovery(
+    @Body() Map<String, dynamic> body,
+  );
 }

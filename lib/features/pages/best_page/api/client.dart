@@ -11,6 +11,6 @@ abstract class BestPageClient {
   factory BestPageClient(Dio dio) = _BestPageClient;
 
   ///
-  @GET('/order/{cityCode}/deleteCart')
+  @GET('/api/gallery/list')
   Future<DTO> getBestListData();
 }

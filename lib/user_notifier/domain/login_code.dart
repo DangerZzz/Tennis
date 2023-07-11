@@ -11,11 +11,18 @@ class LoginCode {
   /// Валидный хэш кода для авторизации пользователя
   String? get codeHash => _codeHash;
 
-  ///
+  /// Валидный хэш номера для авторизации пользователя
+  String? get phoneHash => _phoneHash;
+
+  /// Номер телефона
+  String? get phone => _phone;
+
+  ///Валидный код
   String? get code => _currentCode;
 
   String? _codeHash;
-
+  String? _phoneHash;
+  String? _phone;
   String? _currentCode;
 
   /// Констурктор [LoginCode]
@@ -40,6 +47,39 @@ class LoginCode {
       key: 'TennisLoginCode',
       value: hash,
     );
+  }
+
+  /// Установка нового телефона
+  Future<void> updatePhone(String phone) async {
+    _phone = phone;
+    // ignore: do_not_use_environment
+    final key = utf8.encode(const String.fromEnvironment('secret_storage_key'));
+    final bytes = utf8.encode(phone);
+
+    final hmacSha256 = Hmac(sha256, key);
+    final digest = hmacSha256.convert(bytes);
+
+    final hash = digest.toString();
+
+    _phoneHash = hash;
+    await _secureStorage.write(
+      key: 'TennisPhone',
+      value: _phone,
+    );
+  }
+
+  /// Загрузка номера
+  Future<void> loadPhone() async {
+    try {
+      final prefs = await _secureStorage.read(
+        key: 'TennisPhone',
+      );
+      _phone = prefs;
+    } on FormatException catch (_) {
+      await _secureStorage.delete(
+        key: 'TennisPhone',
+      );
+    }
   }
 
   /// Обновление [codeHash] из SecureStorage

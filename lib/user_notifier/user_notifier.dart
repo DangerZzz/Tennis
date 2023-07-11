@@ -42,14 +42,6 @@ class UserNotifier extends ChangeNotifier implements IUserNotifier {
     _currentComplexity = complexity;
   }
 
-  // ///email пользователя
-  // @override
-  // String get email => _user?.email ?? '';
-
-  ///id пользователя
-  @override
-  String get id => _user?.id ?? '';
-
   ///имя пользователя
   @override
   String get name => _user?.name ?? '';
@@ -58,9 +50,11 @@ class UserNotifier extends ChangeNotifier implements IUserNotifier {
   @override
   String get surname => _user?.surname ?? '';
 
+  ///телефон пользователя
   @override
   String get phone => _user?.phone ?? '';
 
+  ///роль пользователя
   @override
   bool get isTrainer => _user?.isTrainer ?? false;
 
@@ -68,12 +62,15 @@ class UserNotifier extends ChangeNotifier implements IUserNotifier {
   @override
   bool get isLogin => _user != null;
 
+  ///флаг использования биометрии
   @override
   bool get canUseBiometric => _tokenStorage.canUseBiometric;
 
+  ///флаг использования фейс айди
   @override
   bool get canUseFaceID => _tokenStorage.faceAuth;
 
+  ///флаг использования отпечатка пальца
   @override
   bool get canUseFingerprint => _tokenStorage.fingerprintAuth;
 
@@ -85,10 +82,10 @@ class UserNotifier extends ChangeNotifier implements IUserNotifier {
   /// Вход по отпечатку
   late bool _biometricLogin;
 
-  ///
+  /// текущий уровень сложности
   late num _currentLevel = 1;
 
-  ///
+  /// текущий уровень игры
   late String _currentComplexity = '';
 
   /// Конструктор
@@ -106,7 +103,6 @@ class UserNotifier extends ChangeNotifier implements IUserNotifier {
   @override
   Future<void> updateUser(
     bool isTrainer,
-    String id,
     String name,
     String surname,
     String phone,
@@ -116,7 +112,6 @@ class UserNotifier extends ChangeNotifier implements IUserNotifier {
     //   () async => user = await _repository.getUserInfo(),
     // );
     _user = User(
-      id: id,
       phone: phone,
       name: name,
       isTrainer: isTrainer,
@@ -142,98 +137,44 @@ class UserNotifier extends ChangeNotifier implements IUserNotifier {
     notifyListeners();
   }
 
-  // @override
-  // Future<Map<String, dynamic>> updateDio({String? header}) async {
-  //   final accessToken = _tokenStorage.getAccessToken();
-  //   final refreshToken = _tokenStorage.getRefreshToken();
-  //   final bx = _tokenStorage.getBxToken();
-  //   final phpSid = _tokenStorage.getPHPSidToken();
-  //   if (accessToken == null ||
-  //       refreshToken == null ||
-  //       bx == null ||
-  //       phpSid == null) {
-  //     return <String, dynamic>{};
-  //   }
-  //   late final String prev;
-  //   if (header == null) {
-  //     prev = (_dio.options.headers['cookie'] != null)
-  //         ? _dio.options.headers['cookie'] as String
-  //         : '';
-  //   } else {
-  //     prev = header;
-  //   }
-  //   final headers = <String, dynamic>{
-  //     'cookie':
-  //         '$phpSid; access_token=$accessToken; refresh_token=$refreshToken',
-  //     'X-BX-Csrf-Token': bx,
-  //   };
-  //   _dio.options.headers.addAll(headers);
-  //   Downloader.instance.headers = headers;
-  //   WebSockets.init(_errorHandler, headers: headers);
-  //   return headers;
-  // }
-  //
-  // @override
-  // Future<void> setTokensFromHeaders() async {
-  //   await _tokenStorage
-  //       .setBxToken(_dio.options.headers['X-BX-Csrf-Token'] as String);
-  //   final cookie =
-  //       (_dio.options.headers['cookie'] as String).split(';').firstWhere(
-  //             (element) => element.contains('PHPSESSID'),
-  //           );
-  //   await _tokenStorage.setPHPSidToken(cookie);
-  // }
-  //
-  // @override
-  // Future<void> setTokens({
-  //   required String accessToken,
-  //   required String refreshToken,
-  //   bool? registrationComplete,
-  // }) async {
-  //   await _tokenStorage.setAccessToken(accessToken);
-  //   await _tokenStorage.setRefreshToken(refreshToken);
-  //   await _tokenStorage
-  //       .setBxToken(_dio.options.headers['X-BX-Csrf-Token'] as String);
-  //   final cookie = (_dio.options.headers['cookie'] as String).split(';')[0];
-  //   await _tokenStorage.setPHPSidToken(cookie);
-  //   _registrationComplete ??= registrationComplete;
-  // }
-  //
-  // @override
-  // Future<void> setTokensAndDio({
-  //   required String accessToken,
-  //   required String refreshToken,
-  //   bool? registrationComplete,
-  // }) async {
-  //   await _tokenStorage.setAccessToken(accessToken);
-  //   await _tokenStorage.setRefreshToken(refreshToken);
-  //   if (_dio.options.headers['X-BX-Csrf-Token'] != null) {
-  //     await _tokenStorage.setBxToken(
-  //       _dio.options.headers['X-BX-Csrf-Token'] as String,
-  //     );
-  //   }
-  //   final prev = (_dio.options.headers['cookie'] != null)
-  //       ? _dio.options.headers['cookie'] as String
-  //       : '';
-  //   await _tokenStorage.setPHPSidToken(prev);
-  //   final headers = <String, dynamic>{
-  //     'cookie': '$prev access_token=$accessToken; refresh_token=$refreshToken',
-  //   };
-  //   _dio.options.headers.addAll(headers);
-  //   Downloader.instance.headers = headers;
-  //   WebSockets.init(_errorHandler, headers: headers);
-  //   _registrationComplete ??= registrationComplete;
-  // }
-  //
-  // @override
-  // Future<void> saveTokens() async {
-  //   await _tokenStorage.saveTokens(_loginCode.code!);
-  // }
-  //
-  // @override
-  // Future<void> loadTokens() async {
-  //   await _tokenStorage.loadTokens(_loginCode.code!);
-  // }
+  ///Сохранение токенов
+  @override
+  Future<void> saveTokens(String code) async {
+    await _tokenStorage.saveTokens(code);
+  }
+
+  ///Загрузка токенов
+  @override
+  Future<void> loadTokens(String code) async {
+    await _tokenStorage.loadTokens(code);
+  }
+
+  ///Получение токенов
+  @override
+  Future<String> getTokens() async {
+    final token = '${_tokenStorage.getRefreshToken()?.split(';')[0]};'
+        '${_tokenStorage.getAccessToken()?.split(';')[0]};'
+        '${_tokenStorage.getCookieToken()?.split(';')[0]};';
+    return token;
+  }
+
+  @override
+  Future<void> setCookieToken() async {
+    final cookie = _dio.options.headers['cookie'] as String;
+    await _tokenStorage.setCookieToken(cookie);
+  }
+
+  @override
+  Future<void> setAccessToken(String access) async {
+    final newAccess = access.split(';')[0];
+    await _tokenStorage.setAccessToken(newAccess);
+  }
+
+  @override
+  Future<void> setRefreshToken(String refresh) async {
+    final newRefresh = refresh.split(';')[0];
+    await _tokenStorage.setRefreshToken(newRefresh);
+  }
 
   @override
   Future<void> updateBiometricStorage(bool init) async {
@@ -259,25 +200,6 @@ class UserNotifier extends ChangeNotifier implements IUserNotifier {
   Future<void> loadLoginSettings() async {
     final prefs = await SharedPreferences.getInstance();
     final biometricLoginPref = prefs.getBool('biometricLogin');
-    // final codeLoginPref = prefs.getInt('codeLoginState');
-    // final accountName = prefs.getString('accountName');
     _biometricLogin = biometricLoginPref ?? false;
-    // _codeLogin =
-    // (codeLoginPref == null) ? null : CodeState.values[codeLoginPref];
-    // _accountName = accountName;
   }
-
-//
-// void _clearDioTokens() {
-//   _dio.options.headers
-//     ..remove('cookie')
-//     ..remove('X-BX-Csrf-Token');
-// }
-//
-// Future<void> _getSessionTokens() async {
-//   final tokens = await _repository.getSession();
-//   _dio.options
-//     ..headers['cookie'] = tokens.sessionToken
-//     ..headers['X-BX-Csrf-Token'] = '${tokens.bxSessionToken};';
-// }
 }

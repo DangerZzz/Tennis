@@ -1,6 +1,6 @@
 import 'package:biometric_storage/biometric_storage.dart';
-import 'package:flutter/cupertino.dart';
-// import 'package:encrypt/encrypt.dart' as enc;
+import 'package:encrypt/encrypt.dart' as enc;
+import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:local_auth/local_auth.dart';
 
@@ -10,23 +10,28 @@ class TokenStorage {
 
   final _biometricStorage = BiometricStorage();
 
-  // /// access токен
-  // String? get accessToken => _accessToken;
+  /// access токен
+  String? get accessToken => _accessToken;
 
-  ///
+  /// refresh токен
+  String? get refreshToken => _refreshToken;
+
+  ///Флаг использования биометрии
   bool get canUseBiometric => _canUseBiometric;
 
-  ///
+  ///Флаг поддержки фингерпринта
   bool get fingerprintAuth => _fingerprintSupport;
 
-  ///
+  ///Флаг поддержки фейс-айди
   bool get faceAuth => _faceIdSupport;
 
   var _canUseBiometric = false;
   var _fingerprintSupport = false;
   var _faceIdSupport = false;
 
-  // String? _accessToken;
+  String? _cookieToken;
+  String? _refreshToken;
+  String? _accessToken;
 
   /// Конструктор [TokenStorage] проверяет доступность биометрии
   TokenStorage() {
@@ -46,60 +51,151 @@ class TokenStorage {
     });
   }
 
-  // /// Возвращает токен cookie из хранилища
-  // String? getAccessToken() {
-  //   return _accessToken;
-  // }
-
-  // /// Установка session токена
-  // Future<void> setAccessToken(String token) async {
-  //   _accessToken = token;
-  // }
-
-  /// Установка токена cookie
-  Future<void> clearTokens() async {
-    await const FlutterSecureStorage().deleteAll();
-    // _accessToken = null;
+  /// Установка cookie токена
+  Future<void> setCookieToken(
+    String cookie,
+  ) async {
+    _cookieToken = cookie;
   }
 
-  // /// Сохраняет токены на устростве
-  // Future<void> saveTokens(String code) async {
-  //   // ignore: do_not_use_environment
-  //   const eKey = String.fromEnvironment('secret_tokens_key');
-  //   assert(eKey.length == 32);
-  //
-  //   final key = enc.Key.fromUtf8(eKey);
-  //   final iv = enc.IV.fromUtf8(code);
-  //
-  //   final encrypter = enc.Encrypter(enc.AES(key));
-  //
-  //   final encryptedAccessToken = encrypter.encrypt(_accessToken!, iv: iv);
-  //
-  //   await _secureStorage.write(
-  //     key: 'TennisAccessToken',
-  //     value: encryptedAccessToken.base64,
-  //   );
-  //
-  // }
+  /// Установка refresh токена
+  Future<void> setRefreshToken(
+    String refreshToken,
+  ) async {
+    _refreshToken = refreshToken;
+  }
 
-  // /// Загруает токены с устроства
-  // Future<void> loadTokens(String code) async {
-  //   // ignore: do_not_use_environment
-  //   const eKey = String.fromEnvironment('secret_tokens_key');
-  //   assert(eKey.length == 32);
-  //
-  //   final key = enc.Key.fromUtf8(eKey);
-  //   final iv = enc.IV.fromUtf8(code);
-  //
-  //   final encrypter = enc.Encrypter(enc.AES(key));
-  //
-  //   final encryptedAccessToken = await _secureStorage.read(
-  //     key: 'TennisAccessToken',
-  //   );
-  //   _accessToken = encrypter.decrypt64(encryptedAccessToken!, iv: iv);
-  // }
+  /// Установка access токена
+  Future<void> setAccessToken(
+    String accessToken,
+  ) async {
+    _accessToken = accessToken;
+  }
 
-  /// сохранение кода в биометрическое харнилище
+  /// Возвращает cookie токен из хранилища
+  String? getCookieToken() {
+    return _cookieToken;
+  }
+
+  /// Возвращает токен рефреш из хранилища
+  String? getRefreshToken() {
+    return _refreshToken;
+  }
+
+  /// Возвращает токен аксес из хранилища
+  String? getAccessToken() {
+    return _accessToken;
+  }
+
+  /// Удаление токенов
+  Future<void> clearTokens() async {
+    await const FlutterSecureStorage().deleteAll();
+    _accessToken = null;
+    _cookieToken = null;
+    _refreshToken = null;
+  }
+
+  /// Сохраняет токены на устростве
+  Future<void> saveTokens(String code) async {
+    // // ignore: do_not_use_environment
+    // const eKey = String.fromEnvironment(
+    //   'tennis_secret_tokens_key',
+    //   defaultValue: 'tennis_secret_tokens_key',
+    // );
+    // debugPrint(eKey);
+    // assert(eKey.length == 32);
+
+    final x = Uint8List.fromList([
+      -107,
+      -23,
+      -101,
+      71,
+      19,
+      -45,
+      -126,
+      -59,
+      -40,
+      38,
+      -45,
+      -85,
+      -92,
+      17,
+      -72,
+      -81
+    ]);
+
+    final key = enc.Key(x);
+    final iv = enc.IV.fromUtf8(code);
+
+    final encrypter = enc.Encrypter(enc.AES(key));
+
+    final encryptedAccessToken = encrypter.encrypt(_accessToken!, iv: iv);
+    final encryptedRefreshToken = encrypter.encrypt(_refreshToken!, iv: iv);
+    final encryptedCookieToken = encrypter.encrypt(_cookieToken!, iv: iv);
+
+    await _secureStorage.write(
+      key: 'TennisAppAccessToken',
+      value: encryptedAccessToken.base64,
+    );
+
+    await _secureStorage.write(
+      key: 'TennisAppRefreshToken',
+      value: encryptedRefreshToken.base64,
+    );
+
+    await _secureStorage.write(
+      key: 'TennisAppCookieToken',
+      value: encryptedCookieToken.base64,
+    );
+  }
+
+  /// Загружает токены с устроства
+  Future<void> loadTokens(String code) async {
+    // // ignore: do_not_use_environment
+    // const eKey = String.fromEnvironment('secret_tokens_key');
+    // assert(eKey.length == 32);
+    //
+    // final key = enc.Key.fromUtf8(eKey);
+    final x = Uint8List.fromList([
+      -107,
+      -23,
+      -101,
+      71,
+      19,
+      -45,
+      -126,
+      -59,
+      -40,
+      38,
+      -45,
+      -85,
+      -92,
+      17,
+      -72,
+      -81
+    ]);
+
+    final key = enc.Key(x);
+    final iv = enc.IV.fromUtf8(code);
+
+    final encrypter = enc.Encrypter(enc.AES(key));
+
+    final encryptedAccessToken = await _secureStorage.read(
+      key: 'TennisAppAccessToken',
+    );
+    final encryptedRefreshToken = await _secureStorage.read(
+      key: 'TennisAppRefreshToken',
+    );
+    final encryptedCookieToken = await _secureStorage.read(
+      key: 'TennisAppCookieToken',
+    );
+
+    _accessToken = encrypter.decrypt64(encryptedAccessToken!, iv: iv);
+    _refreshToken = encrypter.decrypt64(encryptedRefreshToken!, iv: iv);
+    _cookieToken = encrypter.decrypt64(encryptedCookieToken!, iv: iv);
+  }
+
+  /// Сохранение кода в биометрическое харнилище
   Future<void> saveCodeBiometrics(String code) async {
     final storage = await _biometricStorage.getStorage(
       'TennisLoginCode',

@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:soft_weather_tennis/app/di/app_scope.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
+import 'package:soft_weather_tennis/components/snack_bar.dart';
 import 'package:soft_weather_tennis/features/navigation/domain/entity/app_coordinate.dart';
 import 'package:soft_weather_tennis/features/navigation/service/coordinator.dart';
 import 'package:soft_weather_tennis/features/pages/authorization_page/authorization_page_model.dart';
@@ -218,6 +219,8 @@ class AuthorizationPageWidgetModel
   late EntityStateNotifier<bool> _equalsPin;
   late EntityStateNotifier<bool> _acceptBiometrics;
 
+  bool _isRestorePass = false;
+
   /// Конструктор
   AuthorizationPageWidgetModel(
     AuthorizationPageModel model, {
@@ -259,77 +262,6 @@ class AuthorizationPageWidgetModel
   @override
   Future<void> handlerField(String p) async {
     _codeButtonAvailability.content(true);
-    // try {
-    //   _sending.content(true);
-    //   final enterCodeResponse = await model.validCode(
-    //     code: p,
-    //     target: _argumentHandler.getArgument(),
-    //     isPhone: _argumentHandler.isPhone,
-    //   );
-    //   final tokens = enterCodeResponse.mapTokens;
-    //   if (_userNotifier.loginSettings.codeLogin == null) {
-    //     await _userNotifier.setTokens(
-    //       accessToken: tokens['access_token']!,
-    //       refreshToken: tokens['refresh_token']!,
-    //       registrationComplete: enterCodeResponse.registrationComplete,
-    //     );
-    //     if (!isMounted) return;
-    //
-    //     //ignore: use_build_context_synchronously
-    //     coordinator
-    //       ..popUntilRoot()
-    //     //ignore: use_build_context_synchronously
-    //       ..navigate(
-    //         context,
-    //         AppCoordinate.authorizationActivationCode,
-    //       );
-    //   } else {
-    //     await _userNotifier.setTokensAndDio(
-    //       accessToken: tokens['access_token']!,
-    //       refreshToken: tokens['refresh_token']!,
-    //       registrationComplete: enterCodeResponse.registrationComplete,
-    //     );
-    //     await _userNotifier.updateUser();
-    //
-    //     ///Проверка на права пользователя
-    //     if (!_userNotifier.ruleAccept) {
-    //       //ignore: use_build_context_synchronously
-    //       coordinator.navigate(
-    //         context,
-    //         AppCoordinate.noAuctionRoleSelectedScreen,
-    //         replaceCurrentCoordinate: true,
-    //       );
-    //       return;
-    //     }
-    //
-    //     ///Проверка на завершенность регистрации
-    //     if (!_userNotifier.registrationComplete) {
-    //       //ignore: use_build_context_synchronously
-    //       coordinator.navigate(
-    //         context,
-    //         AppCoordinate.incompleteRegistrationScreen,
-    //         replaceCurrentCoordinate: true,
-    //       );
-    //       return;
-    //     }
-    //     coordinator.popUntilRoot();
-    //   }
-    // } on FormatException catch (e) {
-    //   flushbar.show(
-    //     context,
-    //     msgText:
-    //     e.message.isNotEmpty ? e.message : appLocalization.httpErrors(''),
-    //   );
-    //   try {
-    //     await _userNotifier.removeUser();
-    //   } on FormatException catch (_) {
-    //     // возврат на страницу ввода телефона / email
-    //     coordinator.pop(); //todo: сделать редирект с ошибкой
-    //     return;
-    //   }
-    //   _sending.content(false);
-    //   return;
-    // }
   }
 
   @override
@@ -367,18 +299,45 @@ class AuthorizationPageWidgetModel
   @override
   Future<void> getCode(String code) async {
     _codeIsSend.loading();
-    await Future<void>.delayed(const Duration(seconds: 2));
-    _codeIsSend.content(true);
+    await _userNotifier.loginCode.loadPhone();
+    final isNewPhone = _userNotifier.loginCode.phone ?? '';
+    if (isNewPhone.replaceAll(' ', '') ==
+            _phoneController.text.replaceAll(' ', '') &&
+        (_userNotifier.loginCode.code?.isNotEmpty ?? false)) {
+      _isRestorePass = true;
+    } else {
+      _isRestorePass = false;
+    }
+    try {
+      await model.getCode(
+        phone: _phoneController.text.replaceAll(' ', ''),
+        type: _isRestorePass ? 'RECOVERY' : 'SIGNUP',
+      );
+
+      _codeIsSend.content(true);
+    } on FormatException catch (e) {
+      debugPrint('$e');
+      //ignore:use_build_context_synchronously
+      ShowSnackBar().showError(context);
+      _codeIsSend.content(false);
+    }
   }
 
   @override
   Future<void> sendCode(String code) async {
     FocusScope.of(context).unfocus();
     _codeButtonAvailability.loading();
-    await Future<void>.delayed(const Duration(seconds: 2));
-    _codeButtonAvailability.content(true);
-    //api
-    _index.content(1);
+    try {
+      await model.sendCode(
+        code: _codeTextFieldTool.textEditingController.text,
+      );
+      _codeButtonAvailability.content(true);
+      _index.content(1);
+    } on FormatException catch (e) {
+      debugPrint('$e');
+      ShowSnackBar().showError(context);
+      _codeButtonAvailability.content(false);
+    }
   }
 
   @override
@@ -393,6 +352,9 @@ class AuthorizationPageWidgetModel
     if (_userNotifier.loginCode.codeHash == null) {
       await _userNotifier.loginCode.updateCode(code);
       debugPrint('Код сохранен');
+
+      await _userNotifier.loginCode.updatePhone(_phoneController.text);
+      debugPrint('Телефон сохранен');
 
       //ignore: use_build_context_synchronously
       await showDialog<void>(
@@ -439,7 +401,6 @@ class AuthorizationPageWidgetModel
       await _userNotifier.updateUser(
         false,
         '',
-        '1',
         '',
         '',
       );
@@ -453,18 +414,50 @@ class AuthorizationPageWidgetModel
         }
       }
 
-      _index.content(2);
+      if (_isRestorePass) {
+        try {
+          await model.recovery(
+            password: _pinController.text,
+          );
+          await _userNotifier.saveTokens(_pinController.text);
+          await _userNotifier.loginCode.loadPhone();
+
+          await model.signIn(
+            phone: '${_userNotifier.loginCode.phone}'.replaceAll(' ', ''),
+            password: _pinController.text,
+          );
+          toMain();
+        } on FormatException catch (e) {
+          debugPrint('$e');
+          //ignore:use_build_context_synchronously
+          ShowSnackBar().showError(context);
+        }
+      } else {
+        _index.content(2);
+      }
       return;
     }
 
     ///сравнение кодов
     if (_userNotifier.loginCode.compare(code)) {
-      debugPrint('Код верный');
-
-      toMain();
+      try {
+        await _userNotifier.loadTokens(code);
+        await _userNotifier.loginCode.loadPhone();
+        debugPrint(
+          'Телефон ${_userNotifier.loginCode.phone}'.replaceAll(' ', ''),
+        );
+        await model.signIn(
+          phone: '${_userNotifier.loginCode.phone}'.replaceAll(' ', ''),
+          password: code,
+        );
+        toMain();
+      } on FormatException catch (e) {
+        debugPrint('$e');
+        //ignore:use_build_context_synchronously
+        ShowSnackBar().showError(context);
+      }
     } else {
       debugPrint('Код неверный');
-
       _equalsPin.content(true);
     }
   }
@@ -488,7 +481,6 @@ class AuthorizationPageWidgetModel
       false,
       '',
       '1',
-      '',
       '',
     ); // TODO(daniil): исправить
     if (_userNotifier.name.isNotEmpty) {
@@ -519,22 +511,37 @@ class AuthorizationPageWidgetModel
   Future<void> completeRegistration(bool isTrainer) async {
     if ((ModalRoute.of(context)?.settings.arguments ?? '') as String !=
         'rolePage') {
-      await Future<void>.delayed(const Duration(seconds: 2));
-      await _userNotifier.updateUser(
-        isTrainer,
-        '001',
-        _nameController.text,
-        _surnameController.text,
-        _phoneController.text,
-      ); // TODO(daniil): исправить
+      try {
+        await model.registration(
+          name: _nameController.text,
+          surname: _surnameController.text,
+          code: _pinController.text,
+          isTrainer: isTrainer,
+        );
+        await _userNotifier.saveTokens(_pinController.text);
+        await _userNotifier.loginCode.loadPhone();
 
-      toMain();
+        await model.signIn(
+          phone: '${_userNotifier.loginCode.phone}'.replaceAll(' ', ''),
+          password: _pinController.text,
+        );
+        await _userNotifier.updateUser(
+          isTrainer,
+          _nameController.text,
+          _surnameController.text,
+          _phoneController.text,
+        ); // TODO(daniil): исправить
+        toMain();
+      } on FormatException catch (e) {
+        debugPrint('$e');
+        ShowSnackBar().showError(context);
+        _codeButtonAvailability.content(false);
+      }
     } else {
       await Future<void>.delayed(const Duration(seconds: 2));
 
       await _userNotifier.updateUser(
         isTrainer,
-        _userNotifier.id,
         _userNotifier.name,
         _userNotifier.surname,
         _userNotifier.phone,
@@ -546,6 +553,7 @@ class AuthorizationPageWidgetModel
   @override
   void toRestorePass() {
     FocusScope.of(context).unfocus();
+    _isRestorePass = true;
     _userNotifier.removeUser();
     _biometricEnterFlag.content(false);
     _firstEnter.content(true);

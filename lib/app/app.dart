@@ -24,7 +24,6 @@ import 'package:soft_weather_tennis/features/pages/settings_page/pages/character
 import 'package:soft_weather_tennis/features/pages/settings_page/pages/name_edit_page/di/name_edit_page_scope.dart';
 import 'package:soft_weather_tennis/features/pages/useful_page/di/useful_scope.dart';
 import 'package:soft_weather_tennis/features/pages/useful_page/pages/useful_full_info_page/di/useful_scope.dart';
-import 'package:soft_weather_tennis/features/temp/di/temp_scope.dart';
 import 'package:soft_weather_tennis/generated/l10n.dart';
 
 /// App widget.
@@ -68,14 +67,6 @@ class _AppState extends State<App> {
           MultiDiScopeItem<IMainPageScope>(
             factory: () {
               return MainPageScope(
-                errorHandler: _scope.errorHandler,
-              );
-            },
-          ),
-          MultiDiScopeItem<ITempScreenScope>(
-            factory: () {
-              return TempScreenScope(
-                dio: _scope.dio,
                 errorHandler: _scope.errorHandler,
               );
             },

@@ -1,12 +1,16 @@
+import 'dart:io';
+
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:soft_weather_tennis/app/tools/dio_tools.dart';
 import 'package:soft_weather_tennis/config/app_config.dart';
 import 'package:soft_weather_tennis/config/environment/environment.dart';
 import 'package:soft_weather_tennis/features/navigation/service/coordinator.dart';
 import 'package:soft_weather_tennis/user_notifier/api/client.dart';
 import 'package:soft_weather_tennis/user_notifier/domain/login_code.dart';
+import 'package:soft_weather_tennis/user_notifier/domain/token_storage.dart';
 import 'package:soft_weather_tennis/user_notifier/repository/mock/mock_user_repository.dart';
 import 'package:soft_weather_tennis/user_notifier/repository/user_repository.dart';
 import 'package:soft_weather_tennis/user_notifier/user_notifier.dart';
@@ -27,6 +31,7 @@ class AppScope implements IAppScope {
   late final VoidCallback _applicationRebuilder;
   late final Coordinator _coordinator;
   late final UserNotifier _userNotifier;
+  late final TokenStorage _tokenStorage;
   late final UserRepository _userRepository;
 
   // late final WebSockets _webSockets;
@@ -53,209 +58,120 @@ class AppScope implements IAppScope {
   @override
   UserNotifier get userNotifier => _userNotifier;
 
+  @override
+  TokenStorage get tokenStorage => _tokenStorage;
+
   /// Create an instance [AppScope].
   AppScope({
     required VoidCallback applicationRebuilder,
   }) : _applicationRebuilder = applicationRebuilder {
     /// List interceptor. Fill in as needed.
-
-    // final additionalInterceptors = <Interceptor>[
-    //   CustomInterceptorsWrapper(
-    //     delta: 5,
-    //     onError: (e, handler) async {
-    //       if (e.error is SocketException &&
-    //           (e.error as SocketException).osError?.errorCode != null) {
-    //         final opts = Options(
-    //           method: e.requestOptions.method,
-    //           headers: e.requestOptions.headers,
-    //         );
-    //         try {
-    //           final cloneReq = await dio.request<Map<String, dynamic>>(
-    //             e.requestOptions.path,
-    //             options: opts,
-    //             data: e.requestOptions.data,
-    //             queryParameters: e.requestOptions.queryParameters,
-    //           );
-    //           return handler.resolve(cloneReq);
-    //         } on Exception catch (_) {
-    //           handler.reject(e);
-    //           rethrow;
-    //         }
-    //       }
-    //       handler.next(e);
-    //     },
-    //   ),
-    //
-    //   // Интерсептор для проверкаи наличия токенов
-    //   // QueuedInterceptorsWrapper(
-    //   //   onRequest: (response, handler) async {
-    //   //     if (response.headers['cookie'] == null) {
-    //   //       _dio.options.headers['cookie'] = '';
-    //   //       try {
-    //   //         final dioToken = Dio()..options = _dio.options;
-    //   //         final userRepository = Environment<AppConfig>.instance().useMock
-    //   //             ? MockUserRepository()
-    //   //             : UserRepository(UserClient(dioToken));
-    //   //         final res = await userRepository.getSession();
-    //   //         _dio.options
-    //   //           ..headers['X-BX-Csrf-Token'] = res.bxSessionToken
-    //   //           ..headers['cookie'] = '${res.sessionToken};';
-    //   //         Downloader.instance.headers = _dio.options.headers;
-    //   //         handler.next(response);
-    //   //       } on DioError catch (e) {
-    //   //         handler.reject(e, true);
-    //   //       }
-    //   //     } else {
-    //   //       return handler.next(response);
-    //   //     }
-    //   //   },
-    //   // ),
-    //
-    //   InterceptorsWrapper(
-    //     onResponse: (response, handler) async {
-    //       if (response.headers['set-cookie'] != null) {
-    //         final cookie = response.headers['set-cookie']![0];
-    //         if (cookie.contains('PHPSESSID=')) {
-    //           final newToken = cookie.split('PHPSESSID=')[1].split(';')[0];
-    //           final headers = (response.requestOptions.headers['Cookie']
-    //                   as String)
-    //               .split(';')
-    //             ..removeAt(0);
-    //           response.requestOptions.headers['Cookie'] =
-    //               'PHPSESSID=$newToken; ${headers.join(';')}';
-    //           _dio.options.headers['Cookie'] =
-    //               'PHPSESSID=$newToken; ${headers.join(';')}';
-    //           Downloader.instance.headers = _dio.options.headers;
-    //           final opts = Options(
-    //             method: response.requestOptions.method,
-    //             headers: response.requestOptions.headers,
-    //           );
-    //           await _userNotifier.setTokensFromHeaders();
-    //           try {
-    //             final cloneReq = await dio.request<Map<String, dynamic>>(
-    //               response.requestOptions.path,
-    //               options: opts,
-    //               data: response.requestOptions.data,
-    //               queryParameters: response.requestOptions.queryParameters,
-    //             );
-    //             return handler.resolve(cloneReq);
-    //           } on Exception catch (_) {
-    //             handler
-    //                 .reject(DioError(requestOptions: response.requestOptions));
-    //             // await tokenStorage.clearTokens();
-    //             rethrow;
-    //           }
-    //         }
-    //         if (cookie.contains('access_token')) {
-    //           final accessToken =
-    //               cookie.split('access_token=')[1].split(';')[0];
-    //           final refreshToken =
-    //               cookie.split('refresh_token=')[1].split(';')[0];
-    //           await _userNotifier.setTokensAndDio(
-    //             accessToken: accessToken,
-    //             refreshToken: refreshToken,
-    //           );
-    //           final opts = Options(
-    //             method: response.requestOptions.method,
-    //             headers: response.requestOptions.headers,
-    //           );
-    //           await _userNotifier.setTokensFromHeaders();
-    //           try {
-    //             final cloneReq = await dio.request<Map<String, dynamic>>(
-    //               response.requestOptions.path,
-    //               options: opts,
-    //               data: response.requestOptions.data,
-    //               queryParameters: response.requestOptions.queryParameters,
-    //             );
-    //             return handler.resolve(cloneReq);
-    //           } on Exception catch (_) {
-    //             handler
-    //                 .reject(DioError(requestOptions: response.requestOptions));
-    //             // await tokenStorage.clearTokens();
-    //             rethrow;
-    //           }
-    //         }
-    //       }
-    //       handler.next(response);
-    //     },
-    //     onError: (e, handler) async {
-    //       if (e.response!.headers['set-cookie'] != null) {
-    //         final cookie = e.response!.headers['set-cookie']![0];
-    //         if (cookie.contains('PHPSESSID=')) {
-    //           final newToken = cookie.split('PHPSESSID=')[1].split(';')[0];
-    //           final headers = (e.response!.requestOptions.headers['Cookie']
-    //                   as String)
-    //               .split(';')
-    //             ..removeAt(0);
-    //           e.response!.requestOptions.headers['Cookie'] =
-    //               'PHPSESSID=$newToken; ${headers.join(';')}';
-    //           _dio.options.headers['Cookie'] =
-    //               'PHPSESSID=$newToken; ${headers.join(';')}';
-    //           Downloader.instance.headers = _dio.options.headers;
-    //           final opts = Options(
-    //             method: e.response!.requestOptions.method,
-    //             headers: e.response!.requestOptions.headers,
-    //           );
-    //           await _userNotifier.setTokensFromHeaders();
-    //           try {
-    //             final cloneReq = await dio.request<Map<String, dynamic>>(
-    //               e.response!.requestOptions.path,
-    //               options: opts,
-    //               data: e.response!.requestOptions.data,
-    //               queryParameters: e.response!.requestOptions.queryParameters,
-    //             );
-    //             return handler.resolve(cloneReq);
-    //           } on Exception catch (e) {
-    //             if (e is DioError) {
-    //               handler.reject(e);
-    //             }
-    //             // await tokenStorage.clearTokens();
-    //             rethrow;
-    //           }
-    //         }
-    //         if (cookie.contains('access_token')) {
-    //           final accessToken =
-    //               cookie.split('access_token=')[1].split(';')[0];
-    //           final refreshToken =
-    //               cookie.split('refresh_token=')[1].split(';')[0];
-    //           await _userNotifier.setTokensAndDio(
-    //             accessToken: accessToken,
-    //             refreshToken: refreshToken,
-    //           );
-    //           final opts = Options(
-    //             method: e.response!.requestOptions.method,
-    //             headers: e.response!.requestOptions.headers,
-    //           );
-    //           await _userNotifier.setTokensFromHeaders();
-    //           try {
-    //             final cloneReq = await dio.request<Map<String, dynamic>>(
-    //               e.response!.requestOptions.path,
-    //               options: opts,
-    //               data: e.response!.requestOptions.data,
-    //               queryParameters: e.response!.requestOptions.queryParameters,
-    //             );
-    //             return handler.resolve(cloneReq);
-    //           } on Exception catch (e) {
-    //             if (e is DioError) {
-    //               handler.reject(e);
-    //             }
-    //             // await tokenStorage.clearTokens();
-    //             rethrow;
-    //           }
-    //         }
-    //       }
-    //       handler.next(e);
-    //     },
-    //   ),
-    //   DioFirebasePerformanceInterceptor(),
-    // ];
+    final additionalInterceptors = <Interceptor>[
+      CustomInterceptorsWrapper(
+        delta: 5,
+        onError: (e, handler) async {
+          if (e.error is SocketException &&
+              (e.error as SocketException).osError?.errorCode != null) {
+            final opts = Options(
+              method: e.requestOptions.method,
+              headers: e.requestOptions.headers,
+            );
+            try {
+              final cloneReq = await dio.request<Map<String, dynamic>>(
+                e.requestOptions.path,
+                options: opts,
+                data: e.requestOptions.data,
+                queryParameters: e.requestOptions.queryParameters,
+              );
+              return handler.resolve(cloneReq);
+            } on Exception catch (_) {
+              handler.reject(e);
+              rethrow;
+            }
+          }
+          handler.next(e);
+        },
+      ),
+      QueuedInterceptorsWrapper(
+        onRequest: (response, handler) async {
+          if (response.headers['cookie'] == null) {
+            _dio.options.headers['cookie'] = '';
+            try {
+              _dio.options.headers['cookie'] = await _userNotifier.getTokens();
+              handler.next(response);
+            } on DioError catch (e) {
+              handler.reject(e, true);
+            }
+          } else {
+            return handler.next(response);
+          }
+        },
+      ),
+      InterceptorsWrapper(
+        onResponse: (response, handler) async {
+          if (response.headers['set-cookie'] != null) {
+            String cookie;
+            for (final element in response.headers['set-cookie']!) {
+              cookie = element;
+              if (cookie.contains('code=')) {
+                final newToken = cookie;
+                response.requestOptions.headers['Cookie'] = '$newToken;';
+                _dio.options.headers['Cookie'] = '$newToken;';
+                await _userNotifier.setCookieToken();
+              }
+              if (cookie.contains('refresh=')) {
+                final refreshToken = cookie;
+                await _userNotifier.setRefreshToken(refreshToken);
+              }
+              if (cookie.contains('token=')) {
+                final accessToken = cookie;
+                await _userNotifier.setAccessToken(accessToken);
+              }
+            }
+            _dio.options.headers['cookie'] = await _userNotifier.getTokens();
+          }
+          handler.next(response);
+        },
+        onError: (e, handler) async {
+          if (e.response!.headers['set-cookie'] != null) {
+            final cookie = e.response!.headers['set-cookie']![0];
+            if (cookie.contains('set-cookie=')) {
+              final newToken = cookie.split('set-cookie=')[1].split(';')[0];
+              e.response!.requestOptions.headers['Cookie'] = 'code=$newToken;';
+              _dio.options.headers['Cookie'] = 'code=$newToken;';
+              final opts = Options(
+                method: e.response!.requestOptions.method,
+                headers: e.response!.requestOptions.headers,
+              );
+              // await _userNotifier.setTokensFromHeaders();
+              try {
+                final cloneReq = await dio.request<Map<String, dynamic>>(
+                  e.response!.requestOptions.path,
+                  options: opts,
+                  data: e.response!.requestOptions.data,
+                  queryParameters: e.response!.requestOptions.queryParameters,
+                );
+                return handler.resolve(cloneReq);
+              } on Exception catch (e) {
+                if (e is DioError) {
+                  handler.reject(e);
+                }
+                // await tokenStorage.clearTokens();
+                rethrow;
+              }
+            }
+          }
+          handler.next(e);
+        },
+      ),
+    ];
 
     _appVersion = headerVersionApp.appVersion!;
     _buildVersion = headerVersionApp.buildNumber!;
     _platform = headerVersionApp.platform!;
     _apiVersion = headerVersionApp.apiVersion!;
     _headersVersion = _initHeaders();
-    _dio = _initDio(); //additionalInterceptors);
+    _dio = _initDio(additionalInterceptors);
     _errorHandler = DefaultErrorHandler();
     _loginCode = LoginCode();
     // _webSockets = WebSockets.init(_errorHandler, headers: headersVersion);
@@ -277,8 +193,7 @@ class AppScope implements IAppScope {
     return headers;
   }
 
-  Dio _initDio() {
-    //Iterable<Interceptor> additionalInterceptors) {
+  Dio _initDio(Iterable<Interceptor> additionalInterceptors) {
     const timeout = Duration(seconds: 10);
 
     final dio = Dio();
@@ -291,11 +206,11 @@ class AppScope implements IAppScope {
       ..headers['content-Type'] = 'application/json'
       ..headers.addAll(headersVersion);
 
-    if (Environment<AppConfig>.instance().useMock) {
-      dio.options
-        ..headers['X-BX-Csrf-Token'] = 'csrftoken'
-        ..headers['cookie'] = 'sdgsd;';
-    }
+    // if (Environment<AppConfig>.instance().useMock) {
+    //   dio.options
+    //     ..headers['X-BX-Csrf-Token'] = 'csrftoken'
+    //     ..headers['cookie'] = 'sdgsd;';
+    // }
 
     (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
         (client) {
@@ -313,7 +228,7 @@ class AppScope implements IAppScope {
       return client;
     };
 
-    // dio.interceptors.addAll(additionalInterceptors);
+    dio.interceptors.addAll(additionalInterceptors);
 
     if (Environment<AppConfig>.instance().isDebug) {
       dio.interceptors.add(
@@ -325,6 +240,7 @@ class AppScope implements IAppScope {
   }
 
   Future<void> _initSession() async {
+    _tokenStorage = TokenStorage();
     _userNotifier = UserNotifier(dio: _dio, errorHandler: _errorHandler);
     _userRepository = Environment<AppConfig>.instance().useMock
         ? MockUserRepository()
@@ -351,4 +267,7 @@ abstract class IAppScope {
 
   /// Сущность-обертка над пользователем и всеми его сервисами
   UserNotifier get userNotifier;
+
+  /// Сущность-обертка над пользователем и всеми его сервисами
+  TokenStorage get tokenStorage;
 }

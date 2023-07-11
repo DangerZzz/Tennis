@@ -17,7 +17,7 @@ class HeaderVersionApp {
 
   Future<void> initPackageInfo() async {
     final info = await PackageInfo.fromPlatform();
-    _apiVersion = '1.6.0';
+    _apiVersion = '1.0.0';
     _appVersion = info.version;
     _buildNumber = info.buildNumber;
     _platform = Platform.isAndroid ? 'android' : 'ios';

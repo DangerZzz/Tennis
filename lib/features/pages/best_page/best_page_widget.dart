@@ -45,15 +45,14 @@ class BestPageWidget extends ElementaryWidget<IBestPageWidgetModel> {
             ),
           ),
         ),
-        body: EntityStateNotifierBuilder<BestDataList>(
+        body: EntityStateNotifierBuilder<List<BestData>>(
           listenableEntityState: wm.bestDataList,
           loadingBuilder: (_, __) =>
               const Center(child: AdaptiveActivityIndicator()),
           errorBuilder: (_, __, ___) => ErrorStateWidget(
-            refresh: wm.onRefreshToEmpty,
+            refresh: wm.onRefresh,
           ),
-          builder: (_, bestDataList) => (bestDataList?.bestData.isNotEmpty ??
-                  false)
+          builder: (_, bestDataList) => (bestDataList?.isNotEmpty ?? false)
               ? AdaptiveRefreshCustomScrollView(
                   onRefresh: () => wm.onRefresh(),
                   slivers: [
@@ -75,10 +74,8 @@ class BestPageWidget extends ElementaryWidget<IBestPageWidgetModel> {
                                   const SizedBox(
                                     height: 32,
                                   ),
-                                  if (bestDataList?.bestData.isNotEmpty ??
-                                      false)
-                                    for (var bestData
-                                        in bestDataList!.bestData) ...[
+                                  if (bestDataList?.isNotEmpty ?? false)
+                                    for (var bestData in bestDataList!) ...[
                                       const SizedBox(
                                         height: 16,
                                       ),

@@ -1,10 +1,7 @@
 /// Интерфейс пользователя
 abstract class IUserNotifier {
-  ///id пользователя
-  String get id;
-
-  // ///email пользователя
-  // String get email;
+  // ///id пользователя
+  // String get id;
 
   ///имя пользователя
   String get name;
@@ -33,7 +30,6 @@ abstract class IUserNotifier {
   /// Подзрузка данных пользователя + обновление
   Future<void> updateUser(
     bool isTrainer,
-    String id,
     String name,
     String surname,
     String phone,
@@ -45,26 +41,23 @@ abstract class IUserNotifier {
   // /// Метод, проставляющий токены авторизации из хранилища в dio
   // Future<void> updateDio();
 
-  // /// Установка токена в хранилище
-  // Future<void> setTokens({
-  //   required String accessToken,
-  //   required String refreshToken,
-  // });
-  //
-  // ///
-  // Future<void> setTokensFromHeaders();
-  //
-  // /// Установка токена в хранилище и в хэдеры dio
-  // Future<void> setTokensAndDio({
-  //   required String accessToken,
-  //   required String refreshToken,
-  // });
-  //
-  // /// Сохранение токенов на устройство
-  // Future<void> saveTokens();
-  //
-  // /// восстановление токенов
-  // Future<void> loadTokens();
+  ///Сохранение всех токенов в хранилище
+  Future<void> saveTokens(String code);
+
+  ///Загрузка всех токенов
+  Future<void> loadTokens(String code);
+
+  ///Установка куки токена
+  Future<void> setCookieToken();
+
+  ///Установка аксес токена
+  Future<void> setAccessToken(String access);
+
+  ///Установка рефреш токена
+  Future<void> setRefreshToken(String refresh);
+
+  ///Функция получения токенов для записи их в куки
+  Future<String> getTokens();
 
   /// Сохранение кода в биометрическое хранилище
   Future<void> updateBiometricStorage(bool init);
