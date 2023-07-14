@@ -22,23 +22,6 @@ class BestPageRepository {
             ));
           }
           return items;
-          // items
-          //     .map((e) => bestDataMapper(BestDataDto.fromJson(e)))
-          //     .toList();
-          // final data =
-          //     BestDataListDtO.fromJson(dto.data as Map<String, dynamic>);
-          // return BestDataList(
-          //   bestData: [
-          //     BestData(
-          //       imageUrl: data.bestData.user.avatar.src,
-          //       age: '1',
-          //       name: data.bestData.user.name,
-          //       rank: 'rank',
-          //       description: data.bestData.description,
-          //       topCount: 1,
-          //     ),
-          //   ],
-          // );
         },
       );
 }

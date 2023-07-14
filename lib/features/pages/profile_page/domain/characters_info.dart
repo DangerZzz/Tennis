@@ -1,13 +1,13 @@
 ///Сущность страницы информация
 class CharactersInfo {
   /// возраст
-  final String? age;
+  final num? age;
 
   /// рост
-  final String? height;
+  final num? height;
 
   /// лет в теннисе
-  final String? ageInTennis;
+  final num? ageInTennis;
 
   /// форхэнд
   final String? forehand;
@@ -16,7 +16,7 @@ class CharactersInfo {
   final String? backhand;
 
   /// техничность
-  final String? technicality;
+  final num? technicality;
 
   /// тренер
   final String? trainer;

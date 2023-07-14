@@ -1,6 +1,5 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:octo_image/octo_image.dart';
 import 'package:soft_weather_tennis/assets/icons/TennisIcons.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
@@ -39,11 +38,31 @@ class ProfilePageWidget extends ElementaryWidget<IProfilePageWidgetModel> {
                         fit: StackFit.passthrough,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(bottom: 48),
-                            child: Image.asset(
-                              state?.backgroundImageUrl ??
-                                  'lib/features/pages/profile_page/assets/images/profile_background.png',
-                              fit: BoxFit.contain,
+                            padding: const EdgeInsets.only(bottom: 60),
+                            child: SizedBox(
+                              width: wm.width,
+                              height: 112,
+                              child: ClipRRect(
+                                child: OctoImage(
+                                  width: wm.width,
+                                  height: 112,
+                                  fit: BoxFit.cover,
+                                  placeholderBuilder: (context) => const Center(
+                                    child: AdaptiveActivityIndicator(),
+                                  ),
+                                  errorBuilder: (c, e, s) => SizedBox(
+                                    width: wm.width,
+                                    height: 112,
+                                    child: Image.asset(
+                                      'lib/features/pages/profile_page/assets/images/profile_background.png',
+                                      fit: BoxFit.fitWidth,
+                                    ),
+                                  ),
+                                  image: Image.network(
+                                    state?.backgroundImageUrl ?? '',
+                                  ).image,
+                                ),
+                              ),
                             ),
                           ),
                           Positioned(
@@ -124,16 +143,11 @@ class ProfilePageWidget extends ElementaryWidget<IProfilePageWidgetModel> {
                                         child: AdaptiveActivityIndicator(),
                                       ),
                                       errorBuilder: (c, e, s) => SizedBox(
-                                        child: Center(
-                                          child: SvgPicture.asset(
-                                            'assets/images/error_placeholder.svg',
-                                            colorFilter: ColorFilter.mode(
-                                              AppColors().accentGreen,
-                                              BlendMode.srcIn,
-                                            ),
-                                            height: 40,
-                                            width: 40,
-                                          ),
+                                        child: Image.asset(
+                                          'assets/images/arkasha_logo.png',
+                                          fit: BoxFit.contain,
+                                          height: 40,
+                                          width: 40,
                                         ),
                                       ),
                                       image: Image.network(

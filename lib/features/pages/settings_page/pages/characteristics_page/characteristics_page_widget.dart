@@ -86,7 +86,7 @@ class CharacteristicsPageWidget
                                 ),
                           ),
                           Text(
-                            (charactersInfo?.age?.isNotEmpty ?? false)
+                            charactersInfo?.age != null
                                 ? '${charactersInfo?.age} лет'
                                 : '—',
                             style: AppTextStyles().regular_14_19.copyWith(
@@ -115,7 +115,7 @@ class CharacteristicsPageWidget
                                 ),
                           ),
                           Text(
-                            (charactersInfo?.height?.isNotEmpty ?? false)
+                            charactersInfo?.height != null
                                 ? '${charactersInfo?.height} см'
                                 : '—',
                             style: AppTextStyles().regular_14_19.copyWith(
@@ -144,7 +144,7 @@ class CharacteristicsPageWidget
                                 ),
                           ),
                           Text(
-                            (charactersInfo?.ageInTennis?.isNotEmpty ?? false)
+                            charactersInfo?.ageInTennis != null
                                 ? '${charactersInfo?.ageInTennis} года'
                                 : '—',
                             style: AppTextStyles().regular_14_19.copyWith(
@@ -231,7 +231,7 @@ class CharacteristicsPageWidget
                                 ),
                           ),
                           Text(
-                            (charactersInfo?.technicality?.isNotEmpty ?? false)
+                            charactersInfo?.technicality != null
                                 ? '${charactersInfo?.technicality} %'
                                 : '—',
                             style: AppTextStyles().regular_14_19.copyWith(

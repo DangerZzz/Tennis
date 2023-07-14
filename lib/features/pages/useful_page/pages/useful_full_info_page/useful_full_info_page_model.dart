@@ -14,10 +14,10 @@ class UsefulFullInfoPageModel extends ElementaryModel {
   ) : super(errorHandler: errorHandler);
 
   /// Получение данных страницы
-  Future<UsefulInfoData> usefulDataByIndex(int index) async {
+  Future<UsefulInfoData> usefulDataByIndex(String index) async {
     late final UsefulInfoData res;
     await ExceptionHandler.shellException(() async {
-      res = (await _usefulPageRepository.usefulDataByIndex())!;
+      res = (await _usefulPageRepository.usefulDataByIndex(index))!;
       return res;
     });
     return res;

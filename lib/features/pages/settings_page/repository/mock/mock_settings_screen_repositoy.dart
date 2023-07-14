@@ -9,12 +9,12 @@ class MockSettingsPageRepository implements SettingsPageRepository {
   Future<CharactersInfo> getCharactersInfo() async {
     await Future<void>.delayed(const Duration(seconds: 1));
     return CharactersInfo(
-      height: '',
-      age: '',
-      ageInTennis: '',
+      height: 0,
+      age: 0,
+      ageInTennis: 0,
       backhand: '',
       forehand: '',
-      technicality: '',
+      technicality: 0,
       trainer: '',
     );
   }

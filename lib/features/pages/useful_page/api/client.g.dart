@@ -19,9 +19,10 @@ class _UsefulPageClient implements UsefulPageClient {
   String? baseUrl;
 
   @override
-  Future<DTO> getUsefulData() async {
+  Future<DTO> getUsefulData(body) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(body);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result =
@@ -32,7 +33,7 @@ class _UsefulPageClient implements UsefulPageClient {
     )
             .compose(
               _dio.options,
-              '/order/{cityCode}/deleteCart',
+              '/api/advice/list',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -42,7 +43,7 @@ class _UsefulPageClient implements UsefulPageClient {
   }
 
   @override
-  Future<DTO> usefulDataByIndex() async {
+  Future<DTO> usefulDataByIndex(url) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -55,7 +56,7 @@ class _UsefulPageClient implements UsefulPageClient {
     )
             .compose(
               _dio.options,
-              '/order/{cityCode}/deleteCart',
+              '${url}',
               queryParameters: queryParameters,
               data: _data,
             )

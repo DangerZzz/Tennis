@@ -11,11 +11,11 @@ abstract class ProfilePageClient {
   factory ProfilePageClient(Dio dio) = _ProfilePageClient;
 
   ///
-  @GET('/order/{cityCode}/deleteCart')
+  @GET('/api/user')
   Future<DTO> getUserInfo();
 
   ///
-  @GET('/order/{cityCode}/deleteCart')
+  @GET('/api/user')
   Future<DTO> getInformationData();
 
   ///

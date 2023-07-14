@@ -32,7 +32,7 @@ class _ProfilePageClient implements ProfilePageClient {
     )
             .compose(
               _dio.options,
-              '/order/{cityCode}/deleteCart',
+              '/api/user',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -55,7 +55,7 @@ class _ProfilePageClient implements ProfilePageClient {
     )
             .compose(
               _dio.options,
-              '/order/{cityCode}/deleteCart',
+              '/api/user',
               queryParameters: queryParameters,
               data: _data,
             )

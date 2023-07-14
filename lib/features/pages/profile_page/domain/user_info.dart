@@ -16,7 +16,7 @@ class UserInfo {
   final String rank;
 
   /// Очки
-  final String? points;
+  final num? points;
 
   /// Очки
   final num? currentLevel;

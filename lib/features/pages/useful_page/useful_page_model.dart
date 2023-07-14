@@ -1,6 +1,5 @@
 import 'package:elementary/elementary.dart';
 import 'package:soft_weather_tennis/features/pages/useful_page/domain/useful_data.dart';
-import 'package:soft_weather_tennis/features/pages/useful_page/domain/useful_info.dart';
 import 'package:soft_weather_tennis/features/pages/useful_page/repository/useful_screen_repository.dart';
 import 'package:soft_weather_tennis/util/exception_handler.dart';
 
@@ -15,20 +14,17 @@ class UsefulPageModel extends ElementaryModel {
   ) : super(errorHandler: errorHandler);
 
   /// Получение данных страницы
-  Future<UsefulData> getUsefulData() async {
-    late final UsefulData res;
+  Future<List<Advice>> getUsefulData({
+    required num limit,
+    required num page,
+  }) async {
+    final body = <String, dynamic>{
+      'limit': limit,
+      'page': page,
+    };
+    late final List<Advice> res;
     await ExceptionHandler.shellException(() async {
-      res = (await _usefulPageRepository.getUsefulData())!;
-      return res;
-    });
-    return res;
-  }
-
-  /// Получение данных страницы
-  Future<UsefulInfoData> usefulDataByIndex(int index) async {
-    late final UsefulInfoData res;
-    await ExceptionHandler.shellException(() async {
-      res = (await _usefulPageRepository.usefulDataByIndex())!;
+      res = (await _usefulPageRepository.getUsefulData(body))!;
       return res;
     });
     return res;

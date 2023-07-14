@@ -9,12 +9,14 @@ import 'package:soft_weather_tennis/features/pages/useful_page/domain/useful_dat
 import 'package:soft_weather_tennis/features/pages/useful_page/domain/useful_info.dart';
 import 'package:soft_weather_tennis/features/pages/useful_page/useful_page_model.dart';
 import 'package:soft_weather_tennis/features/pages/useful_page/useful_page_widget.dart';
-import 'package:soft_weather_tennis/user_notifier/user_notifier.dart';
 
 ///
 abstract class IUsefulPageWidgetModel extends IWidgetModel {
   ///
-  ListenableState<EntityState<UsefulData>> get usefulData;
+  ListenableState<EntityState<List<Advice>>> get usefulData;
+
+  /// Контроллер для скролла данных
+  ScrollController get scrollController;
 
   ///
   double get width;
@@ -23,7 +25,7 @@ abstract class IUsefulPageWidgetModel extends IWidgetModel {
   Future<void> onRefresh();
 
   /// Страница конкретного совета
-  void toInfoPage(int index);
+  void toInfoPage(String index);
 }
 
 ///
@@ -32,13 +34,11 @@ UsefulPageWidgetModel defaultUsefulPageWidgetModelFactory(
 ) {
   final scope = context.read<IUsefulPageScope>();
   final appDependencies = context.read<IAppScope>();
-  final userNotifier = appDependencies.userNotifier;
   final coordinator = appDependencies.coordinator;
   final model = scope.usefulPageModel;
   return UsefulPageWidgetModel(
     model,
     coordinator: coordinator,
-    userNotifier: userNotifier,
   );
 }
 
@@ -49,33 +49,41 @@ class UsefulPageWidgetModel
   /// [Coordinator] для перехода на другие страницы.
   final Coordinator coordinator;
 
-  final UserNotifier _userNotifier;
+  final _limit = 5;
 
   @override
   double get width => MediaQuery.of(context).size.width;
 
   @override
-  ListenableState<EntityState<UsefulData>> get usefulData => _usefulData;
+  ListenableState<EntityState<List<Advice>>> get usefulData => _usefulData;
 
   @override
   ListenableState<EntityState<UsefulInfoData>> get usefulDataByIndex =>
       _usefulDataByIndex;
 
-  late EntityStateNotifier<UsefulData> _usefulData;
+  @override
+  ScrollController get scrollController => _scrollController;
+
+  late ScrollController _scrollController;
+
+  late EntityStateNotifier<List<Advice>> _usefulData;
 
   late EntityStateNotifier<UsefulInfoData> _usefulDataByIndex;
+
+  var _totalData = 0;
+  var _page = 1;
 
   /// Конструктор
   UsefulPageWidgetModel(
     UsefulPageModel model, {
     required this.coordinator,
-    required UserNotifier userNotifier,
-  })  : _userNotifier = userNotifier,
-        super(model);
+  }) : super(model);
 
   @override
   Future<void> initWidgetModel() async {
     super.initWidgetModel();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_fetch);
     await _initLoad();
   }
 
@@ -85,7 +93,7 @@ class UsefulPageWidgetModel
   }
 
   @override
-  Future<void> toInfoPage(int index) async {
+  Future<void> toInfoPage(String index) async {
     coordinator.navigate(
       context,
       AppCoordinate.usefulFullInfoPage,
@@ -94,14 +102,40 @@ class UsefulPageWidgetModel
   }
 
   Future<void> _initLoad() async {
-    _usefulData = EntityStateNotifier<UsefulData>();
+    _usefulData = EntityStateNotifier<List<Advice>>();
     _usefulData.loading();
-
     try {
-      final data = await model.getUsefulData();
+      final data = await model.getUsefulData(
+        limit: _limit,
+        page: _page,
+      );
       _usefulData.content(data);
     } on FormatException catch (e) {
       _usefulData.error(e);
+    }
+  }
+
+  Future<void> _fetch() async {
+    if (!_usefulData.value!.isLoading &&
+        _scrollController.position.maxScrollExtent - 100 <
+            _scrollController.offset) {
+      if (_usefulData.value!.data!.length == _limit * _page) {
+        final buf = _usefulData.value!.data!;
+        _usefulData.loading(buf);
+        try {
+          _page++;
+          final res = await model.getUsefulData(
+            limit: _limit,
+            page: _page,
+          );
+          await Future<void>.delayed(const Duration(seconds: 2));
+          buf.addAll(res);
+          _usefulData.content(buf);
+        } on FormatException catch (e) {
+          _page--;
+          _usefulData.content(_usefulData.value!.data!);
+        }
+      }
     }
   }
 }

@@ -3,7 +3,7 @@ import 'package:soft_weather_tennis/features/pages/useful_page/domain/useful_dat
 ///Сущность совета
 class UsefulInfoData {
   ///
-  final int id;
+  final String id;
 
   /// картинка
   final String imageUrl;

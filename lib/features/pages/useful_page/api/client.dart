@@ -11,10 +11,20 @@ abstract class UsefulPageClient {
   factory UsefulPageClient(Dio dio) = _UsefulPageClient;
 
   ///
-  @GET('/order/{cityCode}/deleteCart')
-  Future<DTO> getUsefulData();
+  @GET('/api/advice/list')
+  Future<DTO> getUsefulData(
+    @Queries() Map<String, dynamic> body,
+  );
 
-  ///
-  @GET('/order/{cityCode}/deleteCart')
-  Future<DTO> usefulDataByIndex();
+  // ///
+  // @GET('/api/advice/')
+  // Future<DTO> usefulDataByIndex(
+  //   @Path() String path,
+  // );
+
+  /// Скачивание файла
+  @GET('{url}')
+  Future<DTO> usefulDataByIndex(
+    @Path('url') String url,
+  );
 }

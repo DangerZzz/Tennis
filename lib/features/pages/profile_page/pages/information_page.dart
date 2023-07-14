@@ -93,75 +93,77 @@ class InformationPage extends StatelessWidget {
           const SizedBox(
             height: 24,
           ),
-          DecoratedBox(
-            decoration: BoxDecoration(
-              color: AppColors().white,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16.0, 16, 16, 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Витрина трофеев',
-                    style: AppTextStyles()
-                        .bold_16_21
-                        .copyWith(color: AppColors().primaryText),
-                  ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      for (var achievements in state!.lastTrophies) ...[
-                        Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(8.0, 0, 8, 8),
-                              child: SizedBox(
-                                width: 60,
-                                height: 60,
-                                child: Image.asset(
-                                  achievements.url,
-                                  fit: BoxFit.contain,
+          if (state?.trophiesCount != 0)
+            DecoratedBox(
+              decoration: BoxDecoration(
+                color: AppColors().white,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16.0, 16, 16, 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Витрина трофеев',
+                      style: AppTextStyles()
+                          .bold_16_21
+                          .copyWith(color: AppColors().primaryText),
+                    ),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        for (var achievements in state!.lastTrophies) ...[
+                          Column(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(8.0, 0, 8, 8),
+                                child: SizedBox(
+                                  width: 60,
+                                  height: 60,
+                                  child: Image.asset(
+                                    achievements.url,
+                                    fit: BoxFit.contain,
+                                  ),
+                                  // OctoImage(
+                                  //   fit: BoxFit.contain,
+                                  //   placeholderBuilder: (context) => const Icon(
+                                  //     Icons.refresh,
+                                  //   ),
+                                  //   errorBuilder: (c, e, s) => const Icon(
+                                  //     Icons.error,
+                                  //   ),
+                                  //   image: Image.network(
+                                  //     'https://picsum.photos/200',
+                                  //     fit: BoxFit.contain,
+                                  //   ).image,
+                                  // ),
                                 ),
-                                // OctoImage(
-                                //   fit: BoxFit.contain,
-                                //   placeholderBuilder: (context) => const Icon(
-                                //     Icons.refresh,
-                                //   ),
-                                //   errorBuilder: (c, e, s) => const Icon(
-                                //     Icons.error,
-                                //   ),
-                                //   image: Image.network(
-                                //     'https://picsum.photos/200',
-                                //     fit: BoxFit.contain,
-                                //   ).image,
-                                // ),
                               ),
-                            ),
-                            SizedBox(
-                              width: 100,
-                              child: Text(
-                                achievements.name,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.center,
-                                style: AppTextStyles().regular_14_19.copyWith(
-                                      color: AppColors().primaryText,
-                                    ),
+                              SizedBox(
+                                width: 100,
+                                child: Text(
+                                  achievements.name,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.center,
+                                  style: AppTextStyles().regular_14_19.copyWith(
+                                        color: AppColors().primaryText,
+                                      ),
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
+                            ],
+                          ),
+                        ],
                       ],
-                    ],
-                  ),
-                ],
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
           const SizedBox(
             height: 24,
           ),
@@ -175,8 +177,8 @@ class InformationPage extends StatelessWidget {
                   style: AppTextStyles().light_14_19,
                 ),
                 Text(
-                  state.charactersInfo.age!.isNotEmpty
-                      ? state.charactersInfo.age ?? '—'
+                  state?.charactersInfo.age != null
+                      ? '${state?.charactersInfo.age}'
                       : '—',
                   style: AppTextStyles().medium_14_19,
                 ),
@@ -197,8 +199,8 @@ class InformationPage extends StatelessWidget {
                   style: AppTextStyles().light_14_19,
                 ),
                 Text(
-                  state.charactersInfo.height!.isNotEmpty
-                      ? state.charactersInfo.height ?? '—'
+                  state?.charactersInfo.height != null
+                      ? '${state?.charactersInfo.height}'
                       : '—',
                   style: AppTextStyles().medium_14_19,
                 ),
@@ -219,8 +221,8 @@ class InformationPage extends StatelessWidget {
                   style: AppTextStyles().light_14_19,
                 ),
                 Text(
-                  state.charactersInfo.ageInTennis!.isNotEmpty
-                      ? state.charactersInfo.ageInTennis ?? '—'
+                  state?.charactersInfo.ageInTennis != null
+                      ? '${state?.charactersInfo.ageInTennis}'
                       : '—',
                   style: AppTextStyles().medium_14_19,
                 ),
@@ -241,8 +243,8 @@ class InformationPage extends StatelessWidget {
                   style: AppTextStyles().light_14_19,
                 ),
                 Text(
-                  state.charactersInfo.forehand!.isNotEmpty
-                      ? state.charactersInfo.forehand ?? '—'
+                  (state?.charactersInfo.forehand?.isNotEmpty ?? false)
+                      ? state?.charactersInfo.forehand ?? '—'
                       : '—',
                   style: AppTextStyles().medium_14_19,
                 ),
@@ -263,8 +265,8 @@ class InformationPage extends StatelessWidget {
                   style: AppTextStyles().light_14_19,
                 ),
                 Text(
-                  state.charactersInfo.backhand!.isNotEmpty
-                      ? state.charactersInfo.backhand ?? '—'
+                  (state?.charactersInfo.backhand?.isNotEmpty ?? false)
+                      ? state?.charactersInfo.backhand ?? '—'
                       : '—',
                   style: AppTextStyles().medium_14_19,
                 ),
@@ -285,8 +287,8 @@ class InformationPage extends StatelessWidget {
                   style: AppTextStyles().light_14_19,
                 ),
                 Text(
-                  state.charactersInfo.technicality!.isNotEmpty
-                      ? state.charactersInfo.technicality ?? '—'
+                  state?.charactersInfo.technicality != null
+                      ? '${state?.charactersInfo.technicality}' ?? '—'
                       : '—',
                   style: AppTextStyles().medium_14_19,
                 ),
@@ -307,8 +309,8 @@ class InformationPage extends StatelessWidget {
                   style: AppTextStyles().light_14_19,
                 ),
                 Text(
-                  state.charactersInfo.trainer!.isNotEmpty
-                      ? state.charactersInfo.trainer ?? '—'
+                  state?.charactersInfo.trainer != null
+                      ? state?.charactersInfo.trainer ?? '—'
                       : '—',
                   style: AppTextStyles().medium_14_19,
                 ),
@@ -318,7 +320,7 @@ class InformationPage extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          if (state.ratingPosition != 0)
+          if (state?.ratingPosition != 0)
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
@@ -348,7 +350,7 @@ class InformationPage extends StatelessWidget {
                               vertical: 4,
                             ),
                             child: Text(
-                              '${state.ratingPosition}',
+                              '${state?.ratingPosition}',
                               style: AppTextStyles().regular_40_54.copyWith(
                                     color: AppColors().accentGreen,
                                   ),
@@ -364,7 +366,7 @@ class InformationPage extends StatelessWidget {
                           color: AppColors().accentGreen,
                         ),
                         Text(
-                          '+${state.ratingChanges}',
+                          '+${state?.ratingChanges}',
                           style: AppTextStyles().regular_12_16.copyWith(
                                 color: AppColors().accentGreen,
                               ),

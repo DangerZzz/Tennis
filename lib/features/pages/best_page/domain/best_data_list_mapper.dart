@@ -4,9 +4,9 @@ import 'package:soft_weather_tennis/features/pages/best_page/dto/best_data_list_
 /// Заполнение модели [BestData] данными [BestDataDto]
 BestData bestDataMapper(BestDataDto data) {
   return BestData(
-    imageUrl: data.user.avatar.src,
-    age: data.user.name,
-    name: data.user.name,
+    imageUrl: data.user.avatar?.src ?? '',
+    age: data.user.name ?? '',
+    name: data.user.name ?? '',
     rank: data.role,
     description: data.description,
     topCount: 1,
