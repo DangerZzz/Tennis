@@ -61,6 +61,9 @@ abstract class IAuthorizationPageWidgetModel extends IWidgetModel {
   /// Флаг доступности входа по биометрии
   ListenableState<EntityState<bool>> get biometricEnterFlag;
 
+  /// Флаг доступности входа по биометрии
+  bool get sendAnyRequest;
+
   /// контроллер и маска для textField
   CodeTextFieldTool get codeTextFieldTool;
 
@@ -91,9 +94,6 @@ abstract class IAuthorizationPageWidgetModel extends IWidgetModel {
 
   /// Функция установки/ввода пин-кода
   void setPin(String code);
-
-  /// Функция проверки доступности биометрии
-  void biometricAvailability();
 
   /// Функция входа по биометрии
   void biometricEnter();
@@ -178,6 +178,9 @@ class AuthorizationPageWidgetModel
       _codeButtonAvailability;
 
   @override
+  bool get sendAnyRequest => _sendAnyRequest;
+
+  @override
   ListenableState<EntityState<bool>> get pinButtonAvailability =>
       _pinButtonAvailability;
 
@@ -218,6 +221,7 @@ class AuthorizationPageWidgetModel
   late EntityStateNotifier<bool> _firstEnter;
   late EntityStateNotifier<bool> _equalsPin;
   late EntityStateNotifier<bool> _acceptBiometrics;
+  late bool _sendAnyRequest;
 
   bool _isRestorePass = false;
 
@@ -248,6 +252,7 @@ class AuthorizationPageWidgetModel
     _equalsPin.content(false);
     _acceptBiometrics = EntityStateNotifier<bool>();
     _acceptBiometrics.content(false);
+    _sendAnyRequest = false;
     _biometricEnterFlag = EntityStateNotifier<bool>();
     _firstEnter = EntityStateNotifier<bool>();
     await _userNotifier.loginCode.loadCode();
@@ -260,8 +265,32 @@ class AuthorizationPageWidgetModel
   }
 
   @override
-  Future<void> handlerField(String p) async {
-    _codeButtonAvailability.content(true);
+  Future<void> getCode(String code) async {
+    _codeIsSend.loading();
+    // await _userNotifier.loginCode.loadPhone();
+    // final isNewPhone = _userNotifier.loginCode.phone ?? '';
+    // if (isNewPhone.replaceAll(' ', '') ==
+    //     _phoneController.text.replaceAll(' ', '') &&
+    //     (_userNotifier.loginCode.code?.isNotEmpty ?? false)) {
+    //   _isRestorePass = true;
+    // } else {
+    //   _isRestorePass = false;
+    // }
+    try {
+      final isRegistered = await model.getCode(
+        phone: _phoneController.text.replaceAll(' ', ''),
+        //type: 'SIGNUP', //_isRestorePass ? 'RECOVERY' : 'SIGNUP',
+      );
+      _isRestorePass = isRegistered ?? false;
+      //ignore:use_build_context_synchronously
+      // ShowSnackBar().showSuccess(context, code ?? '');
+      _codeIsSend.content(true);
+    } on FormatException catch (e) {
+      debugPrint('$e');
+      //ignore:use_build_context_synchronously
+      ShowSnackBar().showError(context);
+      _codeIsSend.content(false);
+    }
   }
 
   @override
@@ -276,6 +305,15 @@ class AuthorizationPageWidgetModel
   }
 
   @override
+  Future<void> handlerField(String p) async {
+    if (p.length == 4) {
+      _codeButtonAvailability.content(true);
+    } else {
+      _codeButtonAvailability.content(false);
+    }
+  }
+
+  @override
   void pinButtonAvailabilityFunction() {
     if (_pinButtonAvailability.value?.data == false &&
         _pinController.text.length >= 6) {
@@ -283,43 +321,6 @@ class AuthorizationPageWidgetModel
     } else {
       _equalsPin.content(false);
       _pinButtonAvailability.content(false);
-    }
-  }
-
-  @override
-  void nameEnterButtonAvailabilityFunction() {
-    if (_nameController.text.length >= 2 &&
-        _surnameController.text.length >= 2) {
-      _nameButtonAvailability.content(true);
-    } else {
-      _nameButtonAvailability.content(false);
-    }
-  }
-
-  @override
-  Future<void> getCode(String code) async {
-    _codeIsSend.loading();
-    await _userNotifier.loginCode.loadPhone();
-    final isNewPhone = _userNotifier.loginCode.phone ?? '';
-    if (isNewPhone.replaceAll(' ', '') ==
-            _phoneController.text.replaceAll(' ', '') &&
-        (_userNotifier.loginCode.code?.isNotEmpty ?? false)) {
-      _isRestorePass = true;
-    } else {
-      _isRestorePass = false;
-    }
-    try {
-      await model.getCode(
-        phone: _phoneController.text.replaceAll(' ', ''),
-        type: _isRestorePass ? 'RECOVERY' : 'SIGNUP',
-      );
-
-      _codeIsSend.content(true);
-    } on FormatException catch (e) {
-      debugPrint('$e');
-      //ignore:use_build_context_synchronously
-      ShowSnackBar().showError(context);
-      _codeIsSend.content(false);
     }
   }
 
@@ -345,17 +346,12 @@ class AuthorizationPageWidgetModel
     FocusScope.of(context).unfocus();
     await _userNotifier.loginCode.loadCode();
 
-    ///Разрешить использование биометрии
-    ///
+    if (_isRestorePass) {
+      await _userNotifier.loginCode.clear();
+    }
 
     /// Записать код
     if (_userNotifier.loginCode.codeHash == null) {
-      await _userNotifier.loginCode.updateCode(code);
-      debugPrint('Код сохранен');
-
-      await _userNotifier.loginCode.updatePhone(_phoneController.text);
-      debugPrint('Телефон сохранен');
-
       //ignore: use_build_context_synchronously
       await showDialog<void>(
         barrierDismissible: false,
@@ -398,30 +394,15 @@ class AuthorizationPageWidgetModel
         context: context,
       );
 
-      await _userNotifier.updateUser(
-        false,
-        '',
-        '',
-        '',
-      );
-      debugPrint('Пользователь создан');
-
-      if (_userNotifier.canUseBiometric) {
-        if (_acceptBiometrics.value?.data ?? false) {
-          await _userNotifier
-              .updateBiometricStorage(_firstEnter.value?.data ?? true);
-          debugPrint('Биометрия сохранена');
-        }
-      }
-
       if (_isRestorePass) {
         try {
           await model.recovery(
             password: _pinController.text,
           );
           await _userNotifier.saveTokens(_pinController.text);
+          await _userNotifier.loginCode
+              .updatePhone(_phoneController.text.replaceAll(' ', ''));
           await _userNotifier.loginCode.loadPhone();
-
           await model.signIn(
             phone: '${_userNotifier.loginCode.phone}'.replaceAll(' ', ''),
             password: _pinController.text,
@@ -463,39 +444,128 @@ class AuthorizationPageWidgetModel
   }
 
   @override
-  Future<void> biometricAvailability() async {
-    await _userNotifier.loginCode.loadCode();
-    if (_userNotifier.loginCode.codeHash != null) {
-      if (_userNotifier.canUseBiometric && _userNotifier.biometricLogin) {
-        _biometricEnterFlag.content(true);
+  Future<void> biometricEnter() async {
+    final code = await _userNotifier.authorizeBiometrics();
+    if (!_sendAnyRequest) {
+      _sendAnyRequest = true;
+
+      ///сравнение кодов
+      if (_userNotifier.loginCode.compare(code!)) {
+        try {
+          await _userNotifier.loadTokens(code);
+          await _userNotifier.loginCode.loadPhone();
+          debugPrint(
+            'Телефон ${_userNotifier.loginCode.phone}'.replaceAll(' ', ''),
+          );
+          await model.signIn(
+            phone: '${_userNotifier.loginCode.phone}'.replaceAll(' ', ''),
+            password: code,
+          );
+          toMain();
+        } on FormatException catch (e) {
+          debugPrint('$e');
+          //ignore:use_build_context_synchronously
+          ShowSnackBar().showError(context);
+        }
+      } else {
+        debugPrint('Код неверный');
+        _equalsPin.content(true);
       }
-    } else {
-      return;
+      _sendAnyRequest = false;
     }
   }
 
   @override
-  Future<void> biometricEnter() async {
-    await _userNotifier.authorizeBiometrics();
-    await _userNotifier.updateUser(
-      false,
-      '',
-      '1',
-      '',
-    ); // TODO(daniil): исправить
-    if (_userNotifier.name.isNotEmpty) {
-      toMain();
+  void nameEnterButtonAvailabilityFunction() {
+    if (_nameController.text.length >= 2 &&
+        _surnameController.text.length >= 2) {
+      _nameButtonAvailability.content(true);
     } else {
-      _index.content(2);
+      _nameButtonAvailability.content(false);
     }
   }
 
   @override
   void setName(String name, String surname) {
     FocusScope.of(context).unfocus();
-
-    //api
     _index.content(3);
+  }
+
+  @override
+  Future<void> completeRegistration(bool isTrainer) async {
+    if ((ModalRoute.of(context)?.settings.arguments ?? '') as String !=
+        'rolePage') {
+      if (!_sendAnyRequest) {
+        _sendAnyRequest = true;
+        try {
+          await model.registration(
+            name: _nameController.text,
+            surname: _surnameController.text,
+            code: _pinController.text,
+            isTrainer: isTrainer,
+          );
+          await _userNotifier.saveTokens(_pinController.text);
+          await _userNotifier.loginCode.updateCode(_pinController.text);
+          if (_userNotifier.canUseBiometric) {
+            if (_acceptBiometrics.value?.data ?? false) {
+              await _userNotifier
+                  .updateBiometricStorage(_firstEnter.value?.data ?? true);
+              debugPrint('Биометрия сохранена');
+            }
+          }
+          await _userNotifier.loginCode.updatePhone(_phoneController.text);
+          await _userNotifier.loginCode.loadPhone();
+
+          await model.signIn(
+            phone: '${_userNotifier.loginCode.phone}'.replaceAll(' ', ''),
+            password: _pinController.text,
+          );
+          await _userNotifier.updateUser(
+            isTrainer,
+            _nameController.text,
+            _surnameController.text,
+            _phoneController.text,
+          );
+          toMain();
+        } on FormatException catch (e) {
+          debugPrint('$e');
+          ShowSnackBar().showError(context);
+          _codeButtonAvailability.content(false);
+        }
+        _sendAnyRequest = false;
+      }
+    } else {
+      if (!_sendAnyRequest) {
+        _sendAnyRequest = true;
+        try {
+          await model.changeRole(
+            isTrainer: isTrainer,
+          );
+          await _userNotifier.updateUser(
+            isTrainer,
+            _nameController.text,
+            _surnameController.text,
+            _phoneController.text,
+          );
+          toMain();
+        } on FormatException catch (e) {
+          debugPrint('$e');
+          ShowSnackBar().showError(context);
+          _codeButtonAvailability.content(false);
+        }
+        _sendAnyRequest = false;
+      }
+      backToSettings();
+    }
+  }
+
+  @override
+  void toRestorePass() {
+    FocusScope.of(context).unfocus();
+    // _userNotifier.removeUser();
+    // _biometricEnterFlag.content(false);
+    // _firstEnter.content(true);
+    _index.content(0);
   }
 
   @override
@@ -505,59 +575,6 @@ class AuthorizationPageWidgetModel
       context,
       AppCoordinate.mainScreen,
     );
-  }
-
-  @override
-  Future<void> completeRegistration(bool isTrainer) async {
-    if ((ModalRoute.of(context)?.settings.arguments ?? '') as String !=
-        'rolePage') {
-      try {
-        await model.registration(
-          name: _nameController.text,
-          surname: _surnameController.text,
-          code: _pinController.text,
-          isTrainer: isTrainer,
-        );
-        await _userNotifier.saveTokens(_pinController.text);
-        await _userNotifier.loginCode.loadPhone();
-
-        await model.signIn(
-          phone: '${_userNotifier.loginCode.phone}'.replaceAll(' ', ''),
-          password: _pinController.text,
-        );
-        await _userNotifier.updateUser(
-          isTrainer,
-          _nameController.text,
-          _surnameController.text,
-          _phoneController.text,
-        ); // TODO(daniil): исправить
-        toMain();
-      } on FormatException catch (e) {
-        debugPrint('$e');
-        ShowSnackBar().showError(context);
-        _codeButtonAvailability.content(false);
-      }
-    } else {
-      await Future<void>.delayed(const Duration(seconds: 2));
-
-      await _userNotifier.updateUser(
-        isTrainer,
-        _userNotifier.name,
-        _userNotifier.surname,
-        _userNotifier.phone,
-      );
-      backToSettings();
-    }
-  }
-
-  @override
-  void toRestorePass() {
-    FocusScope.of(context).unfocus();
-    _isRestorePass = true;
-    _userNotifier.removeUser();
-    _biometricEnterFlag.content(false);
-    _firstEnter.content(true);
-    _index.content(0);
   }
 
   ///функция проверяющая первый ли это вход в приложение
@@ -586,6 +603,7 @@ class AuthorizationPageWidgetModel
   Future<void> _initIndex() async {
     _index.loading();
     await _userNotifier.loginCode.loadCode();
+    await _userNotifier.tokenStorage.checkUseBiometric();
     _biometricEnterFlag.content(_userNotifier.loginCode.codeHash != null &&
         _userNotifier.canUseBiometric &&
         _userNotifier.biometricLogin);

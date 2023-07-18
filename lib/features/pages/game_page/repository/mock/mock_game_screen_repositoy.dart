@@ -194,48 +194,8 @@ class MockGamePageRepository implements GamePageRepository {
     await Future<void>.delayed(const Duration(seconds: 1));
     return StatisticsList(
       averageEfficiency: '48',
-      efficiencyList: [
-        Statistics(
-          date: 1681171200,
-          efficiency: 55,
-          type: 'Стандартная',
-        ),
-        Statistics(
-          date: 1681257600,
-          efficiency: 25,
-          type: 'Стандартная',
-        ),
-        Statistics(
-          date: 1681344000,
-          efficiency: 12,
-          type: 'Стандартная',
-        ),
-        Statistics(
-          date: 1681430400,
-          efficiency: 100,
-          type: 'Стандартная',
-        ),
-        Statistics(
-          date: 1681516800,
-          efficiency: 65,
-          type: 'Стандартная',
-        ),
-        Statistics(
-          date: 1681689599,
-          efficiency: 45,
-          type: 'Стандартная',
-        ),
-        Statistics(
-          date: 1681775999,
-          efficiency: 90,
-          type: 'Стандартная',
-        ),
-        Statistics(
-          date: 1681776000,
-          efficiency: 94,
-          type: 'Стандартная',
-        ),
-      ],
+      efficiencyList: [],
+      date: '',
     );
   }
 
@@ -417,6 +377,7 @@ class MockGamePageRepository implements GamePageRepository {
           ],
         ),
       ],
+      date: '',
     );
   }
 }

@@ -49,6 +49,7 @@ class NameLoginPage extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
                 child: TextField(
                   controller: wm.nameController,
+                  textCapitalization: TextCapitalization.words,
                   keyboardType: TextInputType.text,
                   onEditingComplete: () {
                     FocusScope.of(context).unfocus();
@@ -77,6 +78,7 @@ class NameLoginPage extends StatelessWidget {
                 child: TextField(
                   controller: wm.surnameController,
                   keyboardType: TextInputType.text,
+                  textCapitalization: TextCapitalization.words,
                   onEditingComplete: () {
                     FocusScope.of(context).unfocus();
                   },

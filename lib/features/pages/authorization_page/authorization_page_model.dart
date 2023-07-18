@@ -14,17 +14,19 @@ class AuthorizationPageModel extends ElementaryModel {
   ) : super(errorHandler: errorHandler);
 
   /// запрос на получение кода
-  Future<void> getCode({
+  Future<bool?> getCode({
     required String phone,
-    required String type,
+    // required String type,
   }) async {
     final body = <String, dynamic>{
       'phone': phone,
-      'type': type,
+      // 'type': type,
     };
+    late final bool? res;
     await ExceptionHandler.shellException(() async {
-      await _authorizationPageRepository.getCode(body);
+      res = await _authorizationPageRepository.getCode(body);
     });
+    return res;
   }
 
   /// Отправка кода
@@ -80,6 +82,18 @@ class AuthorizationPageModel extends ElementaryModel {
     };
     await ExceptionHandler.shellException(() async {
       await _authorizationPageRepository.recovery(body);
+    });
+  }
+
+  /// Изменение роли
+  Future<void> changeRole({
+    required bool isTrainer,
+  }) async {
+    final body = <String, dynamic>{
+      'role': isTrainer ? 'TRAINER' : 'GAMER',
+    };
+    await ExceptionHandler.shellException(() async {
+      await _authorizationPageRepository.changeRole(body);
     });
   }
 }

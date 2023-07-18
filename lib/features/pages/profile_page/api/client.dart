@@ -19,16 +19,20 @@ abstract class ProfilePageClient {
   Future<DTO> getInformationData();
 
   ///
-  @GET('/order/{cityCode}/deleteCart')
+  @GET('/api/game/accesses')
   Future<DTO> getGameData();
 
   ///
-  @GET('/order/{cityCode}/deleteCart')
-  Future<DTO> getStatisticsData();
+  @GET('/api/game/history')
+  Future<DTO> getStatisticsData(
+    @Queries() Map<String, dynamic> body,
+  );
 
   ///
-  @GET('/order/{cityCode}/deleteCart')
-  Future<DTO> getTrainingData();
+  @GET('{url}')
+  Future<DTO> getTrainingData(
+    @Path('url') String url,
+  );
 
   ///
   @GET('/order/{cityCode}/deleteCart')

@@ -39,7 +39,7 @@ class UserNotifier extends ChangeNotifier implements IUserNotifier {
 
   /// функция изменения уровня сложности
   set currentComplexity(String complexity) {
-    _currentComplexity = complexity;
+    _currentComplexity = complexity.toUpperCase();
   }
 
   ///имя пользователя
@@ -77,13 +77,16 @@ class UserNotifier extends ChangeNotifier implements IUserNotifier {
   @override
   LoginCode get loginCode => _loginCode;
 
+  @override
+  TokenStorage get tokenStorage => _tokenStorage;
+
   User? _user;
 
   /// Вход по отпечатку
   late bool _biometricLogin;
 
   /// текущий уровень сложности
-  late num _currentLevel = 1;
+  late num _currentLevel = 0;
 
   /// текущий уровень игры
   late String _currentComplexity = '';
@@ -182,11 +185,9 @@ class UserNotifier extends ChangeNotifier implements IUserNotifier {
   }
 
   @override
-  Future<void> authorizeBiometrics() async {
+  Future<String?> authorizeBiometrics() async {
     final code = await _tokenStorage.getBiometricsCode();
-    if (code != null) {
-      await _loginCode.updateCode(code);
-    }
+    return code;
   }
 
   /// Установка флага входа по коду

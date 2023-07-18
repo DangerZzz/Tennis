@@ -33,23 +33,8 @@ class TokenStorage {
   String? _refreshToken;
   String? _accessToken;
 
-  /// Конструктор [TokenStorage] проверяет доступность биометрии
-  TokenStorage() {
-    final auth = LocalAuthentication();
-    auth.canCheckBiometrics.then((value) async {
-      if (value) {
-        final biometrics = await auth.getAvailableBiometrics();
-        _fingerprintSupport = biometrics.contains(BiometricType.fingerprint) ||
-            biometrics.contains(BiometricType.strong);
-        _faceIdSupport = biometrics.contains(BiometricType.face);
-        if (_fingerprintSupport || _faceIdSupport) {
-          _canUseBiometric = await _biometricStorage.canAuthenticate() ==
-              CanAuthenticateResponse.success;
-        }
-        debugPrint('$biometrics');
-      }
-    });
-  }
+  /// Конструктор [TokenStorage]
+  TokenStorage();
 
   /// Установка cookie токена
   Future<void> setCookieToken(
@@ -249,5 +234,23 @@ class TokenStorage {
     );
     debugPrint('код удален');
     return;
+  }
+
+  /// очистка кода из биометрического харнилища
+  Future<void> checkUseBiometric() async {
+    final auth = LocalAuthentication();
+    await auth.canCheckBiometrics.then((value) async {
+      if (value) {
+        final biometrics = await auth.getAvailableBiometrics();
+        _fingerprintSupport = biometrics.contains(BiometricType.fingerprint) ||
+            biometrics.contains(BiometricType.strong);
+        _faceIdSupport = biometrics.contains(BiometricType.face);
+        if (_fingerprintSupport || _faceIdSupport) {
+          _canUseBiometric = await _biometricStorage.canAuthenticate() ==
+              CanAuthenticateResponse.success;
+        }
+        debugPrint('$biometrics');
+      }
+    });
   }
 }

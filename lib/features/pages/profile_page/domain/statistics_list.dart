@@ -6,8 +6,12 @@ class StatisticsList {
   /// средняя эффективность
   final String averageEfficiency;
 
+  /// средняя эффективность
+  final String date;
+
   ///конструктор [StatisticsList]
   StatisticsList({
+    required this.date,
     required this.averageEfficiency,
     required this.efficiencyList,
   });
@@ -22,12 +26,12 @@ class Statistics {
   final num efficiency;
 
   /// Тип тренировки
-  final String type;
+  final String id;
 
   ///конструктор [StatisticsList]
   Statistics({
     required this.efficiency,
     required this.date,
-    required this.type,
+    required this.id,
   });
 }

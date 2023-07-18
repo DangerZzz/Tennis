@@ -78,7 +78,7 @@ class _ProfilePageClient implements ProfilePageClient {
     )
             .compose(
               _dio.options,
-              '/order/{cityCode}/deleteCart',
+              '/api/game/accesses',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -88,7 +88,31 @@ class _ProfilePageClient implements ProfilePageClient {
   }
 
   @override
-  Future<DTO> getStatisticsData() async {
+  Future<DTO> getStatisticsData(body) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(body);
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<DTO>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/api/game/history',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = DTO.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<DTO> getTrainingData(url) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -101,30 +125,7 @@ class _ProfilePageClient implements ProfilePageClient {
     )
             .compose(
               _dio.options,
-              '/order/{cityCode}/deleteCart',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = DTO.fromJson(_result.data!);
-    return value;
-  }
-
-  @override
-  Future<DTO> getTrainingData() async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    final _result =
-        await _dio.fetch<Map<String, dynamic>>(_setStreamType<DTO>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/order/{cityCode}/deleteCart',
+              '${url}',
               queryParameters: queryParameters,
               data: _data,
             )

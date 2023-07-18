@@ -82,7 +82,7 @@ class WorkoutInformationPage extends StatelessWidget {
                           width: 8,
                         ),
                         Text(
-                          '20.01.2023',
+                          '${workoutData?.date}',
                           style: AppTextStyles().medium_16_21.copyWith(
                                 color: AppColors().accentGreen,
                               ),
@@ -92,14 +92,7 @@ class WorkoutInformationPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 16,
-                ),
-                Divider(
-                  color: AppColors().secondaryText.withOpacity(0.1),
-                  thickness: 1,
-                ),
-                const SizedBox(
-                  height: 16,
+                  height: 24,
                 ),
                 EntityStateNotifierBuilder<int>(
                   listenableEntityState: wm.currentSet,
@@ -218,7 +211,7 @@ class WorkoutInformationPage extends StatelessWidget {
                                                     ),
                                               ),
                                               Text(
-                                                '77%',
+                                                '${game.percent}%',
                                                 style: AppTextStyles()
                                                     .medium_14_19
                                                     .copyWith(
@@ -392,79 +385,88 @@ class WorkoutInformationPage extends StatelessWidget {
                               children: [
                                 Column(
                                   children: [
-                                    // TODO(daniil): исправить сортировку
-                                    // for (var odd in workoutData
-                                    //     ?.sets[wm.currentSet.value?.data ?? 0]
-                                    //     .game[wm.currentGame.value?.data ?? 0]
-                                    //     .practicedBeats ??
-                                    //     <PracticedBeats>[]) ...[
-                                    for (var i = 0; i < 3; i++) ...[
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 16.0),
-                                        child: Container(
-                                          width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  2 -
-                                              40,
-                                          decoration: BoxDecoration(
-                                            color: AppColors().white,
-                                            borderRadius:
-                                                BorderRadius.circular(200),
-                                            boxShadow: const [
-                                              BoxShadow(
-                                                color: Color.fromRGBO(
-                                                    241, 241, 241, 1),
-                                                offset: Offset(1, 2),
-                                                spreadRadius: 0.1,
-                                                blurRadius: 20,
-                                              ),
-                                            ],
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 16,
-                                              vertical: 9.0,
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  'Forehand',
-                                                  style: AppTextStyles()
-                                                      .regular_16_21
-                                                      .copyWith(
-                                                        color: AppColors()
-                                                            .primaryText,
-                                                      ),
-                                                ),
-                                                const SizedBox(
-                                                  width: 16,
-                                                ),
-                                                Container(
-                                                  width: 24,
-                                                  height: 24,
-                                                  decoration: BoxDecoration(
-                                                    color:
-                                                        AppColors().accentGreen,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            40),
-                                                  ),
-                                                  child: Icon(
-                                                    TennisIcons.check,
-                                                    color: AppColors().white,
-                                                    size: 14,
-                                                  ),
+                                    for (var evenValue = 0;
+                                        evenValue <
+                                            (workoutData
+                                                    ?.sets[wm.currentSet.value
+                                                            ?.data ??
+                                                        0]
+                                                    .game[wm.currentGame.value
+                                                            ?.data ??
+                                                        0]
+                                                    .practicedBeats
+                                                    .length ??
+                                                0);
+                                        evenValue++) ...[
+                                      if (evenValue.isEven)
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 16.0),
+                                          child: Container(
+                                            width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2 -
+                                                40,
+                                            decoration: BoxDecoration(
+                                              color: AppColors().white,
+                                              borderRadius:
+                                                  BorderRadius.circular(200),
+                                              boxShadow: const [
+                                                BoxShadow(
+                                                  color: Color.fromRGBO(
+                                                      241, 241, 241, 1),
+                                                  offset: Offset(1, 2),
+                                                  spreadRadius: 0.1,
+                                                  blurRadius: 20,
                                                 ),
                                               ],
                                             ),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 15,
+                                                vertical: 9.0,
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    '${workoutData?.sets[wm.currentSet.value?.data ?? 0].game[wm.currentGame.value?.data ?? 0].practicedBeats[evenValue].name.substring(0, 1)}'
+                                                    '${workoutData?.sets[wm.currentSet.value?.data ?? 0].game[wm.currentGame.value?.data ?? 0].practicedBeats[evenValue].name.toLowerCase().substring(1)}',
+                                                    style: AppTextStyles()
+                                                        .regular_16_21
+                                                        .copyWith(
+                                                          color: AppColors()
+                                                              .primaryText,
+                                                        ),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 8,
+                                                  ),
+                                                  Container(
+                                                    width: 24,
+                                                    height: 24,
+                                                    decoration: BoxDecoration(
+                                                      color: AppColors()
+                                                          .accentGreen,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              40),
+                                                    ),
+                                                    child: Icon(
+                                                      TennisIcons.check,
+                                                      color: AppColors().white,
+                                                      size: 16,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
                                     ],
                                   ],
                                 ),
@@ -473,73 +475,88 @@ class WorkoutInformationPage extends StatelessWidget {
                                 ),
                                 Column(
                                   children: [
-                                    for (var i = 0; i < 3; i++) ...[
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 16.0),
-                                        child: Container(
-                                          width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  2 -
-                                              40,
-                                          decoration: BoxDecoration(
-                                            color: AppColors().white,
-                                            borderRadius:
-                                                BorderRadius.circular(200),
-                                            boxShadow: const [
-                                              BoxShadow(
-                                                color: Color.fromRGBO(
-                                                    241, 241, 241, 1),
-                                                offset: Offset(1, 2),
-                                                spreadRadius: 0.1,
-                                                blurRadius: 20,
-                                              ),
-                                            ],
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 15,
-                                              vertical: 9.0,
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  'Forehand',
-                                                  style: AppTextStyles()
-                                                      .regular_16_21
-                                                      .copyWith(
-                                                        color: AppColors()
-                                                            .primaryText,
-                                                      ),
-                                                ),
-                                                const SizedBox(
-                                                  width: 8,
-                                                ),
-                                                Container(
-                                                  width: 24,
-                                                  height: 24,
-                                                  decoration: BoxDecoration(
-                                                    color:
-                                                        AppColors().accentGreen,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            40),
-                                                  ),
-                                                  child: Icon(
-                                                    TennisIcons.check,
-                                                    color: AppColors().white,
-                                                    size: 16,
-                                                  ),
+                                    for (var oddValue = 0;
+                                        oddValue <
+                                            (workoutData
+                                                    ?.sets[wm.currentSet.value
+                                                            ?.data ??
+                                                        0]
+                                                    .game[wm.currentGame.value
+                                                            ?.data ??
+                                                        0]
+                                                    .practicedBeats
+                                                    .length ??
+                                                0);
+                                        oddValue++) ...[
+                                      if (oddValue.isOdd)
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 16.0),
+                                          child: Container(
+                                            width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    2 -
+                                                40,
+                                            decoration: BoxDecoration(
+                                              color: AppColors().white,
+                                              borderRadius:
+                                                  BorderRadius.circular(200),
+                                              boxShadow: const [
+                                                BoxShadow(
+                                                  color: Color.fromRGBO(
+                                                      241, 241, 241, 1),
+                                                  offset: Offset(1, 2),
+                                                  spreadRadius: 0.1,
+                                                  blurRadius: 20,
                                                 ),
                                               ],
                                             ),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 16,
+                                                vertical: 9.0,
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    '${workoutData?.sets[wm.currentSet.value?.data ?? 0].game[wm.currentGame.value?.data ?? 0].practicedBeats[oddValue].name.substring(0, 1)}'
+                                                    '${workoutData?.sets[wm.currentSet.value?.data ?? 0].game[wm.currentGame.value?.data ?? 0].practicedBeats[oddValue].name.toLowerCase().substring(1)}',
+                                                    style: AppTextStyles()
+                                                        .regular_16_21
+                                                        .copyWith(
+                                                          color: AppColors()
+                                                              .primaryText,
+                                                        ),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 16,
+                                                  ),
+                                                  Container(
+                                                    width: 24,
+                                                    height: 24,
+                                                    decoration: BoxDecoration(
+                                                      color: AppColors()
+                                                          .accentGreen,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              40),
+                                                    ),
+                                                    child: Icon(
+                                                      TennisIcons.check,
+                                                      color: AppColors().white,
+                                                      size: 14,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
                                     ],
                                   ],
                                 ),

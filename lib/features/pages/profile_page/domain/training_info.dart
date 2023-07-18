@@ -1,6 +1,9 @@
 ///Сущность информации о тренировке
 class TrainingInfo {
   /// Уровень
+  final String date;
+
+  /// Уровень
   final num level;
 
   ///Сложность
@@ -14,6 +17,7 @@ class TrainingInfo {
 
   ///конструктор [TrainingInfo]
   TrainingInfo({
+    required this.date,
     required this.complexity,
     required this.level,
     required this.percent,

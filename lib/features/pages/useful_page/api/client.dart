@@ -16,13 +16,7 @@ abstract class UsefulPageClient {
     @Queries() Map<String, dynamic> body,
   );
 
-  // ///
-  // @GET('/api/advice/')
-  // Future<DTO> usefulDataByIndex(
-  //   @Path() String path,
-  // );
-
-  /// Скачивание файла
+  ///
   @GET('{url}')
   Future<DTO> usefulDataByIndex(
     @Path('url') String url,

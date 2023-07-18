@@ -230,14 +230,14 @@ class StatisticsInGameWidgetModel
   String yAxisClean(int date) {
     var text = '';
     var checkData = date;
-    if (date < 10 && _statisticsData.value?.data?.efficiencyList.length != 1) {
-      checkData =
-          _statisticsData.value?.data?.efficiencyList[date].date.toInt() ?? 0;
-    }
-    if (_statisticsData.value?.data?.efficiencyList.length == 1) {
-      checkData =
-          _statisticsData.value?.data?.efficiencyList[0].date.toInt() ?? 0;
-    }
+    // if (date < 10 && _statisticsData.value?.data?.efficiencyList.length != 1) {
+    //   checkData =
+    //       _statisticsData.value?.data?.efficiencyList[date].date.toInt() ?? 0;
+    // }
+    // if (_statisticsData.value?.data?.efficiencyList.length == 1) {
+    //   checkData =
+    //       _statisticsData.value?.data?.efficiencyList[0].date.toInt() ?? 0;
+    // }
     final day =
         DateTime.fromMillisecondsSinceEpoch(checkData * 1000).toUtc().day;
     final month =

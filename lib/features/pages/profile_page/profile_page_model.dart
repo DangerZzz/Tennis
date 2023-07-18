@@ -49,20 +49,26 @@ class ProfilePageModel extends ElementaryModel {
   }
 
   /// Получение данных вкладки "статистика"
-  Future<StatisticsList> getStatisticsData() async {
+  Future<StatisticsList> getStatisticsData({String? date}) async {
     late final StatisticsList res;
+    final body = <String, dynamic>{
+      'limit': 8,
+      'page': 1,
+      'date': date,
+    };
     await ExceptionHandler.shellException(() async {
-      res = (await _profilePageRepository.getStatisticsData())!;
+      res = (await _profilePageRepository.getStatisticsData(body))!;
       return res;
     });
     return res;
   }
 
   /// Получение данных вкладки "тренировка"
-  Future<TrainingInfo> getTrainingData() async {
+  Future<TrainingInfo> getTrainingData(String id) async {
     late final TrainingInfo res;
+
     await ExceptionHandler.shellException(() async {
-      res = (await _profilePageRepository.getTrainingData())!;
+      res = (await _profilePageRepository.getTrainingData(id))!;
       return res;
     });
     return res;

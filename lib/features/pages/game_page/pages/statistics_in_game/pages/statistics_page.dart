@@ -89,7 +89,7 @@ class StatisticsPageInGame extends StatelessWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        training.type,
+                                        'training.type',
                                         style: AppTextStyles()
                                             .medium_14_19
                                             .copyWith(
@@ -128,9 +128,9 @@ class StatisticsPageInGame extends StatelessWidget {
                           Flexible(
                             flex: 5,
                             child: GestureDetector(
-                              onTap: () => wm.onWorkoutInformation(
-                                training.date.toInt(),
-                              ),
+                              onTap: () => wm.onWorkoutInformation(1
+                                  // training.date.toInt(),
+                                  ),
                               child: DecoratedBox(
                                 decoration: BoxDecoration(
                                   color: AppColors().accentGreen,

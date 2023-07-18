@@ -152,13 +152,10 @@ class PinEnteringPage extends StatelessWidget {
                   ),
                 ),
               ),
-              DoubleSourceBuilder<EntityState<bool>, EntityState<bool>>(
-                firstSource: wm.firstEnter,
-                secondSource: wm.biometricEnterFlag,
-                builder: (_, state, bio) => ((state?.data ?? false) ||
-                        (bio?.data ?? false))
-                    ? const SizedBox()
-                    : Column(
+              EntityStateNotifierBuilder<bool>(
+                listenableEntityState: wm.firstEnter,
+                builder: (_, firstEnter) => !(firstEnter ?? false)
+                    ? Column(
                         children: [
                           const SizedBox(
                             height: 16,
@@ -183,7 +180,8 @@ class PinEnteringPage extends StatelessWidget {
                             ),
                           ),
                         ],
-                      ),
+                      )
+                    : const SizedBox(),
               ),
             ],
           ),

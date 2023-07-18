@@ -76,7 +76,7 @@ abstract class IProfilePageWidgetModel extends IWidgetModel {
   void onGame();
 
   /// Нажатие на вкладку "Статистика"
-  void onStatistics();
+  void onStatistics({String date});
 
   /// Переход на страницу достижений
   void toAchievementsPage();
@@ -88,7 +88,7 @@ abstract class IProfilePageWidgetModel extends IWidgetModel {
   void onCalendar();
 
   /// Переход на статистику дня
-  void onWorkoutInformation(int date);
+  void onWorkoutInformation(String id);
 
   /// изменения уровня игры
   void changeCurrentLevel(num level);
@@ -222,21 +222,58 @@ class ProfilePageWidgetModel
   Future<void> onGame() async {
     _index.content(1);
     _gameData.loading();
+
     final res = await model.getGameData();
     _gameData.content(res);
-    _userNotifier
-      ..currentLevel = res.currentLevel
-      ..currentComplexity = res.levels[res.currentLevel.toInt()].complexity;
+
+    ///Схоранение уровня сложности до следующего перезапуска
+    if (!((_userNotifier.currentLevel > 0 && _userNotifier.currentLevel < 11) &&
+        _userNotifier.currentComplexity != '')) {
+      _userNotifier
+        ..currentLevel = res.maxLevel
+        ..currentComplexity = res.maxComplexity;
+    }
+
+    ///Проверки на изменения сложности относительно прошлой загрузки
+    if (_userNotifier.currentLevel > res.maxLevel) {
+      _userNotifier.currentLevel = res.maxLevel;
+    }
+    switch (_userNotifier.currentComplexity) {
+      case 'MASTER':
+        {
+          if (res.maxComplexity == 'LIGHT' || res.maxComplexity == 'MEDIUM') {
+            _userNotifier.currentComplexity = res.maxComplexity;
+          }
+        }
+        break;
+      case 'MEDIUM':
+        {
+          if (res.maxComplexity == 'LIGHT') {
+            _userNotifier.currentComplexity = res.maxComplexity;
+          }
+        }
+        break;
+      default:
+        {}
+        break;
+    }
+    if (_userNotifier.currentComplexity == 'MASTER' ||
+        _userNotifier.currentComplexity == 'MEDIUM') {
+      if (res.maxComplexity == 'ligth'.toUpperCase()) {
+        _userNotifier.currentLevel = res.maxLevel;
+      }
+    }
+
     _currentLevel.content(_userNotifier.currentLevel);
     _currentComplexity.content(_userNotifier.currentComplexity);
   }
 
   @override
-  Future<void> onStatistics() async {
+  Future<void> onStatistics({String? date}) async {
     _index.content(2);
     _statisticsData.loading();
     try {
-      final res = await model.getStatisticsData();
+      final res = await model.getStatisticsData(date: date);
       _spots = [];
 
       for (var index = 0; index < res.efficiencyList.length; index++) {
@@ -289,12 +326,11 @@ class ProfilePageWidgetModel
   }
 
   @override
-  Future<void> onWorkoutInformation(int date) async {
+  Future<void> onWorkoutInformation(String id) async {
     _index.content(3);
-
     _workoutData.loading();
     try {
-      final res = await model.getTrainingData();
+      final res = await model.getTrainingData(id);
       _workoutData.content(res);
 
       _gameListData = workoutData.value?.data?.sets[0].game ?? [];
@@ -309,11 +345,16 @@ class ProfilePageWidgetModel
     if (_userNotifier.currentLevel != level) {
       _userNotifier.currentLevel = level;
       _currentLevel.content(_userNotifier.currentLevel);
+
+      final complexityClean =
+          (_gameData.value?.data?.maxLevel != _currentLevel.value?.data)
+              ? 'MASTER'
+              : _gameData.value?.data?.maxComplexity;
+
       _currentComplexity.content(
-        _gameData.value?.data?.levels[level.toInt()].complexity ?? 'Light',
+        complexityClean ?? 'Light',
       );
-      _userNotifier.currentComplexity =
-          _gameData.value?.data?.levels[level.toInt()].complexity ?? 'Light';
+      _userNotifier.currentComplexity = complexityClean ?? 'Light';
     }
   }
 
@@ -322,7 +363,7 @@ class ProfilePageWidgetModel
   void changeCurrentComplexity(String complexity) {
     if (_userNotifier.currentComplexity != complexity) {
       _userNotifier.currentComplexity = complexity;
-      _currentComplexity.content(_userNotifier.currentComplexity);
+      _currentComplexity.content(_userNotifier.currentComplexity.toUpperCase());
     }
   }
 
@@ -366,13 +407,13 @@ class ProfilePageWidgetModel
       maximumDate: DateTime.now(),
       fromDate: DateTime.now().subtract(const Duration(minutes: 1)),
       minimumDate: DateTime(
-        1970,
+        2022,
       ),
     );
     if (res != null) {
       final a = res.millisecondsSinceEpoch;
-      text = '${res.day}.${res.month}.${res.year}';
-      await onWorkoutInformation(a);
+      text = '${res.year}-${res.month}-${res.day}';
+      await onStatistics(date: text);
     }
   }
 

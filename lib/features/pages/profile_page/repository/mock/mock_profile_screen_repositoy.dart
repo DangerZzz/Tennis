@@ -2,7 +2,6 @@ import 'package:soft_weather_tennis/features/pages/profile_page/domain/achieveme
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/characters_info.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/game_data.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/information.dart';
-import 'package:soft_weather_tennis/features/pages/profile_page/domain/level_data.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/statistics_list.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/training_info.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/user_info.dart';
@@ -78,65 +77,14 @@ class MockProfilePageRepository implements ProfilePageRepository {
   Future<GameData> getGameData() async {
     await Future<void>.delayed(const Duration(seconds: 1));
     return GameData(
-      currentLevel: 3,
-      levels: [
-        LevelData(
-          complexity: 'Master',
-          isAvailability: true,
-          level: 1,
-        ),
-        LevelData(
-          complexity: 'Medium',
-          isAvailability: true,
-          level: 2,
-        ),
-        LevelData(
-          complexity: 'Light',
-          isAvailability: true,
-          level: 3,
-        ),
-        LevelData(
-          complexity: 'Medium',
-          isAvailability: true,
-          level: 4,
-        ),
-        LevelData(
-          complexity: 'Master',
-          isAvailability: true,
-          level: 5,
-        ),
-        LevelData(
-          complexity: 'Medium',
-          isAvailability: false,
-          level: 6,
-        ),
-        LevelData(
-          complexity: 'Medium',
-          isAvailability: false,
-          level: 7,
-        ),
-        LevelData(
-          complexity: 'Medium',
-          isAvailability: false,
-          level: 8,
-        ),
-        LevelData(
-          complexity: 'Medium',
-          isAvailability: false,
-          level: 9,
-        ),
-        LevelData(
-          complexity: 'Medium',
-          isAvailability: false,
-          level: 10,
-        ),
-      ],
+      maxComplexity: '',
+      maxLevel: 1,
     );
   }
 
   ///
   @override
-  Future<StatisticsList> getStatisticsData() async {
+  Future<StatisticsList> getStatisticsData(Map<String, dynamic> body) async {
     await Future<void>.delayed(const Duration(seconds: 1));
     return StatisticsList(
       averageEfficiency: '48',
@@ -144,50 +92,51 @@ class MockProfilePageRepository implements ProfilePageRepository {
         Statistics(
           date: 1681171200,
           efficiency: 55,
-          type: 'Стандартная',
+          id: 'Стандартная',
         ),
         Statistics(
           date: 1681257600,
           efficiency: 25,
-          type: 'Стандартная',
+          id: 'Стандартная',
         ),
         Statistics(
           date: 1681344000,
           efficiency: 12,
-          type: 'Стандартная',
+          id: 'Стандартная',
         ),
         Statistics(
           date: 1681430400,
           efficiency: 100,
-          type: 'Стандартная',
+          id: 'Стандартная',
         ),
         Statistics(
           date: 1681516800,
           efficiency: 65,
-          type: 'Стандартная',
+          id: 'Стандартная',
         ),
         Statistics(
           date: 1681689599,
           efficiency: 45,
-          type: 'Стандартная',
+          id: 'Стандартная',
         ),
         Statistics(
           date: 1681775999,
           efficiency: 90,
-          type: 'Стандартная',
+          id: 'Стандартная',
         ),
         Statistics(
           date: 1681776000,
           efficiency: 94,
-          type: '1',
+          id: '1',
         ),
       ],
+      date: '',
     );
   }
 
   ///
   @override
-  Future<TrainingInfo> getTrainingData() async {
+  Future<TrainingInfo> getTrainingData(String id) async {
     await Future<void>.delayed(const Duration(seconds: 1));
     return TrainingInfo(
       level: 4,
@@ -363,6 +312,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
           ],
         ),
       ],
+      date: '',
     );
   }
 

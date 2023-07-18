@@ -4,7 +4,9 @@ import 'package:soft_weather_tennis/features/pages/authorization_page/repository
 class MockAuthorizationPageRepository implements AuthorizationPageRepository {
   ///
   @override
-  Future<void> getCode(Map<String, dynamic> body) async {}
+  Future<bool> getCode(Map<String, dynamic> body) async {
+    return false;
+  }
 
   ///
   @override
@@ -20,4 +22,7 @@ class MockAuthorizationPageRepository implements AuthorizationPageRepository {
 
   @override
   Future<void>? recovery(Map<String, dynamic> body) async {}
+
+  @override
+  Future<void>? changeRole(Map<String, dynamic> body) async {}
 }

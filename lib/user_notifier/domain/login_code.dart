@@ -102,6 +102,10 @@ class LoginCode {
     await _secureStorage.delete(
       key: 'TennisLoginCode',
     );
+    _phone = null;
+    await _secureStorage.delete(
+      key: 'TennisPhone',
+    );
   }
 
   /// Сравнение существующего хэша кода с передаваемой строкой

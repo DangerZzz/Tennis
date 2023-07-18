@@ -39,4 +39,10 @@ abstract class AuthorizationPageClient {
   Future<DTO> recovery(
     @Body() Map<String, dynamic> body,
   );
+
+  /// Изменение роли
+  @POST('/api/user/role')
+  Future<DTO> changeRole(
+    @Body() Map<String, dynamic> body,
+  );
 }

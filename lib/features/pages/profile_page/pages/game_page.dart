@@ -23,7 +23,7 @@ class GamePage extends StatelessWidget {
       listenableEntityState: wm.gameData,
       loadingBuilder: (_, __) =>
           const Center(child: AdaptiveActivityIndicator()),
-      builder: (_, state) => Column(
+      builder: (_, gameData) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
@@ -43,7 +43,7 @@ class GamePage extends StatelessWidget {
                   listenableEntityState: wm.currentLevel,
                   builder: (_, currentLevel) => GestureDetector(
                     onTap: () {
-                      if (state?.levels[level - 1].isAvailability ?? false) {
+                      if (level <= gameData!.maxLevel) {
                         wm.changeCurrentLevel(level);
                       }
                     },
@@ -51,12 +51,11 @@ class GamePage extends StatelessWidget {
                       width: 56,
                       height: 45,
                       decoration: BoxDecoration(
-                        color:
-                            (state?.levels[level - 1].isAvailability ?? false)
-                                ? currentLevel != level
-                                    ? AppColors().primaryText
-                                    : AppColors().accentGreen
-                                : AppColors().secondaryText,
+                        color: (level <= gameData!.maxLevel)
+                            ? currentLevel != level
+                                ? AppColors().primaryText
+                                : AppColors().accentGreen
+                            : AppColors().secondaryText,
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: Center(
@@ -83,7 +82,7 @@ class GamePage extends StatelessWidget {
                   listenableEntityState: wm.currentLevel,
                   builder: (_, currentLevel) => GestureDetector(
                     onTap: () {
-                      if (state?.levels[level - 1].isAvailability ?? false) {
+                      if (level <= gameData!.maxLevel) {
                         wm.changeCurrentLevel(level);
                       }
                     },
@@ -91,12 +90,11 @@ class GamePage extends StatelessWidget {
                       width: 56,
                       height: 45,
                       decoration: BoxDecoration(
-                        color:
-                            (state?.levels[level - 1].isAvailability ?? false)
-                                ? currentLevel != level
-                                    ? AppColors().primaryText
-                                    : AppColors().accentGreen
-                                : AppColors().secondaryText,
+                        color: (level <= gameData!.maxLevel)
+                            ? currentLevel != level
+                                ? AppColors().primaryText
+                                : AppColors().accentGreen
+                            : AppColors().secondaryText,
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: Center(
@@ -133,7 +131,7 @@ class GamePage extends StatelessWidget {
                   onTap: () => wm.changeCurrentComplexity('Light'),
                   child: DecoratedBox(
                     decoration: BoxDecoration(
-                      color: currentComplexity?.data != 'Light'
+                      color: currentComplexity?.data != 'Light'.toUpperCase()
                           ? AppColors().primaryText
                           : AppColors().accentGreen,
                       borderRadius: BorderRadius.circular(8),
@@ -156,10 +154,18 @@ class GamePage extends StatelessWidget {
                   width: 8,
                 ),
                 GestureDetector(
-                  onTap: () => wm.changeCurrentComplexity('Medium'),
+                  onTap: () {
+                    if (gameData?.maxLevel == currentLevel?.data) {
+                      if (!(gameData?.maxComplexity == 'Light'.toUpperCase())) {
+                        wm.changeCurrentComplexity('Medium');
+                      }
+                    } else {
+                      wm.changeCurrentComplexity('Medium');
+                    }
+                  },
                   child: DecoratedBox(
                     decoration: BoxDecoration(
-                      color: currentComplexity?.data != 'Medium'
+                      color: currentComplexity?.data != 'Medium'.toUpperCase()
                           ? AppColors().primaryText
                           : AppColors().accentGreen,
                       borderRadius: BorderRadius.circular(8),
@@ -182,11 +188,27 @@ class GamePage extends StatelessWidget {
                   width: 8,
                 ),
                 GestureDetector(
-                  onTap: () => wm.changeCurrentComplexity('Master'),
+                  onTap: () {
+                    if (gameData?.maxLevel == currentLevel?.data) {
+                      if (!(gameData?.maxComplexity == 'Light'.toUpperCase()) &&
+                          !(gameData?.maxComplexity ==
+                              'Medium'.toUpperCase())) {
+                        wm.changeCurrentComplexity('Master');
+                      }
+                    } else {
+                      wm.changeCurrentComplexity('Master');
+                    }
+                  },
                   child: DecoratedBox(
                     decoration: BoxDecoration(
-                      color: currentComplexity?.data != 'Master'
-                          ? AppColors().primaryText
+                      color: currentComplexity?.data != 'Master'.toUpperCase()
+                          ? ((gameData?.maxLevel == currentLevel?.data) &&
+                                  ((gameData?.maxComplexity ==
+                                          'Light'.toUpperCase()) ||
+                                      (gameData?.maxComplexity ==
+                                          'Medium'.toUpperCase())))
+                              ? AppColors().secondaryText
+                              : AppColors().primaryText
                           : AppColors().accentGreen,
                       borderRadius: BorderRadius.circular(8),
                     ),
