@@ -42,10 +42,16 @@ GameDtO _$GameDtOFromJson(Map<String, dynamic> json) => GameDtO(
       actions: (json['actions'] as List<dynamic>?)
           ?.map((e) => ActionsDtO.fromJson(e as Map<String, dynamic>))
           .toList(),
+      efficiency: json['efficiency'] as num?,
+      hits: json['hits'] == null
+          ? null
+          : HitsDtO.fromJson(json['hits'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$GameDtOToJson(GameDtO instance) => <String, dynamic>{
       'actions': instance.actions,
+      'efficiency': instance.efficiency,
+      'hits': instance.hits,
     };
 
 ActionsDtO _$ActionsDtOFromJson(Map<String, dynamic> json) => ActionsDtO(
@@ -57,4 +63,16 @@ Map<String, dynamic> _$ActionsDtOToJson(ActionsDtO instance) =>
     <String, dynamic>{
       'type': instance.type,
       'status': instance.status,
+    };
+
+HitsDtO _$HitsDtOFromJson(Map<String, dynamic> json) => HitsDtO(
+      grid: json['GRID'] as num?,
+      out: json['OUT'] as num?,
+      worked: json['WORKED'] as num?,
+    );
+
+Map<String, dynamic> _$HitsDtOToJson(HitsDtO instance) => <String, dynamic>{
+      'WORKED': instance.worked,
+      'GRID': instance.grid,
+      'OUT': instance.out,
     };

@@ -148,7 +148,7 @@ class _ProfilePageClient implements ProfilePageClient {
     )
             .compose(
               _dio.options,
-              '/order/{cityCode}/deleteCart',
+              '/api/trophy/list',
               queryParameters: queryParameters,
               data: _data,
             )

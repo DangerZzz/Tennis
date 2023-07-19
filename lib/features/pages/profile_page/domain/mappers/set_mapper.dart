@@ -19,8 +19,13 @@ List<Sets> setDataMapper(TrainingDataDtO data) {
       games.add(
         Game(
           gameNumber: gameIndex + 1,
-          percent: 1,
+          percent: set.items?[gameIndex].efficiency ?? 0,
           practicedBeats: strikes,
+          hits: Hits(
+            grid: set.items?[gameIndex].hits?.grid ?? 0,
+            out: set.items?[gameIndex].hits?.out ?? 0,
+            worked: set.items?[gameIndex].hits?.worked ?? 0,
+          ),
         ),
       );
     }

@@ -71,7 +71,11 @@ class NameEditPageWidget extends ElementaryWidget<INameEditPageWidgetModel> {
                     ),
                     TextField(
                       controller: wm.nameController,
+                      textCapitalization: TextCapitalization.words,
                       keyboardType: TextInputType.text,
+                      onChanged: (_) {
+                        wm.nameEnterButtonAvailabilityFunction();
+                      },
                       decoration: InputDecoration(
                         hintText: wm.userInfo.name,
                         hintStyle: AppTextStyles().light_14_19.copyWith(
@@ -92,6 +96,10 @@ class NameEditPageWidget extends ElementaryWidget<INameEditPageWidgetModel> {
                     TextField(
                       controller: wm.surnameController,
                       keyboardType: TextInputType.text,
+                      textCapitalization: TextCapitalization.words,
+                      onChanged: (_) {
+                        wm.nameEnterButtonAvailabilityFunction();
+                      },
                       decoration: InputDecoration(
                         hintText: wm.userInfo.surname,
                         hintStyle: AppTextStyles().light_14_19.copyWith(
@@ -111,35 +119,46 @@ class NameEditPageWidget extends ElementaryWidget<INameEditPageWidgetModel> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: AppColors().secondaryText,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 46, vertical: 8),
-                    child: Text(
-                      'Отмена',
-                      style: AppTextStyles()
-                          .regular_14_19
-                          .copyWith(color: AppColors().white),
+                GestureDetector(
+                  onTap: wm.onBack,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: AppColors().secondaryText,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 46, vertical: 8),
+                      child: Text(
+                        'Отмена',
+                        style: AppTextStyles()
+                            .regular_14_19
+                            .copyWith(color: AppColors().white),
+                      ),
                     ),
                   ),
                 ),
-                DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: AppColors().accentGreen,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 60, vertical: 8),
-                    child: Text(
-                      'Изменить',
-                      style: AppTextStyles()
-                          .regular_14_19
-                          .copyWith(color: AppColors().white),
+                GestureDetector(
+                  onTap: wm.changeName,
+                  child: EntityStateNotifierBuilder<bool>(
+                    listenableEntityState: wm.nameButtonAvailability,
+                    builder: (_, nameButtonAvailability) => DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: (nameButtonAvailability ?? false)
+                            ? AppColors().accentGreen
+                            : AppColors().secondaryText,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 60, vertical: 8),
+                        child: Text(
+                          'Изменить',
+                          style: AppTextStyles()
+                              .regular_14_19
+                              .copyWith(color: AppColors().white),
+                        ),
+                      ),
                     ),
                   ),
                 ),

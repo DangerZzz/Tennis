@@ -44,6 +44,9 @@ class Game {
   /// Процент
   final num percent;
 
+  /// Процент
+  final Hits hits;
+
   /// Геймы
   final List<PracticedBeats> practicedBeats;
 
@@ -52,6 +55,7 @@ class Game {
     required this.gameNumber,
     required this.percent,
     required this.practicedBeats,
+    required this.hits,
   });
 }
 
@@ -67,5 +71,24 @@ class PracticedBeats {
   PracticedBeats({
     required this.name,
     required this.state,
+  });
+}
+
+///Сущность отработанных ударов
+class Hits {
+  /// Уровень
+  final num out;
+
+  /// Процент
+  final num grid;
+
+  /// Процент
+  final num worked;
+
+  ///конструктор [Hits]
+  Hits({
+    required this.worked,
+    required this.out,
+    required this.grid,
   });
 }

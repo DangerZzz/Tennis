@@ -2,6 +2,7 @@ import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:soft_weather_tennis/app/di/app_scope.dart';
+import 'package:soft_weather_tennis/components/snack_bar.dart';
 import 'package:soft_weather_tennis/features/navigation/domain/entity/app_coordinate.dart';
 import 'package:soft_weather_tennis/features/navigation/service/coordinator.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/user_info.dart';
@@ -24,6 +25,9 @@ abstract class ISettingsPageWidgetModel extends IWidgetModel {
 
   /// Кнопка "сменить роль"
   void changeRole();
+
+  /// Кнопка "выйти"
+  void exit();
 
   /// Кнопка "удалить аккаунт"
   void deleteAccount();
@@ -96,6 +100,22 @@ class SettingsPageWidgetModel
       AppCoordinate.authScreen,
       arguments: 'rolePage',
     );
+  }
+
+  @override
+  Future<void> exit() async {
+    try {
+      await model.exit();
+      await _userNotifier.removeUser();
+      //ignore:use_build_context_synchronously
+      coordinator.replaceUntilRoot(
+        context,
+        AppCoordinate.authScreen,
+      );
+    } on FormatException catch (e) {
+      //ignore:use_build_context_synchronously
+      ShowSnackBar().showError(context);
+    }
   }
 
   @override

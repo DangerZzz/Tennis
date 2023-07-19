@@ -11,10 +11,26 @@ abstract class SettingsPageClient {
   factory SettingsPageClient(Dio dio) = _SettingsPageClient;
 
   ///
-  @GET('/order/{cityCode}/deleteCart')
+  @GET('/api/user')
   Future<DTO> getCharactersInfo();
 
   ///
   @GET('/order/{cityCode}/deleteCart')
   Future<DTO> getAvatarsData();
+
+  ///
+  @PATCH('/api/user/name')
+  Future<DTO> changeName(
+    @Body() Map<String, dynamic> body,
+  );
+
+  ///
+  @PATCH('/api/user/characteristics')
+  Future<DTO> editCharactersInfo(
+    @Body() Map<String, dynamic> body,
+  );
+
+  ///
+  @POST('/api/auth/logout')
+  Future<DTO> exit();
 }

@@ -3,11 +3,13 @@ import 'package:soft_weather_tennis/features/pages/profile_page/domain/achieveme
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/characters_info.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/game_data.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/information.dart';
+import 'package:soft_weather_tennis/features/pages/profile_page/domain/mappers/achievement_mapper.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/mappers/set_mapper.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/mappers/statistics_mapper.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/statistics_list.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/training_info.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/user_info.dart';
+import 'package:soft_weather_tennis/features/pages/profile_page/dto/achievement_data_dto.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/dto/game_data_dto.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/dto/statistics_data_dto.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/dto/training_data_dto.dart';
@@ -136,7 +138,14 @@ class ProfilePageRepository {
   Future<List<Achievement>?> getAchievementsData() =>
       _ProfilePageClient.getAchievementsData().then(
         (dto) {
-          return null;
+          final data = dto.data as List<dynamic>;
+          final items = <Achievement>[];
+          for (final element in data) {
+            items.add(achievementDataMapper(
+              AchievementDataDtO.fromJson(element as Map<String, dynamic>),
+            ));
+          }
+          return items;
         },
       );
 }

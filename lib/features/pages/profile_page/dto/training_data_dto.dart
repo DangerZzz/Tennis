@@ -92,9 +92,19 @@ class GameDtO {
   @JsonKey(name: 'actions')
   final List<ActionsDtO>? actions;
 
+  /// Двнные пользователя
+  @JsonKey(name: 'efficiency')
+  final num? efficiency;
+
+  /// Двнные пользователя
+  @JsonKey(name: 'hits')
+  final HitsDtO? hits;
+
   /// Конструктор [GameDtO]
   GameDtO({
     required this.actions,
+    required this.efficiency,
+    required this.hits,
   });
 
   /// Преобразование из json
@@ -146,4 +156,43 @@ class ActionsDtO {
 
   /// Преобразование в json
   Map<String, dynamic> toJson() => _$ActionsDtOToJson(this);
+}
+
+/// Модель, хранящая список данных о пользователе
+@JsonSerializable()
+class HitsDtO {
+  /// Двнные пользователя
+  @JsonKey(name: 'WORKED')
+  final num? worked;
+
+  /// Двнные пользователя
+  @JsonKey(name: 'GRID')
+  final num? grid;
+
+  /// Двнные пользователя
+  @JsonKey(name: 'OUT')
+  final num? out;
+
+  /// Конструктор [HitsDtO]
+  HitsDtO({
+    required this.grid,
+    required this.out,
+    required this.worked,
+  });
+
+  /// Преобразование из json
+  factory HitsDtO.fromJson(Map<String, dynamic> json) =>
+      _$HitsDtOFromJson(json);
+
+  /// Преобразование из json в лист объектов
+  static Iterable<HitsDtO> listFromJson(
+    Iterable<Map<String, dynamic>> parsedJson,
+  ) {
+    Iterable<HitsDtO> list = <HitsDtO>[];
+    list = parsedJson.map((i) => HitsDtO.fromJson(i)).toList();
+    return list;
+  }
+
+  /// Преобразование в json
+  Map<String, dynamic> toJson() => _$HitsDtOToJson(this);
 }

@@ -1,7 +1,6 @@
 import 'package:elementary/elementary.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:soft_weather_tennis/app/di/app_scope.dart';
 import 'package:soft_weather_tennis/features/navigation/domain/entity/app_coordinate.dart';
@@ -15,7 +14,6 @@ import 'package:soft_weather_tennis/features/pages/profile_page/domain/training_
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/user_info.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/profile_page_model.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/profile_page_widget.dart';
-import 'package:soft_weather_tennis/features/pages/profile_page/widgets/achievements_dialog.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/widgets/adaptive_date_picker.dart';
 import 'package:soft_weather_tennis/user_notifier/user_notifier.dart';
 
@@ -101,6 +99,9 @@ abstract class IProfilePageWidgetModel extends IWidgetModel {
 
   /// изменение текущего сета
   void changeGame(int game);
+
+  /// Обновление страницы
+  Future<void> onRefresh();
 }
 
 ///
@@ -203,6 +204,17 @@ class ProfilePageWidgetModel
   @override
   Future<void> initWidgetModel() async {
     super.initWidgetModel();
+    _index = EntityStateNotifier<int>();
+    _userInfo = EntityStateNotifier<UserInfo>();
+    _achievementsButtonIsLoading = EntityStateNotifier<bool>();
+    _currentLevel = EntityStateNotifier<num>();
+    _currentComplexity = EntityStateNotifier<String>();
+    _currentSet = EntityStateNotifier<int>();
+    _currentGame = EntityStateNotifier<int>();
+    _informationData = EntityStateNotifier<Information>();
+    _gameData = EntityStateNotifier<GameData>();
+    _statisticsData = EntityStateNotifier<StatisticsList>();
+    _workoutData = EntityStateNotifier<TrainingInfo>();
     await _initLoad();
   }
 
@@ -370,6 +382,7 @@ class ProfilePageWidgetModel
   /// изменение текущего сета
   @override
   void changeSet(int set) {
+    _currentGame.content(0);
     if (set > (_currentSet.value?.data ?? 0)) {
       if (set < (workoutData.value?.data?.sets.length ?? 0)) {
         _currentSet.content(set);
@@ -445,67 +458,60 @@ class ProfilePageWidgetModel
     return text;
   }
 
-  /// Всплывающее окно с уведомлением о новом достижении
-  void achievementsDialog() {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      showDialog<void>(
-        barrierDismissible: false,
-        builder: (context) {
-          return AchievementsDialog(
-            width: width,
-            back: () => Navigator.maybePop(context),
-            isInfo: false,
-            achievements: [
-              Achievement(
-                name: 'Smash power',
-                url:
-                    'lib/features/pages/profile_page/assets/images/achivment_test.png',
-                isGetting: false,
-                date: '',
-              ),
-              Achievement(
-                name: 'Заряженный',
-                url:
-                    'lib/features/pages/profile_page/assets/images/achivment_test.png',
-                isGetting: false,
-                date: '',
-              ),
-            ],
-          );
-        },
-        context: context,
-      );
-    });
+  // /// Всплывающее окно с уведомлением о новом достижении
+  // void achievementsDialog() {
+  //   SchedulerBinding.instance.addPostFrameCallback((_) {
+  //     showDialog<void>(
+  //       barrierDismissible: false,
+  //       builder: (context) {
+  //         return AchievementsDialog(
+  //           width: width,
+  //           back: () => Navigator.maybePop(context),
+  //           isInfo: false,
+  //           achievements: [
+  //             Achievement(
+  //               name: 'Smash power',
+  //               url:
+  //                   'lib/features/pages/profile_page/assets/images/achivment_test.png',
+  //               isGetting: false,
+  //               date: '',
+  //             ),
+  //             Achievement(
+  //               name: 'Заряженный',
+  //               url:
+  //                   'lib/features/pages/profile_page/assets/images/achivment_test.png',
+  //               isGetting: false,
+  //               date: '',
+  //             ),
+  //           ],
+  //         );
+  //       },
+  //       context: context,
+  //     );
+  //   });
+  // }
+
+  @override
+  Future<void> onRefresh() async {
+    await _initLoad();
   }
 
   Future<void> _initLoad() async {
-    _index = EntityStateNotifier<int>();
+    _index.content(0);
 
-    _userInfo = EntityStateNotifier<UserInfo>();
     _userInfo.loading();
-    _achievementsButtonIsLoading = EntityStateNotifier<bool>();
     _achievementsButtonIsLoading.content(false);
     final data = await model.getUserInfo();
     _userInfo.content(data);
 
-    _currentLevel = EntityStateNotifier<num>();
-    _currentComplexity = EntityStateNotifier<String>();
-
-    _currentSet = EntityStateNotifier<int>();
     _currentSet.content(0);
-    _currentGame = EntityStateNotifier<int>();
     _currentGame.content(0);
-
-    _informationData = EntityStateNotifier<Information>();
-    _gameData = EntityStateNotifier<GameData>();
-    _statisticsData = EntityStateNotifier<StatisticsList>();
-    _workoutData = EntityStateNotifier<TrainingInfo>();
 
     await onInformation();
 
-    if (newAchievements) {
-      achievementsDialog();
-    }
+    // if (newAchievements) {
+    //   achievementsDialog();
+    // }
     // 2446619419
   }
 }

@@ -29,4 +29,13 @@ class MockSettingsPageRepository implements SettingsPageRepository {
       backImageUrl: '',
     );
   }
+
+  @override
+  Future<void> changeName(Map<String, dynamic> body) async {}
+
+  @override
+  Future<void> editCharactersInfo(Map<String, dynamic> body) async {}
+
+  @override
+  Future<void> exit() async {}
 }

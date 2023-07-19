@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
 import 'package:soft_weather_tennis/components/adaptive_activity_indicator.dart';
+import 'package:soft_weather_tennis/components/age_text_convertator.dart';
 import 'package:soft_weather_tennis/components/state_widgets/error_state_widget.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/information.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/profile_page_wm.dart';
@@ -93,7 +94,7 @@ class InformationPage extends StatelessWidget {
           const SizedBox(
             height: 24,
           ),
-          if (state?.trophiesCount != 0)
+          if (state?.lastTrophies.isNotEmpty ?? false)
             DecoratedBox(
               decoration: BoxDecoration(
                 color: AppColors().white,
@@ -177,8 +178,10 @@ class InformationPage extends StatelessWidget {
                   style: AppTextStyles().light_14_19,
                 ),
                 Text(
-                  state?.charactersInfo.age != null
+                  (state?.charactersInfo.age != null &&
+                          state?.charactersInfo.age != 0)
                       ? '${state?.charactersInfo.age}'
+                          ' ${AgeTextConvert().convertAge(state?.charactersInfo.age ?? 0)}'
                       : '—',
                   style: AppTextStyles().medium_14_19,
                 ),
@@ -199,8 +202,9 @@ class InformationPage extends StatelessWidget {
                   style: AppTextStyles().light_14_19,
                 ),
                 Text(
-                  state?.charactersInfo.height != null
-                      ? '${state?.charactersInfo.height}'
+                  (state?.charactersInfo.height != null &&
+                          state?.charactersInfo.height != 0)
+                      ? '${state?.charactersInfo.height} см'
                       : '—',
                   style: AppTextStyles().medium_14_19,
                 ),
@@ -221,8 +225,9 @@ class InformationPage extends StatelessWidget {
                   style: AppTextStyles().light_14_19,
                 ),
                 Text(
-                  state?.charactersInfo.ageInTennis != null
+                  (state?.charactersInfo.ageInTennis != null)
                       ? '${state?.charactersInfo.ageInTennis}'
+                          ' ${AgeTextConvert().convertAge(state?.charactersInfo.ageInTennis ?? 0)}'
                       : '—',
                   style: AppTextStyles().medium_14_19,
                 ),
@@ -243,9 +248,9 @@ class InformationPage extends StatelessWidget {
                   style: AppTextStyles().light_14_19,
                 ),
                 Text(
-                  (state?.charactersInfo.forehand?.isNotEmpty ?? false)
-                      ? state?.charactersInfo.forehand ?? '—'
-                      : '—',
+                  state?.charactersInfo.forehand == 'RIGHT'
+                      ? 'Правая рука'
+                      : 'Левая рука',
                   style: AppTextStyles().medium_14_19,
                 ),
               ],
@@ -265,9 +270,9 @@ class InformationPage extends StatelessWidget {
                   style: AppTextStyles().light_14_19,
                 ),
                 Text(
-                  (state?.charactersInfo.backhand?.isNotEmpty ?? false)
-                      ? state?.charactersInfo.backhand ?? '—'
-                      : '—',
+                  state?.charactersInfo.backhand == 'ONE'
+                      ? 'Одноручный'
+                      : 'Двуручный',
                   style: AppTextStyles().medium_14_19,
                 ),
               ],
@@ -287,8 +292,9 @@ class InformationPage extends StatelessWidget {
                   style: AppTextStyles().light_14_19,
                 ),
                 Text(
-                  state?.charactersInfo.technicality != null
-                      ? '${state?.charactersInfo.technicality}' ?? '—'
+                  (state?.charactersInfo.technicality != null &&
+                          state?.charactersInfo.technicality != 0)
+                      ? '${state?.charactersInfo.technicality}'
                       : '—',
                   style: AppTextStyles().medium_14_19,
                 ),
@@ -309,7 +315,8 @@ class InformationPage extends StatelessWidget {
                   style: AppTextStyles().light_14_19,
                 ),
                 Text(
-                  state?.charactersInfo.trainer != null
+                  (state?.charactersInfo.trainer != null &&
+                          state?.charactersInfo.trainer != '')
                       ? state?.charactersInfo.trainer ?? '—'
                       : '—',
                   style: AppTextStyles().medium_14_19,

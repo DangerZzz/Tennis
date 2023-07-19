@@ -259,23 +259,26 @@ class SettingsPageWidget extends ElementaryWidget<ISettingsPageWidgetModel> {
                     const SizedBox(
                       height: 4,
                     ),
-                    Row(
-                      children: [
-                        Icon(
-                          TennisIcons.logout,
-                          color: AppColors().accentGreen,
-                          size: 24,
-                        ),
-                        const SizedBox(
-                          width: 12,
-                        ),
-                        Text(
-                          'Выйти',
-                          style: AppTextStyles().regular_14_19.copyWith(
-                                color: AppColors().primaryText,
-                              ),
-                        ),
-                      ],
+                    InkWell(
+                      onTap: wm.exit,
+                      child: Row(
+                        children: [
+                          Icon(
+                            TennisIcons.logout,
+                            color: AppColors().accentGreen,
+                            size: 24,
+                          ),
+                          const SizedBox(
+                            width: 12,
+                          ),
+                          Text(
+                            'Выйти',
+                            style: AppTextStyles().regular_14_19.copyWith(
+                                  color: AppColors().primaryText,
+                                ),
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(
                       height: 4,

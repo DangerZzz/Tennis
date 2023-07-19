@@ -399,6 +399,16 @@ class AuthorizationPageWidgetModel
           await model.recovery(
             password: _pinController.text,
           );
+
+          await _userNotifier.loginCode.updateCode(_pinController.text);
+          if (_userNotifier.canUseBiometric) {
+            if (_acceptBiometrics.value?.data ?? false) {
+              await _userNotifier
+                  .updateBiometricStorage(_firstEnter.value?.data ?? true);
+              debugPrint('Биометрия сохранена');
+            }
+          }
+          await _userNotifier.loginCode.updatePhone(_phoneController.text);
           await _userNotifier.saveTokens(_pinController.text);
           await _userNotifier.loginCode
               .updatePhone(_phoneController.text.replaceAll(' ', ''));

@@ -127,16 +127,10 @@ class UserNotifier extends ChangeNotifier implements IUserNotifier {
   /// Очистка данных пользователя - logout
   @override
   Future<void> removeUser() async {
-    // try {
-    //   await _repository.logout();
-    // } on Exception catch (_) {}
-    // await _loginSettings.clearSettingsLogin();
     await _loginCode.clear();
     await _tokenStorage.clearTokens();
     await _tokenStorage.clearBiometricsCode();
-    // _clearDioTokens();
     _user = null;
-    // _registrationComplete = null;
     notifyListeners();
   }
 

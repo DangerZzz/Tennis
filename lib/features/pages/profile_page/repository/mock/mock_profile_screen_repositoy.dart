@@ -42,6 +42,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
               'lib/features/pages/profile_page/assets/images/achivment_test.png',
           isGetting: false,
           date: 'date',
+          description: '',
         ),
         Achievement(
           name: 'Работа ногами',
@@ -49,6 +50,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
               'lib/features/pages/profile_page/assets/images/achivment_test.png',
           isGetting: false,
           date: 'date',
+          description: '',
         ),
         Achievement(
           name: 'Трофей очень длинный супер капец просто 3',
@@ -56,6 +58,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
               'lib/features/pages/profile_page/assets/images/achivment_test.png',
           isGetting: false,
           date: 'date',
+          description: '',
         ),
       ],
       charactersInfo: CharactersInfo(
@@ -147,6 +150,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
           game: [
             Game(
               percent: 80,
+              hits: Hits(worked: 1, out: 1, grid: 1),
               gameNumber: 1,
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
@@ -159,12 +163,14 @@ class MockProfilePageRepository implements ProfilePageRepository {
             Game(
               percent: 80,
               gameNumber: 2,
+              hits: Hits(worked: 1, out: 1, grid: 1),
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
               ],
             ),
             Game(
               percent: 80,
+              hits: Hits(worked: 1, out: 1, grid: 1),
               gameNumber: 3,
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
@@ -172,6 +178,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
             ),
             Game(
               percent: 80,
+              hits: Hits(worked: 1, out: 1, grid: 1),
               gameNumber: 4,
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
@@ -183,6 +190,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
           game: [
             Game(
               percent: 80,
+              hits: Hits(worked: 1, out: 1, grid: 1),
               gameNumber: 1,
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
@@ -194,6 +202,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
             ),
             Game(
               percent: 80,
+              hits: Hits(worked: 1, out: 1, grid: 1),
               gameNumber: 2,
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
@@ -205,6 +214,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
           game: [
             Game(
               percent: 80,
+              hits: Hits(worked: 1, out: 1, grid: 1),
               gameNumber: 1,
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
@@ -217,6 +227,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
             Game(
               percent: 80,
               gameNumber: 1,
+              hits: Hits(worked: 1, out: 1, grid: 1),
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
@@ -228,6 +239,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
             Game(
               percent: 80,
               gameNumber: 2,
+              hits: Hits(worked: 1, out: 1, grid: 1),
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
               ],
@@ -239,6 +251,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
             Game(
               percent: 80,
               gameNumber: 1,
+              hits: Hits(worked: 1, out: 1, grid: 1),
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
@@ -250,6 +263,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
             Game(
               percent: 80,
               gameNumber: 2,
+              hits: Hits(worked: 1, out: 1, grid: 1),
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
@@ -261,6 +275,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
             Game(
               percent: 80,
               gameNumber: 3,
+              hits: Hits(worked: 1, out: 1, grid: 1),
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
@@ -272,6 +287,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
             Game(
               percent: 80,
               gameNumber: 4,
+              hits: Hits(worked: 1, out: 1, grid: 1),
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
@@ -283,6 +299,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
             Game(
               percent: 80,
               gameNumber: 5,
+              hits: Hits(worked: 1, out: 1, grid: 1),
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
@@ -301,10 +318,12 @@ class MockProfilePageRepository implements ProfilePageRepository {
                 PracticedBeats(name: 'Forehand', state: 'Out'),
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
               ],
+              hits: Hits(worked: 1, out: 1, grid: 1),
             ),
             Game(
               percent: 80,
               gameNumber: 7,
+              hits: Hits(worked: 1, out: 1, grid: 1),
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
               ],
@@ -327,24 +346,28 @@ class MockProfilePageRepository implements ProfilePageRepository {
             'lib/features/pages/profile_page/assets/images/achievement_grey.png',
         isGetting: false,
         date: '',
+        description: '',
       ),
       Achievement(
         name: '1Smash power',
         url: 'lib/features/pages/profile_page/assets/images/achivment_test.png',
         isGetting: true,
         date: '20.12.2023',
+        description: '',
       ),
       Achievement(
         name: 'Smash power',
         url: 'lib/features/pages/profile_page/assets/images/achivment_test.png',
         isGetting: true,
         date: '20.12.2023',
+        description: '',
       ),
       Achievement(
         name: 'Smash power',
         url: 'lib/features/pages/profile_page/assets/images/achivment_test.png',
         isGetting: true,
         date: '20.12.2023',
+        description: '',
       ),
       Achievement(
         name: 'Smash power',
@@ -352,6 +375,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
             'lib/features/pages/profile_page/assets/images/achievement_grey.png',
         isGetting: false,
         date: '',
+        description: '',
       ),
       Achievement(
         name: 'Smash power',
@@ -359,6 +383,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
             'lib/features/pages/profile_page/assets/images/achievement_grey.png',
         isGetting: false,
         date: '',
+        description: '',
       ),
       Achievement(
         name: 'Smash power',
@@ -366,6 +391,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
             'lib/features/pages/profile_page/assets/images/achievement_grey.png',
         isGetting: false,
         date: '',
+        description: '',
       ),
       Achievement(
         name: 'Smash power',
@@ -373,6 +399,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
             'lib/features/pages/profile_page/assets/images/achievement_grey.png',
         isGetting: false,
         date: '',
+        description: '',
       ),
       Achievement(
         name: 'Smash power',
@@ -380,6 +407,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
             'lib/features/pages/profile_page/assets/images/achievement_grey.png',
         isGetting: false,
         date: '',
+        description: '',
       ),
       Achievement(
         name: 'Smash power',
@@ -387,6 +415,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
             'lib/features/pages/profile_page/assets/images/achievement_grey.png',
         isGetting: false,
         date: '',
+        description: '',
       ),
       Achievement(
         name: 'Smash power',
@@ -394,6 +423,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
             'lib/features/pages/profile_page/assets/images/achievement_grey.png',
         isGetting: false,
         date: '',
+        description: '',
       ),
       Achievement(
         name: 'Заряженный',
@@ -401,6 +431,7 @@ class MockProfilePageRepository implements ProfilePageRepository {
             'lib/features/pages/profile_page/assets/images/achievement_grey.png',
         isGetting: false,
         date: '',
+        description: '',
       ),
     ];
   }

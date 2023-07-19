@@ -32,7 +32,7 @@ class _SettingsPageClient implements SettingsPageClient {
     )
             .compose(
               _dio.options,
-              '/order/{cityCode}/deleteCart',
+              '/api/user',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -56,6 +56,77 @@ class _SettingsPageClient implements SettingsPageClient {
             .compose(
               _dio.options,
               '/order/{cityCode}/deleteCart',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = DTO.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<DTO> changeName(body) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body);
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<DTO>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/api/user/name',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = DTO.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<DTO> editCharactersInfo(body) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body);
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<DTO>(Options(
+      method: 'PATCH',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/api/user/characteristics',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = DTO.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<DTO> exit() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<DTO>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/api/auth/logout',
               queryParameters: queryParameters,
               data: _data,
             )

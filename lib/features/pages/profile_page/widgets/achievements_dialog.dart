@@ -1,9 +1,12 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
+import 'package:octo_image/octo_image.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
+import 'package:soft_weather_tennis/components/adaptive_activity_indicator.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/achievement.dart';
 
 ///
@@ -72,9 +75,7 @@ class AchievementsDialog extends StatelessWidget {
                             ),
                       ),
                       Text(
-                        'Проведите тренировку, выполнив не'
-                        ' менее 3х ударов “Smash” и '
-                        'не попав в аут или сетку.',
+                        achievements[0].description,
                         style: AppTextStyles().medium_16_21.copyWith(
                               color: AppColors().primaryText,
                             ),
@@ -82,30 +83,41 @@ class AchievementsDialog extends StatelessWidget {
                       const SizedBox(
                         height: 32,
                       ),
+                      const Spacer(),
                       SizedBox(
                         width: 135,
                         height: 135,
-                        child: Image.asset(
-                          achievements[0].url,
+                        child: OctoImage(
                           fit: BoxFit.contain,
+                          width: 135,
+                          height: 135,
+                          placeholderBuilder: (context) => const Center(
+                            child: AdaptiveActivityIndicator(
+                              radius: 40,
+                            ),
+                          ),
+                          errorBuilder: (c, e, s) => Center(
+                            child: SvgPicture.asset(
+                              'assets/images/error_placeholder.svg',
+                              colorFilter: ColorFilter.mode(
+                                AppColors().accentGreen,
+                                BlendMode.srcIn,
+                              ),
+                              height: 60,
+                              width: 60,
+                            ),
+                          ),
+                          image: Image.network(
+                            achievements[0].url,
+                          ).image,
+                          color: achievements[0].isGetting
+                              ? null
+                              : AppColors().primaryText.withOpacity(0.9),
+                          colorBlendMode:
+                              achievements[0].isGetting ? null : BlendMode.hue,
                         ),
-                        // OctoImage(
-                        //   fit: BoxFit.contain,
-                        //   placeholderBuilder: (context) => const Icon(
-                        //     Icons.refresh,
-                        //   ),
-                        //   errorBuilder: (c, e, s) => const Icon(
-                        //     Icons.error,
-                        //   ),
-                        //   image: Image.network(
-                        //     'https://picsum.photos/200',
-                        //     fit: BoxFit.contain,
-                        //   ).image,
-                        // ),
                       ),
-                      const SizedBox(
-                        height: 32,
-                      ),
+                      const Spacer(),
                       GestureDetector(
                         onTap: back,
                         child: DecoratedBox(
@@ -163,23 +175,32 @@ class AchievementsDialog extends StatelessWidget {
                                 SizedBox(
                                   width: 140,
                                   height: 140,
-                                  child: Image.asset(
-                                    achievements[index].url,
-                                    fit: BoxFit.contain,
+                                  child: OctoImage(
+                                    fit: BoxFit.cover,
+                                    width: 60,
+                                    height: 60,
+                                    placeholderBuilder: (context) =>
+                                        const Center(
+                                      child: AdaptiveActivityIndicator(
+                                        radius: 40,
+                                      ),
+                                    ),
+                                    errorBuilder: (c, e, s) => Center(
+                                      child: SvgPicture.asset(
+                                        'assets/images/error_placeholder.svg',
+                                        colorFilter: ColorFilter.mode(
+                                          AppColors().accentGreen,
+                                          BlendMode.srcIn,
+                                        ),
+                                        height: 60,
+                                        width: 60,
+                                      ),
+                                    ),
+                                    image: Image.network(
+                                      achievements[index].url,
+                                      fit: BoxFit.cover,
+                                    ).image,
                                   ),
-                                  // OctoImage(
-                                  //   fit: BoxFit.contain,
-                                  //   placeholderBuilder: (context) => const Icon(
-                                  //     Icons.refresh,
-                                  //   ),
-                                  //   errorBuilder: (c, e, s) => const Icon(
-                                  //     Icons.error,
-                                  //   ),
-                                  //   image: Image.network(
-                                  //     'https://picsum.photos/200',
-                                  //     fit: BoxFit.contain,
-                                  //   ).image,
-                                  // ),
                                 ),
                               ],
                             );

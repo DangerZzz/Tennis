@@ -162,7 +162,6 @@ class AvatarPageWidgetModel
             final picker = ImagePicker();
             try {
               final image = await picker.pickImage(source: ImageSource.camera);
-
               if (image == null) {
                 //ignore: use_build_context_synchronously
                 Navigator.pop(context);

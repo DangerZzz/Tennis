@@ -4,6 +4,8 @@ import 'package:soft_weather_tennis/assets/icons/TennisIcons.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
 import 'package:soft_weather_tennis/components/adaptive_activity_indicator.dart';
+import 'package:soft_weather_tennis/components/age_text_convertator.dart';
+import 'package:soft_weather_tennis/components/custom_dropdown.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/characters_info.dart';
 import 'package:soft_weather_tennis/features/pages/settings_page/pages/characteristics_page/characteristics_page_wm.dart';
 
@@ -76,24 +78,29 @@ class CharacteristicsPageWidget
                       const SizedBox(
                         height: 16,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Возраст',
-                            style: AppTextStyles().light_14_19.copyWith(
-                                  color: AppColors().primaryText,
-                                ),
-                          ),
-                          Text(
-                            charactersInfo?.age != null
-                                ? '${charactersInfo?.age} лет'
-                                : '—',
-                            style: AppTextStyles().regular_14_19.copyWith(
-                                  color: AppColors().primaryText,
-                                ),
-                          ),
-                        ],
+                      InkWell(
+                        onTap: wm.onAge,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Возраст',
+                              style: AppTextStyles().light_14_19.copyWith(
+                                    color: AppColors().primaryText,
+                                  ),
+                            ),
+                            Text(
+                              (charactersInfo?.age != null &&
+                                      charactersInfo?.age != 0)
+                                  ? '${charactersInfo?.age}'
+                                      ' ${AgeTextConvert().convertAge(charactersInfo?.age ?? 0)}'
+                                  : '—',
+                              style: AppTextStyles().regular_14_19.copyWith(
+                                    color: AppColors().primaryText,
+                                  ),
+                            ),
+                          ],
+                        ),
                       ),
                       const SizedBox(
                         height: 4,
@@ -105,6 +112,38 @@ class CharacteristicsPageWidget
                       const SizedBox(
                         height: 4,
                       ),
+                      InkWell(
+                        onTap: wm.onAgeInTennis,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Лет в теннисе',
+                              style: AppTextStyles().light_14_19.copyWith(
+                                    color: AppColors().primaryText,
+                                  ),
+                            ),
+                            Text(
+                              (charactersInfo?.ageInTennis != null)
+                                  ? '${charactersInfo?.ageInTennis}'
+                                      ' ${AgeTextConvert().convertAge(charactersInfo?.ageInTennis ?? 0)}'
+                                  : '—',
+                              style: AppTextStyles().regular_14_19.copyWith(
+                                    color: AppColors().primaryText,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Divider(
+                        color: AppColors().secondaryText.withOpacity(0.1),
+                        thickness: 1,
+                      ),
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -114,55 +153,34 @@ class CharacteristicsPageWidget
                                   color: AppColors().primaryText,
                                 ),
                           ),
-                          Text(
-                            charactersInfo?.height != null
-                                ? '${charactersInfo?.height} см'
-                                : '—',
-                            style: AppTextStyles().regular_14_19.copyWith(
+                          DropDownCustom(
+                            items: wm.height,
+                            textStyle: AppTextStyles().regular_14_19.copyWith(
                                   color: AppColors().primaryText,
                                 ),
+                            hint: Text(
+                              '${charactersInfo?.height} см',
+                              style: AppTextStyles().regular_14_19.copyWith(
+                                    color: AppColors().primaryText,
+                                  ),
+                            ),
+                            icon: Icon(
+                              Icons.expand_more,
+                              color: AppColors().secondaryText,
+                              size: 18,
+                            ),
+                            onChanged: (state) {
+                              wm.heightEdit(state as String);
+                            },
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 4,
-                      ),
+
                       Divider(
                         color: AppColors().secondaryText.withOpacity(0.1),
                         thickness: 1,
                       ),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Лет в теннисе',
-                            style: AppTextStyles().light_14_19.copyWith(
-                                  color: AppColors().primaryText,
-                                ),
-                          ),
-                          Text(
-                            charactersInfo?.ageInTennis != null
-                                ? '${charactersInfo?.ageInTennis} года'
-                                : '—',
-                            style: AppTextStyles().regular_14_19.copyWith(
-                                  color: AppColors().primaryText,
-                                ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Divider(
-                        color: AppColors().secondaryText.withOpacity(0.1),
-                        thickness: 1,
-                      ),
-                      const SizedBox(
-                        height: 4,
-                      ),
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -172,26 +190,38 @@ class CharacteristicsPageWidget
                                   color: AppColors().primaryText,
                                 ),
                           ),
-                          Text(
-                            (charactersInfo?.forehand?.isNotEmpty ?? false)
-                                ? '${charactersInfo?.forehand}'
-                                : '—',
-                            style: AppTextStyles().regular_14_19.copyWith(
+                          DropDownCustom(
+                            items: const [
+                              'Левая рука',
+                              'Правая рука',
+                            ],
+                            textStyle: AppTextStyles().regular_14_19.copyWith(
                                   color: AppColors().primaryText,
                                 ),
+                            hint: Text(
+                              charactersInfo?.forehand == 'RIGHT'
+                                  ? 'Правая рука'
+                                  : 'Левая рука',
+                              style: AppTextStyles().regular_14_19.copyWith(
+                                    color: AppColors().primaryText,
+                                  ),
+                            ),
+                            icon: Icon(
+                              Icons.expand_more,
+                              color: AppColors().secondaryText,
+                              size: 18,
+                            ),
+                            onChanged: (state) {
+                              wm.forehandEdit(state as String);
+                            },
                           ),
                         ],
-                      ),
-                      const SizedBox(
-                        height: 4,
                       ),
                       Divider(
                         color: AppColors().secondaryText.withOpacity(0.1),
                         thickness: 1,
                       ),
-                      const SizedBox(
-                        height: 4,
-                      ),
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -201,81 +231,96 @@ class CharacteristicsPageWidget
                                   color: AppColors().primaryText,
                                 ),
                           ),
-                          Text(
-                            (charactersInfo?.backhand?.isNotEmpty ?? false)
-                                ? '${charactersInfo?.backhand}'
-                                : '—',
-                            style: AppTextStyles().regular_14_19.copyWith(
+                          DropDownCustom(
+                            items: const [
+                              'Одноручный',
+                              'Двуручный',
+                            ],
+                            textStyle: AppTextStyles().regular_14_19.copyWith(
                                   color: AppColors().primaryText,
                                 ),
+                            hint: Text(
+                              charactersInfo?.backhand == 'ONE'
+                                  ? 'Одноручный'
+                                  : 'Двуручный',
+                              style: AppTextStyles().regular_14_19.copyWith(
+                                    color: AppColors().primaryText,
+                                  ),
+                            ),
+                            icon: Icon(
+                              Icons.expand_more,
+                              color: AppColors().secondaryText,
+                              size: 18,
+                            ),
+                            onChanged: (state) {
+                              wm.backhandEdit(state as String);
+                            },
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 4,
-                      ),
+
                       Divider(
                         color: AppColors().secondaryText.withOpacity(0.1),
                         thickness: 1,
                       ),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Техничность',
-                            style: AppTextStyles().light_14_19.copyWith(
-                                  color: AppColors().primaryText,
-                                ),
-                          ),
-                          Text(
-                            charactersInfo?.technicality != null
-                                ? '${charactersInfo?.technicality} %'
-                                : '—',
-                            style: AppTextStyles().regular_14_19.copyWith(
-                                  color: AppColors().primaryText,
-                                ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Divider(
-                        color: AppColors().secondaryText.withOpacity(0.1),
-                        thickness: 1,
-                      ),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Тренер',
-                            style: AppTextStyles().light_14_19.copyWith(
-                                  color: AppColors().primaryText,
-                                ),
-                          ),
-                          Text(
-                            (charactersInfo?.trainer?.isNotEmpty ?? false)
-                                ? '${charactersInfo?.trainer}'
-                                : '—',
-                            style: AppTextStyles().light_14_19.copyWith(
-                                  color: AppColors().primaryText,
-                                ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Divider(
-                        color: AppColors().secondaryText.withOpacity(0.1),
-                        thickness: 1,
-                      ),
+                      // const SizedBox(
+                      //   height: 4,
+                      // ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     Text(
+                      //       'Техничность',
+                      //       style: AppTextStyles().light_14_19.copyWith(
+                      //             color: AppColors().primaryText,
+                      //           ),
+                      //     ),
+                      //     Text(
+                      //       charactersInfo?.technicality != null
+                      //           ? '${charactersInfo?.technicality} %'
+                      //           : '—',
+                      //       style: AppTextStyles().regular_14_19.copyWith(
+                      //             color: AppColors().primaryText,
+                      //           ),
+                      //     ),
+                      //   ],
+                      // ),
+                      // const SizedBox(
+                      //   height: 4,
+                      // ),
+                      // Divider(
+                      //   color: AppColors().secondaryText.withOpacity(0.1),
+                      //   thickness: 1,
+                      // ),
+                      // const SizedBox(
+                      //   height: 4,
+                      // ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     Text(
+                      //       'Тренер',
+                      //       style: AppTextStyles().light_14_19.copyWith(
+                      //             color: AppColors().primaryText,
+                      //           ),
+                      //     ),
+                      //     Text(
+                      //       (charactersInfo?.trainer?.isNotEmpty ?? false)
+                      //           ? '${charactersInfo?.trainer}'
+                      //           : '—',
+                      //       style: AppTextStyles().light_14_19.copyWith(
+                      //             color: AppColors().primaryText,
+                      //           ),
+                      //     ),
+                      //   ],
+                      // ),
+                      // const SizedBox(
+                      //   height: 4,
+                      // ),
+                      // Divider(
+                      //   color: AppColors().secondaryText.withOpacity(0.1),
+                      //   thickness: 1,
+                      // ),
                     ],
                   ),
                 ),
@@ -286,39 +331,45 @@ class CharacteristicsPageWidget
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: AppColors().secondaryText,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 46,
-                        vertical: 8,
+                  GestureDetector(
+                    onTap: wm.onBack,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: AppColors().secondaryText,
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                      child: Text(
-                        'Отмена',
-                        style: AppTextStyles()
-                            .regular_14_19
-                            .copyWith(color: AppColors().white),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 46,
+                          vertical: 8,
+                        ),
+                        child: Text(
+                          'Отмена',
+                          style: AppTextStyles()
+                              .regular_14_19
+                              .copyWith(color: AppColors().white),
+                        ),
                       ),
                     ),
                   ),
-                  DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: AppColors().accentGreen,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 60,
-                        vertical: 8,
+                  GestureDetector(
+                    onTap: wm.editCharacters,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: AppColors().accentGreen,
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                      child: Text(
-                        'Сохранить',
-                        style: AppTextStyles()
-                            .regular_14_19
-                            .copyWith(color: AppColors().white),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 60,
+                          vertical: 8,
+                        ),
+                        child: Text(
+                          'Сохранить',
+                          style: AppTextStyles()
+                              .regular_14_19
+                              .copyWith(color: AppColors().white),
+                        ),
                       ),
                     ),
                   ),

@@ -213,6 +213,7 @@ class MockGamePageRepository implements GamePageRepository {
             Game(
               percent: 80,
               gameNumber: 1,
+              hits: Hits(worked: 1, out: 1, grid: 1),
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
@@ -224,12 +225,14 @@ class MockGamePageRepository implements GamePageRepository {
             Game(
               percent: 80,
               gameNumber: 2,
+              hits: Hits(worked: 1, out: 1, grid: 1),
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
               ],
             ),
             Game(
               percent: 80,
+              hits: Hits(worked: 1, out: 1, grid: 1),
               gameNumber: 3,
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
@@ -237,6 +240,7 @@ class MockGamePageRepository implements GamePageRepository {
             ),
             Game(
               percent: 80,
+              hits: Hits(worked: 1, out: 1, grid: 1),
               gameNumber: 4,
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
@@ -248,6 +252,7 @@ class MockGamePageRepository implements GamePageRepository {
           game: [
             Game(
               percent: 80,
+              hits: Hits(worked: 1, out: 1, grid: 1),
               gameNumber: 1,
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
@@ -259,6 +264,43 @@ class MockGamePageRepository implements GamePageRepository {
             ),
             Game(
               percent: 80,
+              hits: Hits(worked: 1, out: 1, grid: 1),
+              gameNumber: 2,
+              practicedBeats: [
+                PracticedBeats(name: 'Forehand', state: 'Ok'),
+              ],
+            ),
+          ],
+        ),
+        Sets(
+          game: [
+            Game(
+              percent: 80,
+              hits: Hits(worked: 1, out: 1, grid: 1),
+              gameNumber: 1,
+              practicedBeats: [
+                PracticedBeats(name: 'Forehand', state: 'Ok'),
+              ],
+            ),
+          ],
+        ),
+        Sets(
+          game: [
+            Game(
+              percent: 80,
+              hits: Hits(worked: 1, out: 1, grid: 1),
+              gameNumber: 1,
+              practicedBeats: [
+                PracticedBeats(name: 'Forehand', state: 'Ok'),
+                PracticedBeats(name: 'Forehand', state: 'Ok'),
+                PracticedBeats(name: 'Forehand', state: 'Out'),
+                PracticedBeats(name: 'Forehand', state: 'Out'),
+                PracticedBeats(name: 'Forehand', state: 'Ok'),
+              ],
+            ),
+            Game(
+              percent: 80,
+              hits: Hits(worked: 1, out: 1, grid: 1),
               gameNumber: 2,
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
@@ -271,17 +313,7 @@ class MockGamePageRepository implements GamePageRepository {
             Game(
               percent: 80,
               gameNumber: 1,
-              practicedBeats: [
-                PracticedBeats(name: 'Forehand', state: 'Ok'),
-              ],
-            ),
-          ],
-        ),
-        Sets(
-          game: [
-            Game(
-              percent: 80,
-              gameNumber: 1,
+              hits: Hits(worked: 1, out: 1, grid: 1),
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
@@ -293,28 +325,7 @@ class MockGamePageRepository implements GamePageRepository {
             Game(
               percent: 80,
               gameNumber: 2,
-              practicedBeats: [
-                PracticedBeats(name: 'Forehand', state: 'Ok'),
-              ],
-            ),
-          ],
-        ),
-        Sets(
-          game: [
-            Game(
-              percent: 80,
-              gameNumber: 1,
-              practicedBeats: [
-                PracticedBeats(name: 'Forehand', state: 'Ok'),
-                PracticedBeats(name: 'Forehand', state: 'Ok'),
-                PracticedBeats(name: 'Forehand', state: 'Out'),
-                PracticedBeats(name: 'Forehand', state: 'Out'),
-                PracticedBeats(name: 'Forehand', state: 'Ok'),
-              ],
-            ),
-            Game(
-              percent: 80,
-              gameNumber: 2,
+              hits: Hits(worked: 1, out: 1, grid: 1),
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
@@ -326,6 +337,7 @@ class MockGamePageRepository implements GamePageRepository {
             Game(
               percent: 80,
               gameNumber: 3,
+              hits: Hits(worked: 1, out: 1, grid: 1),
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
@@ -337,6 +349,7 @@ class MockGamePageRepository implements GamePageRepository {
             Game(
               percent: 80,
               gameNumber: 4,
+              hits: Hits(worked: 1, out: 1, grid: 1),
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
@@ -348,6 +361,7 @@ class MockGamePageRepository implements GamePageRepository {
             Game(
               percent: 80,
               gameNumber: 5,
+              hits: Hits(worked: 1, out: 1, grid: 1),
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
@@ -359,6 +373,7 @@ class MockGamePageRepository implements GamePageRepository {
             Game(
               percent: 80,
               gameNumber: 6,
+              hits: Hits(worked: 1, out: 1, grid: 1),
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
@@ -370,6 +385,7 @@ class MockGamePageRepository implements GamePageRepository {
             Game(
               percent: 80,
               gameNumber: 7,
+              hits: Hits(worked: 1, out: 1, grid: 1),
               practicedBeats: [
                 PracticedBeats(name: 'Forehand', state: 'Ok'),
               ],

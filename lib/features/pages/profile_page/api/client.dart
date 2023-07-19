@@ -35,6 +35,8 @@ abstract class ProfilePageClient {
   );
 
   ///
-  @GET('/order/{cityCode}/deleteCart')
-  Future<DTO> getAchievementsData();
+  @GET('/api/trophy/list')
+  Future<DTO> getAchievementsData(
+      // @Queries() Map<String, dynamic> body,
+      );
 }

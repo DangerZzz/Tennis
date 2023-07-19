@@ -22,4 +22,29 @@ class CharacteristicsPageModel extends ElementaryModel {
     });
     return res;
   }
+
+  /// Изменение данных
+  Future<void> editCharactersInfo({
+    required num age,
+    required num height,
+    required num ageInTennis,
+    required String backhand,
+    required String forehand,
+    // required num technicality,
+    // required String trainer,
+  }) async {
+    final body = <String, dynamic>{
+      'age': age,
+      'height': height,
+      'tennis_year': ageInTennis,
+      'forehand': forehand,
+      'backhand': backhand,
+      // 'technicality': technicality,
+      // 'trainer': trainer
+    };
+    await ExceptionHandler.shellException(() async {
+      await _settingsPageRepository.editCharactersInfo(body);
+    });
+    return;
+  }
 }

@@ -2,6 +2,7 @@ import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:soft_weather_tennis/app/di/app_scope.dart';
+import 'package:soft_weather_tennis/components/snack_bar.dart';
 import 'package:soft_weather_tennis/features/navigation/service/coordinator.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/user_info.dart';
 import 'package:soft_weather_tennis/features/pages/settings_page/pages/name_edit_page/di/name_edit_page_scope.dart';
@@ -19,8 +20,17 @@ abstract class INameEditPageWidgetModel extends IWidgetModel {
   /// Контроллер текста
   TextEditingController get surnameController;
 
+  /// Контроллер доступности кнопки "Далее" после ввода имени/фамилии
+  ListenableState<EntityState<bool>> get nameButtonAvailability;
+
+  /// Функция изменения доступности кнопки "далее" для имени-фамилии
+  void nameEnterButtonAvailabilityFunction();
+
   /// Кнопка "назад"
   void onBack();
+
+  /// Кнопка "изменить имя"
+  void changeName();
 }
 
 ///
@@ -52,6 +62,10 @@ class NameEditPageWidgetModel
   final _nameController = TextEditingController();
 
   @override
+  ListenableState<EntityState<bool>> get nameButtonAvailability =>
+      _nameButtonAvailability;
+
+  @override
   UserInfo get userInfo => _userInfo;
 
   @override
@@ -59,6 +73,9 @@ class NameEditPageWidgetModel
 
   @override
   TextEditingController get nameController => _nameController;
+
+  late EntityStateNotifier<bool> _nameButtonAvailability;
+  var _sendRequest = false;
 
   ///
   NameEditPageWidgetModel(
@@ -74,11 +91,43 @@ class NameEditPageWidgetModel
     await _initLoad();
   }
 
+  @override
+  void nameEnterButtonAvailabilityFunction() {
+    if (_nameController.text.length >= 2 &&
+        _surnameController.text.length >= 2) {
+      _nameButtonAvailability.content(true);
+    } else {
+      _nameButtonAvailability.content(false);
+    }
+  }
+
+  ///
+  @override
+  Future<void> changeName() async {
+    if (!_sendRequest) {
+      _sendRequest = true;
+      try {
+        await model.changeName(
+          name: _nameController.text,
+          surname: _surnameController.text,
+        );
+        onBack();
+      } on FormatException catch (e) {
+        //ignore:use_build_context_synchronously
+        ShowSnackBar().showError(context);
+      }
+      _sendRequest = false;
+    }
+  }
+
   ///
   @override
   void onBack() {
     coordinator.pop();
   }
 
-  Future<void> _initLoad() async {}
+  Future<void> _initLoad() async {
+    _nameButtonAvailability = EntityStateNotifier<bool>();
+    _nameButtonAvailability.content(false);
+  }
 }
