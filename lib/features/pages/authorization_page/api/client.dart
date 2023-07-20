@@ -41,7 +41,7 @@ abstract class AuthorizationPageClient {
   );
 
   /// Изменение роли
-  @POST('/api/user/role')
+  @PATCH('/api/user/role')
   Future<DTO> changeRole(
     @Body() Map<String, dynamic> body,
   );

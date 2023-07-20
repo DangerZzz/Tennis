@@ -13,6 +13,10 @@ class UserDto {
   @JsonKey(name: 'name')
   final String? name;
 
+  /// флаг пользователя
+  @JsonKey(name: 'isMe')
+  final bool? isMe;
+
   /// характеристики
   @JsonKey(name: 'characteristics')
   final Characteristics? characteristics;
@@ -28,6 +32,7 @@ class UserDto {
   /// Конструктор [UserDto]
   UserDto({
     required this.id,
+    required this.isMe,
     required this.name,
     required this.avatar,
     required this.characteristics,

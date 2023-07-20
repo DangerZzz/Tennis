@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/characters_info.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/dto/user_data_dto.dart';
 import 'package:soft_weather_tennis/features/pages/settings_page/api/client.dart';
@@ -32,6 +34,24 @@ class SettingsPageRepository {
   Future<AvatarImages?> getAvatarsData() =>
       _settingsPageClient.getAvatarsData().then(
         (dto) {
+          final data = UserDataDtO.fromJson(dto.data as Map<String, dynamic>);
+
+          return AvatarImages(
+            avatarUrl: data.user?.wallpaper?.src ?? '',
+            backImageUrl: '',
+            backImageClippedUrl: '',
+            avatarClippedUrl: '',
+          );
+        },
+      );
+
+  /// Возвращает данные страницы аватар
+  Future<void> uploadAvatar({
+    required String type,
+    required File file,
+  }) =>
+      _settingsPageClient.uploadAvatar('/api/file/user/$type', file).then(
+        (dto) {
           return null;
         },
       );
@@ -39,10 +59,8 @@ class SettingsPageRepository {
   /// Изменение имени
   Future<void> changeName(Map<String, dynamic> body) =>
       _settingsPageClient.changeName(body).then(
-        (dto) {
-          return null;
-        },
-      );
+            (dto) {},
+          );
 
   /// Изменение имени
   Future<void> editCharactersInfo(Map<String, dynamic> body) =>

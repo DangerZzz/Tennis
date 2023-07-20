@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/characters_info.dart';
 import 'package:soft_weather_tennis/features/pages/settings_page/domain/avatar_images.dart';
 import 'package:soft_weather_tennis/features/pages/settings_page/repository/settings_screen_repository.dart';
@@ -38,4 +40,7 @@ class MockSettingsPageRepository implements SettingsPageRepository {
 
   @override
   Future<void> exit() async {}
+
+  @override
+  Future<void> uploadAvatar({required String type, required File file}) async {}
 }

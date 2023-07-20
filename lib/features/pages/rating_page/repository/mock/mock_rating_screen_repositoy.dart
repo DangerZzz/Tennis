@@ -6,7 +6,7 @@ import 'package:soft_weather_tennis/features/pages/rating_page/repository/rating
 class MockRatingPageRepository implements RatingPageRepository {
   ///
   @override
-  Future<RatingList> getRatingList() async {
+  Future<RatingList> getRatingList(Map<String, dynamic> body) async {
     await Future<void>.delayed(const Duration(seconds: 1));
     return RatingList(
       ratingData: [
@@ -71,7 +71,8 @@ class MockRatingPageRepository implements RatingPageRepository {
   }
 
   @override
-  Future<SearchRatingList> getSearchRatingList() async {
+  Future<SearchRatingList> getSearchRatingList(
+      Map<String, dynamic> body) async {
     await Future<void>.delayed(const Duration(seconds: 1));
     return SearchRatingList(
       ratingData: [

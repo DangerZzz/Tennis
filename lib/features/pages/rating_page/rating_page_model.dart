@@ -15,20 +15,32 @@ class RatingPageModel extends ElementaryModel {
   ) : super(errorHandler: errorHandler);
 
   /// Получение рейтинга
-  Future<RatingList> getRatingList() async {
+  Future<RatingList> getRatingList({required num page}) async {
+    final body = <String, dynamic>{
+      'limit': 10,
+      'page': page,
+      // 'search': '1231',
+    };
     late final RatingList res;
     await ExceptionHandler.shellException(() async {
-      res = (await _ratingPageRepository.getRatingList())!;
-      return res;
+      res = (await _ratingPageRepository.getRatingList(body))!;
     });
     return res;
   }
 
   /// Получение рейтинга для поиска
-  Future<SearchRatingList> getSearchingRatingList() async {
+  Future<SearchRatingList> getSearchingRatingList({
+    required num page,
+    required String search,
+  }) async {
+    final body = <String, dynamic>{
+      'limit': 10,
+      'page': page,
+      'search': search,
+    };
     late final SearchRatingList res;
     await ExceptionHandler.shellException(() async {
-      res = (await _ratingPageRepository.getSearchRatingList())!;
+      res = (await _ratingPageRepository.getSearchRatingList(body))!;
       return res;
     });
     return res;

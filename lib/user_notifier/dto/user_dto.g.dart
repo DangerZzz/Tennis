@@ -8,6 +8,7 @@ part of 'user_dto.dart';
 
 UserDto _$UserDtoFromJson(Map<String, dynamic> json) => UserDto(
       id: json['_id'] as String,
+      isMe: json['isMe'] as bool?,
       name: json['name'] as String?,
       avatar: json['avatar'] == null
           ? null
@@ -24,6 +25,7 @@ UserDto _$UserDtoFromJson(Map<String, dynamic> json) => UserDto(
 Map<String, dynamic> _$UserDtoToJson(UserDto instance) => <String, dynamic>{
       '_id': instance.id,
       'name': instance.name,
+      'isMe': instance.isMe,
       'characteristics': instance.characteristics,
       'avatar': instance.avatar,
       'wallpaper': instance.wallpaper,

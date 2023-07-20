@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:soft_weather_tennis/dto/dto.dart';
@@ -15,8 +17,15 @@ abstract class SettingsPageClient {
   Future<DTO> getCharactersInfo();
 
   ///
-  @GET('/order/{cityCode}/deleteCart')
+  @GET('/api/user')
   Future<DTO> getAvatarsData();
+
+  ///
+  @GET('{url}')
+  Future<DTO> uploadAvatar(
+    @Path('url') String url,
+    @Part(name: 'attachment') File file,
+  );
 
   ///
   @PATCH('/api/user/name')

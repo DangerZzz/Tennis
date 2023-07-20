@@ -205,16 +205,7 @@ class ProfilePageWidgetModel
   Future<void> initWidgetModel() async {
     super.initWidgetModel();
     _index = EntityStateNotifier<int>();
-    _userInfo = EntityStateNotifier<UserInfo>();
-    _achievementsButtonIsLoading = EntityStateNotifier<bool>();
-    _currentLevel = EntityStateNotifier<num>();
-    _currentComplexity = EntityStateNotifier<String>();
-    _currentSet = EntityStateNotifier<int>();
-    _currentGame = EntityStateNotifier<int>();
-    _informationData = EntityStateNotifier<Information>();
-    _gameData = EntityStateNotifier<GameData>();
-    _statisticsData = EntityStateNotifier<StatisticsList>();
-    _workoutData = EntityStateNotifier<TrainingInfo>();
+
     await _initLoad();
   }
 
@@ -493,20 +484,29 @@ class ProfilePageWidgetModel
 
   @override
   Future<void> onRefresh() async {
-    await _initLoad();
+    if (_index.value?.data != 3) {
+      await _initLoad();
+    }
   }
 
   Future<void> _initLoad() async {
+    _userInfo = EntityStateNotifier<UserInfo>();
+    _achievementsButtonIsLoading = EntityStateNotifier<bool>();
+    _currentLevel = EntityStateNotifier<num>();
+    _currentComplexity = EntityStateNotifier<String>();
+    _currentSet = EntityStateNotifier<int>();
+    _currentGame = EntityStateNotifier<int>();
+    _informationData = EntityStateNotifier<Information>();
+    _gameData = EntityStateNotifier<GameData>();
+    _statisticsData = EntityStateNotifier<StatisticsList>();
+    _workoutData = EntityStateNotifier<TrainingInfo>();
     _index.content(0);
-
     _userInfo.loading();
     _achievementsButtonIsLoading.content(false);
     final data = await model.getUserInfo();
     _userInfo.content(data);
-
     _currentSet.content(0);
     _currentGame.content(0);
-
     await onInformation();
 
     // if (newAchievements) {

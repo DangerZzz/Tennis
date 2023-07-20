@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:custom_image_crop/custom_image_crop.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:soft_weather_tennis/app/di/app_scope.dart';
+import 'package:soft_weather_tennis/components/snack_bar.dart';
 import 'package:soft_weather_tennis/features/navigation/service/coordinator.dart';
 import 'package:soft_weather_tennis/features/pages/settings_page/domain/avatar_images.dart';
 import 'package:soft_weather_tennis/features/pages/settings_page/pages/avatar_page/avatar_page_model.dart';
@@ -209,7 +213,7 @@ class AvatarPageWidgetModel
     final image = await _controller.onCropImage();
     if (image != null) {
       _avatarImageCropped.content(image);
-      _index.content(2);
+      await uploadAvatar();
     }
     _buttonAvailability.content(true);
   }
@@ -229,6 +233,24 @@ class AvatarPageWidgetModel
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  ///
+  Future<void> uploadAvatar() async {
+    final imageInUnit8List =
+        _avatarImageCropped.value!.data!.bytes; // store unit8List image here ;
+    final tempDirectory = await getApplicationDocumentsDirectory();
+    // final file = await File('${tempDirectory.path}/image.png').create();
+    // file.writeAsBytesSync(imageInUnit8List);
+    final a = _avatarImageCropped.value?.data;
+    final file = File.fromRawPath(a!.bytes);
+
+    try {
+      await model.uploadAvatar(type: 'avatar', file: file);
+    } on FormatException catch (e) {
+      //ignore:use_build_context_synchronously
+      ShowSnackBar().showError(context);
+    }
   }
 
   Future<void> _initLoad() async {

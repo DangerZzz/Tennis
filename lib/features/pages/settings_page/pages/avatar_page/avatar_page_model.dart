@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:elementary/elementary.dart';
 import 'package:soft_weather_tennis/features/pages/settings_page/domain/avatar_images.dart';
 import 'package:soft_weather_tennis/features/pages/settings_page/repository/settings_screen_repository.dart';
@@ -21,5 +23,15 @@ class AvatarPageModel extends ElementaryModel {
       return res;
     });
     return res;
+  }
+
+  /// Получение данных вкладки "аватар"
+  Future<void> uploadAvatar({
+    required String type,
+    required File file,
+  }) async {
+    await ExceptionHandler.shellException(() async {
+      await _settingsPageRepository.uploadAvatar(type: type, file: file);
+    });
   }
 }

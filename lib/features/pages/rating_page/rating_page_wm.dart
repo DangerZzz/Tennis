@@ -28,6 +28,12 @@ abstract class IRatingPageWidgetModel extends IWidgetModel {
   /// Focus текста поиска
   FocusNode get searchFocusNode;
 
+  /// Контроллер для скролла данных
+  ScrollController get dataScrollController;
+
+  /// Контроллер для скролла данных
+  ScrollController get searchScrollController;
+
   /// Обновление страницы
   Future<void> onRefresh();
 
@@ -66,6 +72,8 @@ class RatingPageWidgetModel
 
   final UserNotifier _userNotifier;
 
+  final _limit = 10;
+
   @override
   ListenableState<EntityState<RatingList>> get ratingList => _ratingList;
 
@@ -82,11 +90,21 @@ class RatingPageWidgetModel
   @override
   FocusNode get searchFocusNode => _searchFocusNode;
 
+  @override
+  ScrollController get dataScrollController => _dataScrollController;
+
+  @override
+  ScrollController get searchScrollController => _searchScrollController;
+
+  late ScrollController _dataScrollController;
+  late ScrollController _searchScrollController;
   late EntityStateNotifier<RatingList> _ratingList;
   late EntityStateNotifier<SearchRatingList> _searchedList;
   late EntityStateNotifier<bool> _isSearching;
   late TextEditingController _searchController;
   late FocusNode _searchFocusNode;
+  var _pageData = 1;
+  var _pageSearch = 1;
 
   CancelableOperation? _currentOperation;
 
@@ -106,11 +124,11 @@ class RatingPageWidgetModel
   @override
   Future<void> initWidgetModel() async {
     super.initWidgetModel();
-    _ratingList = EntityStateNotifier<RatingList>();
-    _isSearching = EntityStateNotifier<bool>();
-    _searchController = TextEditingController();
-    _searchFocusNode = FocusNode();
-    _searchedList = EntityStateNotifier<SearchRatingList>();
+
+    _dataScrollController = ScrollController();
+    _dataScrollController.addListener(_fetchData);
+    _searchScrollController = ScrollController();
+    _searchScrollController.addListener(_fetchSearch);
     await _initLoad();
   }
 
@@ -142,7 +160,10 @@ class RatingPageWidgetModel
               probablyRatingData: [],
             );
           }
-          final result = await model.getSearchingRatingList();
+          final result = await model.getSearchingRatingList(
+            search: _searchController.text,
+            page: 1,
+          );
           return result;
         },
       ),
@@ -160,11 +181,90 @@ class RatingPageWidgetModel
 
   @override
   String substringName(String name) {
-    final data = name.split(' ');
-    return '${data.first} ${data[1].characters.first}.';
+    if (name.contains(' ')) {
+      final data = name.split(' ');
+      return '${data.first} ${data[1].characters.first}.';
+    } else {
+      return name;
+    }
+  }
+
+  Future<void> _fetchData() async {
+    if (!_ratingList.value!.isLoading &&
+        _dataScrollController.position.maxScrollExtent - 100 <
+            _dataScrollController.offset) {
+      if (_ratingList.value!.data!.ratingData.length == _limit * _pageData) {
+        final buf = _ratingList.value!.data!.ratingData;
+        _ratingList.loading(
+          RatingList(
+            ratingData: buf,
+          ),
+        );
+        try {
+          _pageData++;
+          final res = await model.getRatingList(page: _pageData);
+          await Future<void>.delayed(const Duration(seconds: 2));
+          buf.addAll(res.ratingData);
+          _ratingList.content(
+            RatingList(
+              ratingData: buf,
+            ),
+          );
+        } on FormatException catch (e) {
+          _pageData--;
+          _ratingList.content(
+            RatingList(
+              ratingData: _ratingList.value!.data!.ratingData,
+            ),
+          );
+        }
+      }
+    }
+  }
+
+  Future<void> _fetchSearch() async {
+    if (!_searchedList.value!.isLoading &&
+        _searchScrollController.position.maxScrollExtent - 100 <
+            _searchScrollController.offset) {
+      if (_searchedList.value!.data!.ratingData.length ==
+          _limit * _pageSearch) {
+        final buf = _searchedList.value!.data!.ratingData;
+        _searchedList.loading(
+          SearchRatingList(
+            ratingData: buf,
+            probablyRatingData: [],
+          ),
+        );
+        try {
+          _pageSearch++;
+          final res = await model.getRatingList(page: _pageSearch);
+          await Future<void>.delayed(const Duration(seconds: 2));
+          buf.addAll(res.ratingData);
+          _searchedList.content(
+            SearchRatingList(
+              ratingData: buf,
+              probablyRatingData: [],
+            ),
+          );
+        } on FormatException catch (e) {
+          _pageSearch--;
+          _searchedList.content(
+            SearchRatingList(
+              ratingData: _searchedList.value!.data!.ratingData,
+              probablyRatingData: [],
+            ),
+          );
+        }
+      }
+    }
   }
 
   Future<void> _initLoad() async {
+    _ratingList = EntityStateNotifier<RatingList>();
+    _isSearching = EntityStateNotifier<bool>();
+    _searchController = TextEditingController();
+    _searchFocusNode = FocusNode();
+    _searchedList = EntityStateNotifier<SearchRatingList>();
     _ratingList.loading();
     _isSearching.content(false);
     _searchedList.content(
@@ -175,7 +275,7 @@ class RatingPageWidgetModel
     );
 
     try {
-      final data = await model.getRatingList();
+      final data = await model.getRatingList(page: 1);
       _ratingList.content(data);
     } on FormatException catch (e) {
       _ratingList.error(e);

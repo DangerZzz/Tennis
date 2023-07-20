@@ -147,7 +147,7 @@ class _AuthorizationPageClient implements AuthorizationPageClient {
     _data.addAll(body);
     final _result =
         await _dio.fetch<Map<String, dynamic>>(_setStreamType<DTO>(Options(
-      method: 'POST',
+      method: 'PATCH',
       headers: _headers,
       extra: _extra,
     )

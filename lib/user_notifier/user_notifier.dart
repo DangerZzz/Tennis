@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:elementary/elementary.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:soft_weather_tennis/config/app_config.dart';
 import 'package:soft_weather_tennis/config/environment/environment.dart';
@@ -16,6 +17,7 @@ import 'package:soft_weather_tennis/user_notifier/repository/user_repository.dar
 class UserNotifier extends ChangeNotifier implements IUserNotifier {
   final _tokenStorage = TokenStorage();
   final _loginCode = LoginCode();
+  final _secureStorage = const FlutterSecureStorage();
 
   final ErrorHandler _errorHandler;
 
@@ -110,17 +112,32 @@ class UserNotifier extends ChangeNotifier implements IUserNotifier {
     String surname,
     String phone,
   ) async {
-    late final User user;
-    // await ExceptionHandler.shellException(
-    //   () async => user = await _repository.getUserInfo(),
-    // );
     _user = User(
       phone: phone,
       name: name,
       isTrainer: isTrainer,
       surname: surname,
     );
-    // await _loginSettings.changeAccountName(fio);
+    await _secureStorage.write(
+      key: 'isTrainer',
+      value: isTrainer ? 'TRAINER' : 'GAMER',
+    );
+    notifyListeners();
+  }
+
+  /// Подзрузка данных пользователя + обновление
+  Future<void> loadRole() async {
+    final prefs = await _secureStorage.read(
+      key: 'isTrainer',
+    );
+    //ignore: avoid_bool_literals_in_conditional_expressions
+    final isTrainer = (prefs == 'TRAINER') ? true : false;
+    _user = User(
+      phone: phone,
+      name: name,
+      isTrainer: isTrainer,
+      surname: surname,
+    );
     notifyListeners();
   }
 

@@ -11,10 +11,8 @@ abstract class RatingPageClient {
   factory RatingPageClient(Dio dio) = _RatingPageClient;
 
   ///
-  @GET('/order/{cityCode}/deleteCart')
-  Future<DTO> getRatingList();
-
-  ///
-  @GET('/order/{cityCode}/deleteCart')
-  Future<DTO> getSearchRatingList();
+  @GET('/api/rating/list')
+  Future<DTO> getRatingList(
+    @Queries() Map<String, dynamic> body,
+  );
 }

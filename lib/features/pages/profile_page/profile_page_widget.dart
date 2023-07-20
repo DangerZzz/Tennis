@@ -6,6 +6,7 @@ import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
 import 'package:soft_weather_tennis/components/adaptive_activity_indicator.dart';
 import 'package:soft_weather_tennis/components/adaptive_refresh_custom_scroll_view.dart';
+import 'package:soft_weather_tennis/components/state_widgets/error_state_widget.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/user_info.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/pages/game_page.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/pages/information_page.dart';
@@ -24,17 +25,33 @@ class ProfilePageWidget extends ElementaryWidget<IProfilePageWidgetModel> {
   @override
   Widget build(IProfilePageWidgetModel wm) {
     return SafeArea(
-      child: EntityStateNotifierBuilder<UserInfo>(
-        listenableEntityState: wm.userInfo,
-        loadingBuilder: (_, __) =>
-            const Center(child: AdaptiveActivityIndicator()),
-        builder: (_, state) => EntityStateNotifierBuilder<int>(
-          listenableEntityState: wm.index,
-          builder: (_, index) => index != 3
-              ? AdaptiveRefreshCustomScrollView(
-                  onRefresh: () => wm.onRefresh(),
-                  slivers: [
-                    SliverList(
+      child: AdaptiveRefreshCustomScrollView(
+        onRefresh: () => wm.onRefresh(),
+        slivers: [
+          EntityStateNotifierBuilder<UserInfo>(
+            listenableEntityState: wm.userInfo,
+            loadingBuilder: (_, __) => SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  const Center(
+                    child: AdaptiveActivityIndicator(),
+                  ),
+                ],
+              ),
+            ),
+            errorBuilder: (_, __, ___) => SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  ErrorStateWidget(
+                    refresh: wm.onRefresh,
+                  ),
+                ],
+              ),
+            ),
+            builder: (_, state) => EntityStateNotifierBuilder<int>(
+              listenableEntityState: wm.index,
+              builder: (_, index) => index != 3
+                  ? SliverList(
                       delegate: SliverChildListDelegate(
                         [
                           Column(
@@ -388,11 +405,17 @@ class ProfilePageWidget extends ElementaryWidget<IProfilePageWidgetModel> {
                           ),
                         ],
                       ),
+                    )
+                  : SliverList(
+                      delegate: SliverChildListDelegate(
+                        [
+                          WorkoutInformationPage(wm: wm),
+                        ],
+                      ),
                     ),
-                  ],
-                )
-              : WorkoutInformationPage(wm: wm),
-        ),
+            ),
+          ),
+        ],
       ),
     );
   }

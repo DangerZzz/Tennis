@@ -45,18 +45,31 @@ class BestPageWidget extends ElementaryWidget<IBestPageWidgetModel> {
             ),
           ),
         ),
-        body: EntityStateNotifierBuilder<List<BestData>>(
-          listenableEntityState: wm.bestDataList,
-          loadingBuilder: (_, __) =>
-              const Center(child: AdaptiveActivityIndicator()),
-          errorBuilder: (_, __, ___) => ErrorStateWidget(
-            refresh: wm.onRefresh,
-          ),
-          builder: (_, bestDataList) => (bestDataList?.isNotEmpty ?? false)
-              ? AdaptiveRefreshCustomScrollView(
-                  onRefresh: () => wm.onRefresh(),
-                  slivers: [
-                    SliverList(
+        body: AdaptiveRefreshCustomScrollView(
+          onRefresh: () => wm.onRefresh(),
+          slivers: [
+            EntityStateNotifierBuilder<List<BestData>>(
+              listenableEntityState: wm.bestDataList,
+              loadingBuilder: (_, __) => SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    const Center(
+                      child: AdaptiveActivityIndicator(),
+                    ),
+                  ],
+                ),
+              ),
+              errorBuilder: (_, __, ___) => SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    ErrorStateWidget(
+                      refresh: wm.onRefresh,
+                    ),
+                  ],
+                ),
+              ),
+              builder: (_, bestDataList) => (bestDataList?.isNotEmpty ?? false)
+                  ? SliverList(
                       delegate: SliverChildListDelegate(
                         [
                           Padding(
@@ -308,10 +321,16 @@ class BestPageWidget extends ElementaryWidget<IBestPageWidgetModel> {
                           ),
                         ],
                       ),
+                    )
+                  : SliverList(
+                      delegate: SliverChildListDelegate(
+                        [
+                          EmptyStateWidget(refresh: wm.onRefresh),
+                        ],
+                      ),
                     ),
-                  ],
-                )
-              : EmptyStateWidget(refresh: wm.onRefresh),
+            ),
+          ],
         ),
       ),
     );

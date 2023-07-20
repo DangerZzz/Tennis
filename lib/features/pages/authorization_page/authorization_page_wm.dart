@@ -432,6 +432,7 @@ class AuthorizationPageWidgetModel
     ///сравнение кодов
     if (_userNotifier.loginCode.compare(code)) {
       try {
+        await _userNotifier.loadRole();
         await _userNotifier.loadTokens(code);
         await _userNotifier.loginCode.loadPhone();
         debugPrint(
@@ -462,6 +463,7 @@ class AuthorizationPageWidgetModel
       ///сравнение кодов
       if (_userNotifier.loginCode.compare(code!)) {
         try {
+          await _userNotifier.loadRole();
           await _userNotifier.loadTokens(code);
           await _userNotifier.loginCode.loadPhone();
           debugPrint(
@@ -553,11 +555,10 @@ class AuthorizationPageWidgetModel
           );
           await _userNotifier.updateUser(
             isTrainer,
-            _nameController.text,
-            _surnameController.text,
-            _phoneController.text,
+            _userNotifier.name,
+            _userNotifier.surname,
+            _userNotifier.phone,
           );
-          toMain();
         } on FormatException catch (e) {
           debugPrint('$e');
           ShowSnackBar().showError(context);

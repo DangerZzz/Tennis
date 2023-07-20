@@ -65,7 +65,6 @@ class BestPageWidgetModel extends WidgetModel<BestPageWidget, BestPageModel>
   @override
   Future<void> initWidgetModel() async {
     super.initWidgetModel();
-    _bestDataList = EntityStateNotifier<List<BestData>>();
     await _initLoad();
   }
 
@@ -75,6 +74,7 @@ class BestPageWidgetModel extends WidgetModel<BestPageWidget, BestPageModel>
   }
 
   Future<void> _initLoad() async {
+    _bestDataList = EntityStateNotifier<List<BestData>>();
     _bestDataList.loading();
     try {
       final data = await model.getBestListData();

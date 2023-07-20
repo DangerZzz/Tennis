@@ -19,9 +19,10 @@ class _RatingPageClient implements RatingPageClient {
   String? baseUrl;
 
   @override
-  Future<DTO> getRatingList() async {
+  Future<DTO> getRatingList(body) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(body);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result =
@@ -32,30 +33,7 @@ class _RatingPageClient implements RatingPageClient {
     )
             .compose(
               _dio.options,
-              '/order/{cityCode}/deleteCart',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = DTO.fromJson(_result.data!);
-    return value;
-  }
-
-  @override
-  Future<DTO> getSearchRatingList() async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    final _result =
-        await _dio.fetch<Map<String, dynamic>>(_setStreamType<DTO>(Options(
-      method: 'GET',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/order/{cityCode}/deleteCart',
+              '/api/rating/list',
               queryParameters: queryParameters,
               data: _data,
             )
