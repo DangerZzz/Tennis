@@ -209,7 +209,7 @@ class TokenStorage {
       'TennisLoginCode',
       // forceInit: true,
       options: StorageFileInitOptions(
-        authenticationValidityDurationSeconds: 10,
+        authenticationValidityDurationSeconds: 1,
       ),
       promptInfo: const PromptInfo(
         iosPromptInfo: IosPromptInfo(
@@ -223,7 +223,7 @@ class TokenStorage {
       ),
     );
     debugPrint('код прочитан');
-    return (await storage.read());
+    return await storage.read();
   }
 
   /// очистка кода из биометрического харнилища

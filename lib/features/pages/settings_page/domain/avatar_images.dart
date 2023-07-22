@@ -1,5 +1,8 @@
 ///Сущность достижения
 class AvatarImages {
+  /// id
+  final String id;
+
   /// ссылка на изображение аватара пользователя
   final String avatarUrl;
 
@@ -14,6 +17,7 @@ class AvatarImages {
 
   ///конструктор [AvatarImages]
   AvatarImages({
+    required this.id,
     required this.avatarUrl,
     required this.avatarClippedUrl,
     required this.backImageUrl,

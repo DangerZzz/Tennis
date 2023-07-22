@@ -28,14 +28,14 @@ class EditImagePage extends StatelessWidget {
             radius: 40,
           ),
         ),
-        builder: (_, buttonAvailability) => Stack(
-          children: [
-            EntityStateNotifierBuilder<bool>(
-              listenableEntityState: widgetModel.isAvatar,
-              loadingBuilder: (_, __) => const AdaptiveActivityIndicator(
-                radius: 40,
-              ),
-              builder: (_, isAvatar) => EntityStateNotifierBuilder<Uint8List>(
+        builder: (_, buttonAvailability) => EntityStateNotifierBuilder<bool>(
+          listenableEntityState: widgetModel.isAvatar,
+          loadingBuilder: (_, __) => const AdaptiveActivityIndicator(
+            radius: 40,
+          ),
+          builder: (_, isAvatar) => Stack(
+            children: [
+              EntityStateNotifierBuilder<Uint8List>(
                 listenableEntityState: (isAvatar ?? true)
                     ? widgetModel.avatarImageBytes
                     : widgetModel.backgroundImageBytes,
@@ -51,58 +51,60 @@ class EditImagePage extends StatelessWidget {
                   customProgressIndicator: const AdaptiveActivityIndicator(),
                 ),
               ),
-            ),
-            Positioned(
-              top: 16,
-              left: 16,
-              child: GestureDetector(
-                onTap: widgetModel.onBackWithIndex,
-                child: Container(
-                  height: 32,
-                  width: 32,
-                  decoration: BoxDecoration(
-                    color: AppColors().primaryText,
-                    borderRadius: BorderRadius.circular(40),
-                  ),
-                  child: Center(
-                    child: Icon(
-                      TennisIcons.x,
-                      color: AppColors().white,
-                      size: 18,
+              Positioned(
+                top: 16,
+                left: 16,
+                child: GestureDetector(
+                  onTap: widgetModel.onBackWithIndex,
+                  child: Container(
+                    height: 32,
+                    width: 32,
+                    decoration: BoxDecoration(
+                      color: AppColors().primaryText,
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        TennisIcons.x,
+                        color: AppColors().white,
+                        size: 18,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            Positioned(
-              bottom: 35,
-              left: 14,
-              right: 16,
-              child: GestureDetector(
-                onTap: widgetModel.cropAvatar,
-                child: Container(
-                  height: 48,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        AppColors().gradientStart,
-                        AppColors().gradientEnd,
-                      ],
+              Positioned(
+                bottom: 35,
+                left: 14,
+                right: 16,
+                child: GestureDetector(
+                  onTap: (isAvatar ?? true)
+                      ? widgetModel.cropAvatar
+                      : widgetModel.cropBackground,
+                  child: Container(
+                    height: 48,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          AppColors().gradientStart,
+                          AppColors().gradientEnd,
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(16),
                     ),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Сохранить',
-                      style: AppTextStyles().semibold_20_27.copyWith(
-                            color: AppColors().white,
-                          ),
+                    child: Center(
+                      child: Text(
+                        'Сохранить',
+                        style: AppTextStyles().semibold_20_27.copyWith(
+                              color: AppColors().white,
+                            ),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

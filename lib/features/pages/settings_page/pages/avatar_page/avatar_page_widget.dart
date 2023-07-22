@@ -28,7 +28,7 @@ class AvatarPageWidget extends ElementaryWidget<IAvatarPageWidgetModel> {
                 automaticallyImplyLeading: false,
                 titleSpacing: 0,
                 shadowColor: Colors.transparent,
-                leading: GestureDetector(
+                leading: InkWell(
                   onTap: index != 0 ? wm.onBackWithIndex : wm.onBack,
                   child: Icon(
                     TennisIcons.back,

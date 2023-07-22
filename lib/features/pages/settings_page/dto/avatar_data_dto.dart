@@ -12,19 +12,19 @@ class AvatarDataDtO {
 
   /// Приходящие данные
   @JsonKey(name: 'avatar')
-  final AvatarDto avatar;
+  final AvatarDto? avatar;
 
   /// Приходящие данные
   @JsonKey(name: 'wallpaper')
-  final AvatarDto wallpaper;
+  final AvatarDto? wallpaper;
 
   /// Приходящие данные
   @JsonKey(name: 'originalAvatar')
-  final AvatarDto originalAvatar;
+  final AvatarDto? originalAvatar;
 
   /// Приходящие данные
   @JsonKey(name: 'originalWallpaper')
-  final AvatarDto originalWallpaper;
+  final AvatarDto? originalWallpaper;
 
   /// Конструктор [AvatarDataDtO]
   AvatarDataDtO({

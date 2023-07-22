@@ -23,7 +23,7 @@ class SettingsPageWidget extends ElementaryWidget<ISettingsPageWidgetModel> {
         automaticallyImplyLeading: false,
         titleSpacing: 0,
         shadowColor: Colors.transparent,
-        leading: GestureDetector(
+        leading: InkWell(
           onTap: wm.onBackToMain,
           child: Icon(
             TennisIcons.back,

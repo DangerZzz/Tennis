@@ -54,11 +54,22 @@ abstract class IAvatarPageWidgetModel extends IWidgetModel {
   /// Кнопка "назад"
   void onBack();
 
+  /// Кнопка "редактировать"
+  void editAvatar();
+
+  /// Кнопка "редактировать"
+  void editBackground();
+
   /// Кнопка "назад"
   void onBackWithIndex();
 
   /// Кнопка "назад"
   void toChooseImage({required bool isAvatar});
+
+  /// Кнопка "удалить"
+  void deleteImageData({
+    required String type,
+  });
 
   /// Выбор, откуда будет загружаться фото
   void chooseDirectoryAvatar();
@@ -93,6 +104,9 @@ class AvatarPageWidgetModel
     implements IAvatarPageWidgetModel {
   /// [Coordinator] для перехода на другие страницы.
   final Coordinator coordinator;
+
+  ///
+  bool anyOperation = false;
 
   @override
   double get width => MediaQuery.of(context).size.width;
@@ -176,6 +190,26 @@ class AvatarPageWidgetModel
   }
 
   @override
+  Future<void> deleteImageData({
+    required String type,
+  }) async {
+    if (!anyOperation) {
+      anyOperation = true;
+      try {
+        await model.deleteAvatarData(
+          id: _avatarImagesData.value?.data?.id ?? '',
+          type: type,
+        );
+        await refresh();
+      } on FormatException catch (e) {
+        //ignore:use_build_context_synchronously
+        ShowSnackBar().showError(context);
+      }
+      anyOperation = false;
+    }
+  }
+
+  @override
   Future<void> chooseDirectoryAvatar() async {
     _avatarImage = XFile('');
     _controller.dispose();
@@ -229,6 +263,54 @@ class AvatarPageWidgetModel
       },
       context: context,
     );
+  }
+
+  @override
+  Future<void> editAvatar() async {
+    if (!anyOperation) {
+      anyOperation = true;
+      _isAvatar.content(true);
+
+      _avatarImage = XFile('');
+      _controller.dispose();
+
+      final imageInUnit8List = (await NetworkAssetBundle(
+        Uri.parse(_avatarImagesData.value?.data?.avatarUrl ?? ''),
+      ).load(_avatarImagesData.value?.data?.avatarUrl ?? ''))
+          .buffer
+          .asUint8List();
+      final tempDirectory = await getApplicationDocumentsDirectory();
+      final file = await File('${tempDirectory.path}/image.png').create();
+      file.writeAsBytesSync(imageInUnit8List);
+      _avatarImageBytes.content(await file.readAsBytes());
+      _avatarImage = XFile(file.path);
+      anyOperation = false;
+    }
+    _index.content(1);
+  }
+
+  @override
+  Future<void> editBackground() async {
+    if (!anyOperation) {
+      anyOperation = true;
+
+      _isAvatar.content(false);
+      _backgroundImage = XFile('');
+      _controller.dispose();
+
+      final imageInUnit8List = (await NetworkAssetBundle(
+        Uri.parse(_avatarImagesData.value?.data?.backImageUrl ?? ''),
+      ).load(_avatarImagesData.value?.data?.backImageUrl ?? ''))
+          .buffer
+          .asUint8List();
+      final tempDirectory = await getApplicationDocumentsDirectory();
+      final file = await File('${tempDirectory.path}/image.png').create();
+      file.writeAsBytesSync(imageInUnit8List);
+      _backgroundImageBytes.content(await file.readAsBytes());
+      _backgroundImage = XFile(file.path);
+      anyOperation = false;
+    }
+    _index.content(1);
   }
 
   @override
@@ -326,6 +408,19 @@ class AvatarPageWidgetModel
   }
 
   ///
+  Future<void> refresh() async {
+    try {
+      _avatarImagesData.loading();
+      final res = await model.getAvatarsData();
+      _avatarImagesData.content(res);
+    } on FormatException catch (e) {
+      _avatarImagesData.error(e);
+      //ignore:use_build_context_synchronously
+      ShowSnackBar().showError(context);
+    }
+  }
+
+  ///
   Future<void> uploadAvatar() async {
     final imageInUnit8List = _avatarImageCropped.value!.data!.bytes;
     final tempDirectory = await getApplicationDocumentsDirectory();
@@ -345,7 +440,7 @@ class AvatarPageWidgetModel
       );
       //ignore:use_build_context_synchronously
       Navigator.pop(context);
-      await _initLoad();
+      await refresh();
     } on FormatException catch (e) {
       //ignore:use_build_context_synchronously
       ShowSnackBar().showError(context);
@@ -373,7 +468,7 @@ class AvatarPageWidgetModel
       );
       //ignore:use_build_context_synchronously
       Navigator.pop(context);
-      await _initLoad();
+      await refresh();
     } on FormatException catch (e) {
       //ignore:use_build_context_synchronously
       ShowSnackBar().showError(context);
@@ -401,7 +496,6 @@ class AvatarPageWidgetModel
 
     _backgroundImageCropped = EntityStateNotifier<MemoryImage>();
     _backgroundImageCropped.loading();
-    final res = await model.getAvatarsData();
-    _avatarImagesData.content(res);
+    await refresh();
   }
 }

@@ -65,6 +65,29 @@ class _SettingsPageClient implements SettingsPageClient {
   }
 
   @override
+  Future<DTO> deleteAvatarData(url) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<DTO>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '${url}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = DTO.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
   Future<DTO> uploadAvatar(
     url,
     body,

@@ -3,6 +3,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:soft_weather_tennis/app/di/app_scope.dart';
+import 'package:soft_weather_tennis/components/snack_bar.dart';
 import 'package:soft_weather_tennis/features/navigation/domain/entity/app_coordinate.dart';
 import 'package:soft_weather_tennis/features/navigation/service/coordinator.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/di/profile_scope.dart';
@@ -110,6 +111,7 @@ ProfilePageWidgetModel defaultProfilePageWidgetModelFactory(
 ) {
   final scope = context.read<IProfilePageScope>();
   final appDependencies = context.read<IAppScope>();
+  // final user = context.read<ProviderModel>();
   final userNotifier = appDependencies.userNotifier;
   final coordinator = appDependencies.coordinator;
   final model = scope.profilePageModel;
@@ -117,6 +119,7 @@ ProfilePageWidgetModel defaultProfilePageWidgetModelFactory(
     model,
     coordinator: coordinator,
     userNotifier: userNotifier,
+    // user: user,
   );
 }
 
@@ -128,6 +131,8 @@ class ProfilePageWidgetModel
   final Coordinator coordinator;
 
   final UserNotifier _userNotifier;
+
+  // final ProviderModel _user;
 
   @override
   double get width => MediaQuery.of(context).size.width;
@@ -198,7 +203,9 @@ class ProfilePageWidgetModel
     ProfilePageModel model, {
     required this.coordinator,
     required UserNotifier userNotifier,
+    // required ProviderModel user,
   })  : _userNotifier = userNotifier,
+        // _user = user,
         super(model);
 
   @override
@@ -216,6 +223,19 @@ class ProfilePageWidgetModel
     try {
       final res = await model.getInformationData();
       _informationData.content(res);
+      // await _setUser();
+      // _informationData.content(
+      //   Information(
+      //     gameCount: res.gameCount,
+      //     efficiency: res.efficiency,
+      //     trophiesCount: res.trophiesCount,
+      //     lastTrophies: [],
+      //     charactersInfo: _user.user.charactersInfo,
+      //     ratingChanges: res.ratingChanges,
+      //     ratingPosition: res.ratingPosition,
+      //     trophiesAllCount: res.trophiesAllCount,
+      //   ),
+      // );
     } on FormatException catch (e) {
       _informationData.error(e);
     }
@@ -331,11 +351,11 @@ class ProfilePageWidgetModel
   @override
   Future<void> onWorkoutInformation(String id) async {
     _index.content(3);
+
     _workoutData.loading();
     try {
       final res = await model.getTrainingData(id);
       _workoutData.content(res);
-
       _gameListData = workoutData.value?.data?.sets[0].game ?? [];
     } on FormatException catch (e) {
       _workoutData.error(e);
@@ -503,10 +523,18 @@ class ProfilePageWidgetModel
     _index.content(0);
     _userInfo.loading();
     _achievementsButtonIsLoading.content(false);
-    final data = await model.getUserInfo();
-    _userInfo.content(data);
+    try {
+      _userInfo.loading();
+      final data = await model.getUserInfo();
+      _userInfo.content(data);
+    } on FormatException catch (e) {
+      _userInfo.error(e);
+      //ignore:use_build_context_synchronously
+      ShowSnackBar().showError(context);
+    }
     _currentSet.content(0);
     _currentGame.content(0);
+    // await onWorkoutInformation('64b65a92f3884a381ae8577f');
     await onInformation();
 
     // if (newAchievements) {
@@ -514,4 +542,15 @@ class ProfilePageWidgetModel
     // }
     // 2446619419
   }
+
+  // ///
+  // Future<void> _setUser() async {
+  //   await _user.updateUserData(
+  //     newAvatarImageUrl: _userInfo.value?.data?.avatarUrl,
+  //     newBackgroundImageUrl: _userInfo.value?.data?.backgroundImageUrl,
+  //     newCharacters: _informationData.value?.data?.charactersInfo,
+  //     newName: _userInfo.value?.data?.name,
+  //     newSurname: _userInfo.value?.data?.surname,
+  //   );
+  // }
 }

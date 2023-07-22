@@ -28,6 +28,7 @@ class MockSettingsPageRepository implements SettingsPageRepository {
       avatarUrl: '',
       backImageClippedUrl: '',
       backImageUrl: '',
+      id: '',
     );
   }
 
@@ -44,5 +45,11 @@ class MockSettingsPageRepository implements SettingsPageRepository {
   Future<void> uploadAvatar({
     required String type,
     required FormData body,
+  }) async {}
+
+  @override
+  Future<void> deleteAvatarData({
+    required String type,
+    required String id,
   }) async {}
 }

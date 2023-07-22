@@ -23,7 +23,7 @@ class NameEditPageWidget extends ElementaryWidget<INameEditPageWidgetModel> {
         automaticallyImplyLeading: false,
         titleSpacing: 0,
         shadowColor: Colors.transparent,
-        leading: GestureDetector(
+        leading: InkWell(
           onTap: wm.onBack,
           child: Icon(
             TennisIcons.back,
@@ -119,7 +119,7 @@ class NameEditPageWidget extends ElementaryWidget<INameEditPageWidgetModel> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                GestureDetector(
+                InkWell(
                   onTap: wm.onBack,
                   child: DecoratedBox(
                     decoration: BoxDecoration(

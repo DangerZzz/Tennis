@@ -37,11 +37,27 @@ class SettingsPageRepository {
           final data = AvatarDataDtO.fromJson(dto.data as Map<String, dynamic>);
 
           return AvatarImages(
-            avatarUrl: data.originalAvatar.src ?? '',
-            backImageUrl: data.originalWallpaper.src ?? '',
-            backImageClippedUrl: data.wallpaper.src ?? '',
-            avatarClippedUrl: data.avatar.src ?? '',
+            avatarUrl: data.originalAvatar?.src ?? '',
+            backImageUrl: data.originalWallpaper?.src ?? '',
+            backImageClippedUrl: data.wallpaper?.src ?? '',
+            avatarClippedUrl: data.avatar?.src ?? '',
+            id: data.id,
           );
+        },
+      );
+
+  /// Возвращает данные страницы аватар
+  Future<void> deleteAvatarData({
+    required String type,
+    required String id,
+  }) =>
+      _settingsPageClient
+          .deleteAvatarData(
+        '/api/file/user/$type/$id',
+      )
+          .then(
+        (dto) {
+          return null;
         },
       );
 

@@ -5,7 +5,6 @@ import 'package:soft_weather_tennis/assets/icons/TennisIcons.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
 import 'package:soft_weather_tennis/components/adaptive_activity_indicator.dart';
-import 'package:soft_weather_tennis/components/adaptive_refresh_custom_scroll_view.dart';
 import 'package:soft_weather_tennis/components/state_widgets/error_state_widget.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/user_info.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/pages/game_page.dart';
@@ -25,397 +24,348 @@ class ProfilePageWidget extends ElementaryWidget<IProfilePageWidgetModel> {
   @override
   Widget build(IProfilePageWidgetModel wm) {
     return SafeArea(
-      child: AdaptiveRefreshCustomScrollView(
-        onRefresh: () => wm.onRefresh(),
-        slivers: [
-          EntityStateNotifierBuilder<UserInfo>(
-            listenableEntityState: wm.userInfo,
-            loadingBuilder: (_, __) => SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  const Center(
-                    child: AdaptiveActivityIndicator(),
-                  ),
-                ],
-              ),
-            ),
-            errorBuilder: (_, __, ___) => SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  ErrorStateWidget(
-                    refresh: wm.onRefresh,
-                  ),
-                ],
-              ),
-            ),
-            builder: (_, state) => EntityStateNotifierBuilder<int>(
-              listenableEntityState: wm.index,
-              builder: (_, index) => index != 3
-                  ? SliverList(
-                      delegate: SliverChildListDelegate(
-                        [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Stack(
-                                fit: StackFit.passthrough,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 60),
-                                    child: SizedBox(
-                                      width: wm.width,
-                                      height: 112,
-                                      child: ClipRRect(
-                                        child: OctoImage(
-                                          width: wm.width,
-                                          height: 112,
-                                          fit: BoxFit.cover,
-                                          placeholderBuilder: (context) =>
-                                              const Center(
-                                            child: AdaptiveActivityIndicator(),
-                                          ),
-                                          errorBuilder: (c, e, s) => SizedBox(
-                                            width: wm.width,
-                                            height: 112,
-                                            child: Image.asset(
-                                              'lib/features/pages/profile_page/assets/images/profile_background.png',
-                                              fit: BoxFit.fitWidth,
-                                            ),
-                                          ),
-                                          image: Image.network(
-                                            state?.backgroundImageUrl ?? '',
-                                          ).image,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    right: 16,
-                                    top: 16,
-                                    child: GestureDetector(
-                                      onTap: wm.toSettingsPage,
-                                      child: Container(
-                                        height: 32,
-                                        width: 32,
-                                        decoration: BoxDecoration(
-                                          color: AppColors().primaryText,
-                                          borderRadius:
-                                              BorderRadius.circular(24),
-                                        ),
-                                        child: Icon(
-                                          TennisIcons.settings,
-                                          color: AppColors().white,
-                                          size: 22,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    right: 16,
-                                    top: 64,
-                                    child: EntityStateNotifierBuilder<bool>(
-                                      listenableEntityState:
-                                          wm.achievementsButtonIsLoading,
-                                      builder: (_, isLoading) =>
-                                          GestureDetector(
-                                        onTap: () {
-                                          if (!(isLoading ?? true)) {
-                                            wm.toAchievementsPage();
-                                          }
-                                        },
-                                        child: Container(
-                                          height: 32,
-                                          width: 32,
-                                          decoration: BoxDecoration(
-                                            color: AppColors().primaryText,
-                                            borderRadius:
-                                                BorderRadius.circular(24),
-                                          ),
-                                          child: (isLoading ?? true)
-                                              ? const AdaptiveActivityIndicator(
-                                                  brightness: Brightness.dark,
-                                                )
-                                              : Icon(
-                                                  TennisIcons.trophy,
-                                                  color: AppColors().white,
-                                                  size: 18,
-                                                ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    top: 80,
-                                    left: wm.width / 2 - 45,
-                                    child: Container(
-                                      width: 90,
-                                      height: 90,
-                                      decoration: BoxDecoration(
-                                        color: AppColors().white,
-                                        borderRadius: BorderRadius.circular(50),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(4.0),
-                                        child: SizedBox(
-                                          width: 72,
-                                          height: 72,
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(50),
-                                            child: OctoImage(
-                                              width: 72,
-                                              height: 72,
-                                              fit: BoxFit.cover,
-                                              placeholderBuilder: (context) =>
-                                                  const Center(
-                                                child:
-                                                    AdaptiveActivityIndicator(),
-                                              ),
-                                              errorBuilder: (c, e, s) =>
-                                                  SizedBox(
-                                                child: Image.asset(
-                                                  'assets/images/arkasha_logo.png',
-                                                  fit: BoxFit.contain,
-                                                  height: 40,
-                                                  width: 40,
-                                                ),
-                                              ),
-                                              image: Image.network(
-                                                state?.avatarUrl ?? '',
-                                              ).image,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Center(
-                                child: Text(
-                                  '${state?.surname ?? ''} ${state?.name ?? ''}',
-                                  style: AppTextStyles()
-                                      .medium_18_24
-                                      .copyWith(color: AppColors().primaryText),
-                                ),
-                              ),
-                              if (state?.rank.isNotEmpty ?? false)
-                                Center(
-                                  child: Text(
-                                    state?.rank ?? '',
-                                    style: AppTextStyles()
-                                        .regular_14_19
-                                        .copyWith(
-                                            color: AppColors().secondaryText),
-                                  ),
-                                ),
-                              const SizedBox(
-                                height: 22,
-                              ),
-                              if (state?.currentLevel != null)
-                                Container(
+      child: EntityStateNotifierBuilder<UserInfo>(
+        listenableEntityState: wm.userInfo,
+        loadingBuilder: (_, __) => const Center(
+          child: AdaptiveActivityIndicator(),
+        ),
+        errorBuilder: (_, __, ___) => ErrorStateWidget(
+          refresh: wm.onRefresh,
+        ),
+        builder: (_, state) => EntityStateNotifierBuilder<int>(
+          listenableEntityState: wm.index,
+          builder: (_, index) => index != 3
+              ? SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Stack(
+                        fit: StackFit.passthrough,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 60),
+                            child: SizedBox(
+                              width: wm.width,
+                              height: 112,
+                              child: ClipRRect(
+                                child: OctoImage(
                                   width: wm.width,
+                                  height: 112,
+                                  fit: BoxFit.cover,
+                                  placeholderBuilder: (context) => const Center(
+                                    child: AdaptiveActivityIndicator(),
+                                  ),
+                                  errorBuilder: (c, e, s) => SizedBox(
+                                    width: wm.width,
+                                    height: 112,
+                                    child: Image.asset(
+                                      'lib/features/pages/profile_page/assets/images/profile_background.png',
+                                      fit: BoxFit.fitWidth,
+                                    ),
+                                  ),
+                                  image: Image.network(
+                                    state?.backgroundImageUrl ?? '',
+                                  ).image,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            right: 16,
+                            top: 16,
+                            child: GestureDetector(
+                              onTap: wm.toSettingsPage,
+                              child: Container(
+                                height: 32,
+                                width: 32,
+                                decoration: BoxDecoration(
+                                  color: AppColors().primaryText,
+                                  borderRadius: BorderRadius.circular(24),
+                                ),
+                                child: Icon(
+                                  TennisIcons.settings,
+                                  color: AppColors().white,
+                                  size: 22,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            right: 16,
+                            top: 64,
+                            child: EntityStateNotifierBuilder<bool>(
+                              listenableEntityState:
+                                  wm.achievementsButtonIsLoading,
+                              builder: (_, isLoading) => GestureDetector(
+                                onTap: () {
+                                  if (!(isLoading ?? true)) {
+                                    wm.toAchievementsPage();
+                                  }
+                                },
+                                child: Container(
+                                  height: 32,
+                                  width: 32,
                                   decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        AppColors().gradientStart,
-                                        AppColors()
-                                            .gradientStart
-                                            .withOpacity(0),
-                                      ],
-                                    ),
-                                    borderRadius: const BorderRadius.only(
-                                      bottomRight: Radius.circular(16),
-                                      bottomLeft: Radius.circular(16),
-                                    ),
+                                    color: AppColors().primaryText,
+                                    borderRadius: BorderRadius.circular(24),
                                   ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 16.0,
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            vertical: 7.0,
-                                          ),
-                                          child: Container(
-                                            height: 20,
-                                            width: 20,
-                                            decoration: BoxDecoration(
-                                              color: AppColors().white,
-                                              borderRadius:
-                                                  BorderRadius.circular(24),
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                '${state?.currentLevel}',
-                                                style: AppTextStyles()
-                                                    .regular_14_19
-                                                    .copyWith(
-                                                      color: AppColors()
-                                                          .accentGreen,
-                                                    ),
-                                              ),
-                                            ),
-                                          ),
+                                  child: (isLoading ?? true)
+                                      ? const AdaptiveActivityIndicator(
+                                          brightness: Brightness.dark,
+                                        )
+                                      : Icon(
+                                          TennisIcons.trophy,
+                                          color: AppColors().white,
+                                          size: 18,
                                         ),
-                                        Text(
-                                          '${state?.points} очков',
-                                          style: AppTextStyles()
-                                              .regular_16_21
-                                              .copyWith(
-                                                  color: AppColors().white),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: 80,
+                            left: wm.width / 2 - 45,
+                            child: Container(
+                              width: 90,
+                              height: 90,
+                              decoration: BoxDecoration(
+                                color: AppColors().white,
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: SizedBox(
+                                  width: 72,
+                                  height: 72,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: OctoImage(
+                                      width: 72,
+                                      height: 72,
+                                      fit: BoxFit.cover,
+                                      placeholderBuilder: (context) =>
+                                          const Center(
+                                        child: AdaptiveActivityIndicator(),
+                                      ),
+                                      errorBuilder: (c, e, s) => SizedBox(
+                                        child: Image.asset(
+                                          'assets/images/arkasha_logo.png',
+                                          fit: BoxFit.contain,
+                                          height: 40,
+                                          width: 40,
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 7.0),
-                                          child: Container(
-                                            height: 20,
-                                            width: 20,
-                                            decoration: BoxDecoration(
-                                              color: AppColors().white,
-                                              borderRadius:
-                                                  BorderRadius.circular(24),
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                '${state?.nextLevel}',
-                                                style: AppTextStyles()
-                                                    .regular_14_19
-                                                    .copyWith(
-                                                      color: AppColors()
-                                                          .accentGreen,
-                                                    ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                      ),
+                                      image: Image.network(
+                                        state?.avatarUrl ?? '',
+                                      ).image,
                                     ),
                                   ),
                                 ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 24,
-                                ),
-                                child: Row(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: wm.onInformation,
-                                      child: DecoratedBox(
-                                        decoration: BoxDecoration(
-                                          color: index == 0
-                                              ? AppColors().accentGreen
-                                              : AppColors().primaryText,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 16,
-                                            vertical: 5,
-                                          ),
-                                          child: Text(
-                                            'Информация',
-                                            style: AppTextStyles()
-                                                .medium_14_19
-                                                .copyWith(
-                                                    color: AppColors().white),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 8,
-                                    ),
-                                    GestureDetector(
-                                      onTap: wm.onGame,
-                                      child: DecoratedBox(
-                                        decoration: BoxDecoration(
-                                          color: index == 1
-                                              ? AppColors().accentGreen
-                                              : AppColors().primaryText,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 16,
-                                            vertical: 5,
-                                          ),
-                                          child: Text(
-                                            'Игра',
-                                            style: AppTextStyles()
-                                                .medium_14_19
-                                                .copyWith(
-                                                    color: AppColors().white),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 8,
-                                    ),
-                                    GestureDetector(
-                                      onTap: wm.onStatistics,
-                                      child: DecoratedBox(
-                                        decoration: BoxDecoration(
-                                          color: index == 2
-                                              ? AppColors().accentGreen
-                                              : AppColors().primaryText,
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 16,
-                                            vertical: 5,
-                                          ),
-                                          child: Text(
-                                            'Статистика',
-                                            style: AppTextStyles()
-                                                .medium_14_19
-                                                .copyWith(
-                                                    color: AppColors().white),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
                               ),
-                              const SizedBox(height: 24),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                ),
-                                child: index == 0
-                                    ? InformationPage(wm: wm)
-                                    : index == 1
-                                        ? GamePage(wm: wm)
-                                        : index == 2
-                                            ? StatisticsPage(wm: wm)
-                                            : const SizedBox(),
-                              ),
-                            ],
+                            ),
                           ),
                         ],
                       ),
-                    )
-                  : SliverList(
-                      delegate: SliverChildListDelegate(
-                        [
-                          WorkoutInformationPage(wm: wm),
-                        ],
+                      Center(
+                        child: Text(
+                          '${state?.surname ?? ''} ${state?.name ?? ''}',
+                          style: AppTextStyles()
+                              .medium_18_24
+                              .copyWith(color: AppColors().primaryText),
+                        ),
                       ),
-                    ),
-            ),
-          ),
-        ],
+                      if (state?.rank.isNotEmpty ?? false)
+                        Center(
+                          child: Text(
+                            state?.rank ?? '',
+                            style: AppTextStyles()
+                                .regular_14_19
+                                .copyWith(color: AppColors().secondaryText),
+                          ),
+                        ),
+                      const SizedBox(
+                        height: 22,
+                      ),
+                      if (state?.currentLevel != null)
+                        Container(
+                          width: wm.width,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                AppColors().gradientStart,
+                                AppColors().gradientStart.withOpacity(0),
+                              ],
+                            ),
+                            borderRadius: const BorderRadius.only(
+                              bottomRight: Radius.circular(16),
+                              bottomLeft: Radius.circular(16),
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 7.0,
+                                  ),
+                                  child: Container(
+                                    height: 20,
+                                    width: 20,
+                                    decoration: BoxDecoration(
+                                      color: AppColors().white,
+                                      borderRadius: BorderRadius.circular(24),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        '${state?.currentLevel}',
+                                        style: AppTextStyles()
+                                            .regular_14_19
+                                            .copyWith(
+                                              color: AppColors().accentGreen,
+                                            ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  '${state?.points} очков',
+                                  style: AppTextStyles()
+                                      .regular_16_21
+                                      .copyWith(color: AppColors().white),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 7.0),
+                                  child: Container(
+                                    height: 20,
+                                    width: 20,
+                                    decoration: BoxDecoration(
+                                      color: AppColors().white,
+                                      borderRadius: BorderRadius.circular(24),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        '${state?.nextLevel}',
+                                        style: AppTextStyles()
+                                            .regular_14_19
+                                            .copyWith(
+                                              color: AppColors().accentGreen,
+                                            ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 24,
+                        ),
+                        child: Row(
+                          children: [
+                            GestureDetector(
+                              onTap: wm.onInformation,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  color: index == 0
+                                      ? AppColors().accentGreen
+                                      : AppColors().primaryText,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 5,
+                                  ),
+                                  child: Text(
+                                    'Информация',
+                                    style: AppTextStyles()
+                                        .medium_14_19
+                                        .copyWith(color: AppColors().white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            GestureDetector(
+                              onTap: wm.onGame,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  color: index == 1
+                                      ? AppColors().accentGreen
+                                      : AppColors().primaryText,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 5,
+                                  ),
+                                  child: Text(
+                                    'Игра',
+                                    style: AppTextStyles()
+                                        .medium_14_19
+                                        .copyWith(color: AppColors().white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            GestureDetector(
+                              onTap: wm.onStatistics,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  color: index == 2
+                                      ? AppColors().accentGreen
+                                      : AppColors().primaryText,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 5,
+                                  ),
+                                  child: Text(
+                                    'Статистика',
+                                    style: AppTextStyles()
+                                        .medium_14_19
+                                        .copyWith(color: AppColors().white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                        ),
+                        child: index == 0
+                            ? InformationPage(wm: wm)
+                            : index == 1
+                                ? GamePage(wm: wm)
+                                : index == 2
+                                    ? StatisticsPage(wm: wm)
+                                    : const SizedBox(),
+                      ),
+                    ],
+                  ),
+                )
+              : WorkoutInformationPage(wm: wm),
+        ),
       ),
     );
   }

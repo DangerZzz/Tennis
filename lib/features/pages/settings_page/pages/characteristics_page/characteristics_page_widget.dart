@@ -28,7 +28,7 @@ class CharacteristicsPageWidget
         automaticallyImplyLeading: false,
         titleSpacing: 0,
         shadowColor: Colors.transparent,
-        leading: GestureDetector(
+        leading: InkWell(
           onTap: wm.onBack,
           child: Icon(
             TennisIcons.back,
@@ -331,7 +331,7 @@ class CharacteristicsPageWidget
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  GestureDetector(
+                  InkWell(
                     onTap: wm.onBack,
                     child: DecoratedBox(
                       decoration: BoxDecoration(

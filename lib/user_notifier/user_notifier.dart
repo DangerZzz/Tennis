@@ -5,6 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:soft_weather_tennis/config/app_config.dart';
 import 'package:soft_weather_tennis/config/environment/environment.dart';
+import 'package:soft_weather_tennis/features/pages/profile_page/domain/characters_info.dart';
 import 'package:soft_weather_tennis/user_notifier/api/client.dart';
 import 'package:soft_weather_tennis/user_notifier/di/user_scope.dart';
 import 'package:soft_weather_tennis/user_notifier/domain/login_code.dart';
@@ -42,6 +43,39 @@ class UserNotifier extends ChangeNotifier implements IUserNotifier {
   /// функция изменения уровня сложности
   set currentComplexity(String complexity) {
     _currentComplexity = complexity.toUpperCase();
+  }
+
+  /// Аватарка пользователя
+  String? get backgroundImageUrl => _backgroundImageUrl;
+
+  /// функция изменения уровня сложности
+  set backgroundImageUrl(String? url) {
+    _backgroundImageUrl = url ?? '';
+  }
+
+  /// Аватарка пользователя
+  String? get avatarImageUrl => _avatarImageUrl;
+
+  /// функция изменения уровня сложности
+  set avatarImageUrl(String? url) {
+    _avatarImageUrl = url ?? '';
+  }
+
+  /// Аватарка пользователя
+  CharactersInfo? get characters => _characters;
+
+  /// функция изменения уровня сложности
+  set characters(CharactersInfo? data) {
+    _characters = data ??
+        CharactersInfo(
+          backhand: '',
+          forehand: '',
+          height: 0,
+          ageInTennis: 0,
+          age: 0,
+          trainer: '',
+          technicality: 0,
+        );
   }
 
   ///имя пользователя
@@ -93,6 +127,15 @@ class UserNotifier extends ChangeNotifier implements IUserNotifier {
   /// текущий уровень игры
   late String _currentComplexity = '';
 
+  /// текущий уровень игры
+  late String _backgroundImageUrl = '';
+
+  /// текущий уровень игры
+  late String _avatarImageUrl = '';
+
+  /// текущий уровень игры
+  late CharactersInfo _characters;
+
   /// Конструктор
   UserNotifier({required Dio dio, required ErrorHandler errorHandler})
       : _dio = dio,
@@ -117,6 +160,9 @@ class UserNotifier extends ChangeNotifier implements IUserNotifier {
       name: name,
       isTrainer: isTrainer,
       surname: surname,
+      charactersInfo: null,
+      backgroundImageUrl: '',
+      avatarImageUrl: '',
     );
     await _secureStorage.write(
       key: 'isTrainer',
@@ -137,6 +183,9 @@ class UserNotifier extends ChangeNotifier implements IUserNotifier {
       name: name,
       isTrainer: isTrainer,
       surname: surname,
+      avatarImageUrl: '',
+      backgroundImageUrl: '',
+      charactersInfo: null,
     );
     notifyListeners();
   }

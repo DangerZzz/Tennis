@@ -19,6 +19,12 @@ abstract class SettingsPageClient {
   Future<DTO> getAvatarsData();
 
   ///
+  @DELETE('{url}')
+  Future<DTO> deleteAvatarData(
+    @Path('url') String url,
+  );
+
+  ///
   @PATCH('{url}')
   @MultiPart()
   Future<DTO> uploadAvatar(
