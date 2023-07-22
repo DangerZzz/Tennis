@@ -43,6 +43,9 @@ abstract class IAvatarPageWidgetModel extends IWidgetModel {
   ListenableState<EntityState<Uint8List>> get avatarImageBytes;
 
   /// Аватар
+  ListenableState<EntityState<Uint8List>> get backgroundImageBytes;
+
+  /// Аватар
   ListenableState<EntityState<MemoryImage>> get avatarImageCropped;
 
   /// Обложка
@@ -58,10 +61,16 @@ abstract class IAvatarPageWidgetModel extends IWidgetModel {
   void toChooseImage({required bool isAvatar});
 
   /// Выбор, откуда будет загружаться фото
-  void chooseDirectory();
+  void chooseDirectoryAvatar();
 
   /// Выбор, откуда будет загружаться фото
-  void cropImage();
+  void chooseDirectoryBackground();
+
+  /// Выбор, откуда будет загружаться фото
+  void cropAvatar();
+
+  /// Выбор, откуда будет загружаться фото
+  void cropBackground();
 }
 
 ///
@@ -109,6 +118,10 @@ class AvatarPageWidgetModel
       _avatarImageBytes;
 
   @override
+  ListenableState<EntityState<Uint8List>> get backgroundImageBytes =>
+      _backgroundImageBytes;
+
+  @override
   ListenableState<EntityState<MemoryImage>> get avatarImageCropped =>
       _avatarImageCropped;
 
@@ -125,7 +138,9 @@ class AvatarPageWidgetModel
   late EntityStateNotifier<bool> _isAvatar;
   late EntityStateNotifier<bool> _buttonAvailability;
   late EntityStateNotifier<Uint8List> _avatarImageBytes;
+  late EntityStateNotifier<Uint8List> _backgroundImageBytes;
   late EntityStateNotifier<MemoryImage> _avatarImageCropped;
+  late EntityStateNotifier<MemoryImage> _backgroundImageCropped;
 
   late XFile _avatarImage;
   late XFile _backgroundImage;
@@ -141,7 +156,11 @@ class AvatarPageWidgetModel
   @override
   void toChooseImage({required bool isAvatar}) {
     _isAvatar.content(isAvatar);
-    chooseDirectory();
+    if (isAvatar) {
+      chooseDirectoryAvatar();
+    } else {
+      chooseDirectoryBackground();
+    }
   }
 
   @override
@@ -157,7 +176,10 @@ class AvatarPageWidgetModel
   }
 
   @override
-  Future<void> chooseDirectory() async {
+  Future<void> chooseDirectoryAvatar() async {
+    _avatarImage = XFile('');
+    _controller.dispose();
+
     await showDialog<void>(
       builder: (context) {
         return DirectoryDialog(
@@ -171,6 +193,8 @@ class AvatarPageWidgetModel
                 Navigator.pop(context);
               } else {
                 _avatarImage = image;
+                final imageBytes = await image.readAsBytes();
+                _avatarImageBytes.content(imageBytes);
                 _index.content(1);
                 //ignore: use_build_context_synchronously
                 Navigator.pop(context);
@@ -208,12 +232,78 @@ class AvatarPageWidgetModel
   }
 
   @override
-  Future<void> cropImage() async {
+  Future<void> chooseDirectoryBackground() async {
+    _avatarImage = XFile('');
+    _controller.dispose();
+    await showDialog<void>(
+      builder: (context) {
+        return DirectoryDialog(
+          isAvatar: _isAvatar.value?.data ?? false,
+          onCamera: () async {
+            final picker = ImagePicker();
+            try {
+              final image = await picker.pickImage(source: ImageSource.camera);
+              if (image == null) {
+                //ignore: use_build_context_synchronously
+                Navigator.pop(context);
+              } else {
+                _backgroundImage = image;
+                final imageBytes = await image.readAsBytes();
+                _backgroundImageBytes.content(imageBytes);
+                _index.content(1);
+                //ignore: use_build_context_synchronously
+                Navigator.pop(context);
+              }
+            } on PlatformException catch (e) {
+              debugPrint('Failed to pick image: $e');
+            }
+            debugPrint(_backgroundImage.path);
+          },
+          onGallery: () async {
+            final picker = ImagePicker();
+            try {
+              final image = await picker.pickImage(source: ImageSource.gallery);
+
+              if (image == null) {
+                //ignore: use_build_context_synchronously
+                Navigator.pop(context);
+              } else {
+                _backgroundImage = image;
+                final imageBytes = await image.readAsBytes();
+                _backgroundImageBytes.content(imageBytes);
+                _index.content(1);
+                //ignore: use_build_context_synchronously
+                Navigator.pop(context);
+              }
+            } on PlatformException catch (e) {
+              debugPrint('Failed to pick image: $e');
+            }
+            debugPrint(_backgroundImage.path);
+          },
+        );
+      },
+      context: context,
+    );
+  }
+
+  @override
+  Future<void> cropAvatar() async {
     _buttonAvailability.loading();
     final image = await _controller.onCropImage();
     if (image != null) {
       _avatarImageCropped.content(image);
       await uploadAvatar();
+    }
+    _buttonAvailability.content(true);
+  }
+
+  @override
+  Future<void> cropBackground() async {
+    _buttonAvailability.loading();
+    final image = await _controller.onCropImage();
+    if (image != null) {
+      _backgroundImageCropped.content(image);
+      await uploadBackGround();
     }
     _buttonAvailability.content(true);
   }
@@ -237,16 +327,53 @@ class AvatarPageWidgetModel
 
   ///
   Future<void> uploadAvatar() async {
-    final imageInUnit8List =
-        _avatarImageCropped.value!.data!.bytes; // store unit8List image here ;
+    final imageInUnit8List = _avatarImageCropped.value!.data!.bytes;
     final tempDirectory = await getApplicationDocumentsDirectory();
-    // final file = await File('${tempDirectory.path}/image.png').create();
-    // file.writeAsBytesSync(imageInUnit8List);
-    final a = _avatarImageCropped.value?.data;
-    final file = File.fromRawPath(a!.bytes);
+    final file = await File('${tempDirectory.path}/image.png').create();
+    file.writeAsBytesSync(imageInUnit8List);
+
+    final originalFileInUnit8List = await File(_avatarImage.path).readAsBytes();
+    final originalFile =
+        await File('${tempDirectory.path}/originalFile.png').create();
+    originalFile.writeAsBytesSync(originalFileInUnit8List);
 
     try {
-      await model.uploadAvatar(type: 'avatar', file: file);
+      await model.uploadImage(
+        type: 'avatar',
+        clippedFile: file,
+        originalFile: originalFile, //File(_avatarImage.path),
+      );
+      //ignore:use_build_context_synchronously
+      Navigator.pop(context);
+      await _initLoad();
+    } on FormatException catch (e) {
+      //ignore:use_build_context_synchronously
+      ShowSnackBar().showError(context);
+    }
+  }
+
+  ///
+  Future<void> uploadBackGround() async {
+    final imageInUnit8List = _backgroundImageCropped.value!.data!.bytes;
+    final tempDirectory = await getApplicationDocumentsDirectory();
+    final file = await File('${tempDirectory.path}/image.png').create();
+    file.writeAsBytesSync(imageInUnit8List);
+
+    final originalFileInUnit8List =
+        await File(_backgroundImage.path).readAsBytes();
+    final originalFile =
+        await File('${tempDirectory.path}/originalFile.png').create();
+    originalFile.writeAsBytesSync(originalFileInUnit8List);
+
+    try {
+      await model.uploadImage(
+        type: 'wallpaper',
+        clippedFile: file,
+        originalFile: originalFile, //File(_avatarImage.path),
+      );
+      //ignore:use_build_context_synchronously
+      Navigator.pop(context);
+      await _initLoad();
     } on FormatException catch (e) {
       //ignore:use_build_context_synchronously
       ShowSnackBar().showError(context);
@@ -265,10 +392,15 @@ class AvatarPageWidgetModel
     _controller = CustomImageCropController();
     _avatarImageBytes = EntityStateNotifier<Uint8List>();
     _avatarImageBytes.loading();
+    _backgroundImageBytes = EntityStateNotifier<Uint8List>();
+    _backgroundImageBytes.loading();
     _buttonAvailability = EntityStateNotifier<bool>();
     _buttonAvailability.content(true);
     _avatarImageCropped = EntityStateNotifier<MemoryImage>();
     _avatarImageCropped.loading();
+
+    _backgroundImageCropped = EntityStateNotifier<MemoryImage>();
+    _backgroundImageCropped.loading();
     final res = await model.getAvatarsData();
     _avatarImagesData.content(res);
   }

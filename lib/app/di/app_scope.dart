@@ -133,33 +133,26 @@ class AppScope implements IAppScope {
           handler.next(response);
         },
         onError: (e, handler) async {
-          if (e.response!.headers['set-cookie'] != null) {
-            final cookie = e.response!.headers['set-cookie']![0];
-            if (cookie.contains('set-cookie=')) {
-              final newToken = cookie.split('set-cookie=')[1].split(';')[0];
-              e.response!.requestOptions.headers['Cookie'] = 'code=$newToken;';
-              _dio.options.headers['Cookie'] = 'code=$newToken;';
-              final opts = Options(
-                method: e.response!.requestOptions.method,
-                headers: e.response!.requestOptions.headers,
-              );
-              // await _userNotifier.setTokensFromHeaders();
-              try {
-                final cloneReq = await dio.request<Map<String, dynamic>>(
-                  e.response!.requestOptions.path,
-                  options: opts,
-                  data: e.response!.requestOptions.data,
-                  queryParameters: e.response!.requestOptions.queryParameters,
-                );
-                return handler.resolve(cloneReq);
-              } on Exception catch (e) {
-                if (e is DioError) {
-                  handler.reject(e);
-                }
-                // await tokenStorage.clearTokens();
-                rethrow;
+          if (e.response?.headers['set-cookie'] != null) {
+            String cookie;
+            for (final element in e.response!.headers['set-cookie']!) {
+              cookie = element;
+              if (cookie.contains('code=')) {
+                final newToken = cookie;
+                e.response?.requestOptions.headers['Cookie'] = '$newToken;';
+                _dio.options.headers['Cookie'] = '$newToken;';
+                await _userNotifier.setCookieToken();
+              }
+              if (cookie.contains('refresh=')) {
+                final refreshToken = cookie;
+                await _userNotifier.setRefreshToken(refreshToken);
+              }
+              if (cookie.contains('token=')) {
+                final accessToken = cookie;
+                await _userNotifier.setAccessToken(accessToken);
               }
             }
+            _dio.options.headers['cookie'] = await _userNotifier.getTokens();
           }
           handler.next(e);
         },

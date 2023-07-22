@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:elementary/elementary.dart';
 import 'package:soft_weather_tennis/features/pages/settings_page/domain/avatar_images.dart';
 import 'package:soft_weather_tennis/features/pages/settings_page/repository/settings_screen_repository.dart';
@@ -26,12 +27,20 @@ class AvatarPageModel extends ElementaryModel {
   }
 
   /// Получение данных вкладки "аватар"
-  Future<void> uploadAvatar({
+  Future<void> uploadImage({
     required String type,
-    required File file,
+    required File originalFile,
+    required File clippedFile,
   }) async {
+    final body = FormData.fromMap(<String, dynamic>{
+      'clipped':
+          await MultipartFile.fromFile(clippedFile.path, filename: 'clipped'),
+      'original':
+          await MultipartFile.fromFile(originalFile.path, filename: 'original'),
+    });
+
     await ExceptionHandler.shellException(() async {
-      await _settingsPageRepository.uploadAvatar(type: type, file: file);
+      await _settingsPageRepository.uploadAvatar(type: type, body: body);
     });
   }
 }

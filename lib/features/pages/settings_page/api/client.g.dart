@@ -55,7 +55,7 @@ class _SettingsPageClient implements SettingsPageClient {
     )
             .compose(
               _dio.options,
-              '/api/user',
+              '/api/user/attachment',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -67,24 +67,18 @@ class _SettingsPageClient implements SettingsPageClient {
   @override
   Future<DTO> uploadAvatar(
     url,
-    file,
+    body,
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = FormData();
-    _data.files.add(MapEntry(
-      'attachment',
-      MultipartFile.fromFileSync(
-        file.path,
-        filename: file.path.split(Platform.pathSeparator).last,
-      ),
-    ));
+    final _data = body;
     final _result =
         await _dio.fetch<Map<String, dynamic>>(_setStreamType<DTO>(Options(
-      method: 'GET',
+      method: 'PATCH',
       headers: _headers,
       extra: _extra,
+      contentType: 'multipart/form-data',
     )
             .compose(
               _dio.options,

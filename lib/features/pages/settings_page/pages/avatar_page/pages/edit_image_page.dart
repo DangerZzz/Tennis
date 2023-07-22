@@ -30,14 +30,16 @@ class EditImagePage extends StatelessWidget {
         ),
         builder: (_, buttonAvailability) => Stack(
           children: [
-            EntityStateNotifierBuilder<Uint8List>(
-              listenableEntityState: widgetModel.avatarImageBytes,
+            EntityStateNotifierBuilder<bool>(
+              listenableEntityState: widgetModel.isAvatar,
               loadingBuilder: (_, __) => const AdaptiveActivityIndicator(
                 radius: 40,
               ),
-              builder: (_, imageData) => EntityStateNotifierBuilder<bool>(
-                listenableEntityState: widgetModel.isAvatar,
-                builder: (_, isAvatar) => CustomImageCropLib(
+              builder: (_, isAvatar) => EntityStateNotifierBuilder<Uint8List>(
+                listenableEntityState: (isAvatar ?? true)
+                    ? widgetModel.avatarImageBytes
+                    : widgetModel.backgroundImageBytes,
+                builder: (_, imageData) => CustomImageCropLib(
                   cropController: widgetModel.controller,
                   image: MemoryImage(
                     imageData!,
@@ -77,7 +79,7 @@ class EditImagePage extends StatelessWidget {
               left: 14,
               right: 16,
               child: GestureDetector(
-                onTap: widgetModel.cropImage,
+                onTap: widgetModel.cropAvatar,
                 child: Container(
                   height: 48,
                   decoration: BoxDecoration(
