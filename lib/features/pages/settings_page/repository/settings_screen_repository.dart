@@ -49,11 +49,10 @@ class SettingsPageRepository {
   /// Возвращает данные страницы аватар
   Future<void> deleteAvatarData({
     required String type,
-    required String id,
   }) =>
       _settingsPageClient
           .deleteAvatarData(
-        '/api/file/user/$type/$id',
+        '/api/file/user/$type',
       )
           .then(
         (dto) {

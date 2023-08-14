@@ -1,5 +1,4 @@
 import 'package:soft_weather_tennis/features/pages/authorization_page/api/client.dart';
-import 'package:soft_weather_tennis/features/pages/authorization_page/dto/code_temp_dto.dart';
 
 /// Репозиторий для главной
 class AuthorizationPageRepository {
@@ -9,12 +8,17 @@ class AuthorizationPageRepository {
   AuthorizationPageRepository(this._authorizationPageClient);
 
   /// Запрос на получение кода
-  Future<bool>? getCode(Map<String, dynamic> body) =>
+  Future<void>? getCode(Map<String, dynamic> body) =>
       _authorizationPageClient.getCode(body).then(
         (dto) {
-          final data = CodeDtO.fromJson(dto.data as Map<String, dynamic>);
-
-          return data.isRegistered;
+          return null;
+          //
+          // final data = CodeDtO.fromJson(dto.data as Map<String, dynamic>);
+          //
+          // return Code(
+          //   code: data.code,
+          //   isRegistered: data.isRegistered,
+          // );
         },
       );
 

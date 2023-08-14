@@ -1,148 +1,129 @@
 import 'package:soft_weather_tennis/features/pages/game_page/domain/game_data.dart';
+import 'package:soft_weather_tennis/features/pages/game_page/domain/preparing_data.dart';
 import 'package:soft_weather_tennis/features/pages/game_page/domain/pro_player_info.dart';
 import 'package:soft_weather_tennis/features/pages/game_page/repository/game_screen_repository.dart';
+import 'package:soft_weather_tennis/features/pages/profile_page/domain/game_data.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/statistics_list.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/training_info.dart';
+import 'package:soft_weather_tennis/features/pages/profile_page/domain/user_info.dart';
 
 /// mock repository
 class MockGamePageRepository implements GamePageRepository {
   @override
-  Future<GameData> getGameData() async {
+  Future<List<Statistics>> getTrainingsData(Map<String, dynamic> body) async {
     await Future<void>.delayed(const Duration(seconds: 1));
-    return GameData(
-      fastAdvice:
-          'Оставаться в форме тебе помогут\nпакровские батончики с высоким\n'
-          'содержанием чего-нибудь.',
-      fastAdviceImageUrl: 'https://picsum.photos/200',
-      proPlayers: [
-        ProPlayer(
-          id: 1,
-          rating: 5,
-          name: 'Карлос Алькарас',
-          description: 'Действующая 1-я ракетка',
-          imageUrl: 'https://picsum.photos/300',
-        ),
-        ProPlayer(
-          id: 2,
-          rating: 4,
-          name: 'Рафаэль Надаль',
-          description: 'Чемпион мира',
-          imageUrl: 'https://picsum.photos/400',
-        ),
-      ],
-      trainings: [
-        Training(
-          id: 1,
-          name: 'Стандартная',
-          efficiency: '79%',
-        ),
-        Training(
-          id: 1,
-          name: 'Карлос А.',
-          efficiency: '49%',
-        ),
-        Training(
-          id: 1,
-          name: 'Карлос А.',
-          efficiency: '100%',
-        ),
-        Training(
-          id: 1,
-          name: 'Стандартная',
-          efficiency: '9%',
-        ),
-      ],
-    );
+    return [
+      // Training(
+      //   id: 1,
+      //   name: 'Стандартная',
+      //   efficiency: '79%',
+      // ),
+      // Training(
+      //   id: 1,
+      //   name: 'Карлос А.',
+      //   efficiency: '49%',
+      // ),
+      // Training(
+      //   id: 1,
+      //   name: 'Карлос А.',
+      //   efficiency: '100%',
+      // ),
+      // Training(
+      //   id: 1,
+      //   name: 'Стандартная',
+      //   efficiency: '9%',
+      // ),
+    ];
   }
 
   @override
-  Future<List<ProPlayer>> getProPlayerData() async {
+  Future<List<ProPlayer>> getProPlayerData(Map<String, dynamic> body) async {
     await Future<void>.delayed(const Duration(seconds: 1));
     return <ProPlayer>[
-      ProPlayer(
-        id: 1,
-        rating: 5,
-        name: 'Карлос Алькарас',
-        description: 'Действующая 1-я ракетка',
-        imageUrl: 'https://picsum.photos/300',
-      ),
-      ProPlayer(
-        id: 2,
-        rating: 4,
-        name: 'Рафаэль Надаль',
-        description: 'Чемпион мира',
-        imageUrl: 'https://picsum.photos/400',
-      ),
-      ProPlayer(
-        id: 1,
-        rating: 5,
-        name: 'Карлос Алькарас',
-        description: 'Действующая 1-я ракетка',
-        imageUrl: 'https://picsum.photos/300',
-      ),
-      ProPlayer(
-        id: 2,
-        rating: 4,
-        name: 'Рафаэль Надаль',
-        description: 'Чемпион мира',
-        imageUrl: 'https://picsum.photos/400',
-      ),
-      ProPlayer(
-        id: 1,
-        rating: 5,
-        name: 'Карлос Алькарас',
-        description: 'Действующая 1-я ракетка',
-        imageUrl: 'https://picsum.photos/300',
-      ),
-      ProPlayer(
-        id: 2,
-        rating: 4,
-        name: 'Рафаэль Надаль',
-        description: 'Чемпион мира',
-        imageUrl: 'https://picsum.photos/400',
-      ),
-      ProPlayer(
-        id: 1,
-        rating: 5,
-        name: 'Карлос Алькарас',
-        description: 'Действующая 1-я ракетка',
-        imageUrl: 'https://picsum.photos/300',
-      ),
-      ProPlayer(
-        id: 2,
-        rating: 4,
-        name: 'Рафаэль Надаль',
-        description: 'Чемпион мира',
-        imageUrl: 'https://picsum.photos/400',
-      ),
-      ProPlayer(
-        id: 1,
-        rating: 5,
-        name: 'Карлос Алькарас',
-        description: 'Действующая 1-я ракетка',
-        imageUrl: 'https://picsum.photos/300',
-      ),
-      ProPlayer(
-        id: 2,
-        rating: 4,
-        name: 'Рафаэль Надаль',
-        description: 'Чемпион мира',
-        imageUrl: 'https://picsum.photos/400',
-      ),
-      ProPlayer(
-        id: 1,
-        rating: 5,
-        name: 'Карлос Алькарас',
-        description: 'Действующая 1-я ракетка',
-        imageUrl: 'https://picsum.photos/300',
-      ),
-      ProPlayer(
-        id: 2,
-        rating: 4,
-        name: 'Рафаэль Надаль',
-        description: 'Чемпион мира',
-        imageUrl: 'https://picsum.photos/400',
-      ),
+      // ProPlayer(
+      //   id: 1,
+      //   rating: 5,
+      //   name: 'Карлос Алькарас',
+      //   description: 'Действующая 1-я ракетка',
+      //   imageUrl: 'https://picsum.photos/300',
+      // ),
+      // ProPlayer(
+      //   id: 2,
+      //   rating: 4,
+      //   name: 'Рафаэль Надаль',
+      //   description: 'Чемпион мира',
+      //   imageUrl: 'https://picsum.photos/400',
+      // ),
+      // ProPlayer(
+      //   id: 1,
+      //   rating: 5,
+      //   name: 'Карлос Алькарас',
+      //   description: 'Действующая 1-я ракетка',
+      //   imageUrl: 'https://picsum.photos/300',
+      // ),
+      // ProPlayer(
+      //   id: 2,
+      //   rating: 4,
+      //   name: 'Рафаэль Надаль',
+      //   description: 'Чемпион мира',
+      //   imageUrl: 'https://picsum.photos/400',
+      // ),
+      // ProPlayer(
+      //   id: 1,
+      //   rating: 5,
+      //   name: 'Карлос Алькарас',
+      //   description: 'Действующая 1-я ракетка',
+      //   imageUrl: 'https://picsum.photos/300',
+      // ),
+      // ProPlayer(
+      //   id: 2,
+      //   rating: 4,
+      //   name: 'Рафаэль Надаль',
+      //   description: 'Чемпион мира',
+      //   imageUrl: 'https://picsum.photos/400',
+      // ),
+      // ProPlayer(
+      //   id: 1,
+      //   rating: 5,
+      //   name: 'Карлос Алькарас',
+      //   description: 'Действующая 1-я ракетка',
+      //   imageUrl: 'https://picsum.photos/300',
+      // ),
+      // ProPlayer(
+      //   id: 2,
+      //   rating: 4,
+      //   name: 'Рафаэль Надаль',
+      //   description: 'Чемпион мира',
+      //   imageUrl: 'https://picsum.photos/400',
+      // ),
+      // ProPlayer(
+      //   id: 1,
+      //   rating: 5,
+      //   name: 'Карлос Алькарас',
+      //   description: 'Действующая 1-я ракетка',
+      //   imageUrl: 'https://picsum.photos/300',
+      // ),
+      // ProPlayer(
+      //   id: 2,
+      //   rating: 4,
+      //   name: 'Рафаэль Надаль',
+      //   description: 'Чемпион мира',
+      //   imageUrl: 'https://picsum.photos/400',
+      // ),
+      // ProPlayer(
+      //   id: 1,
+      //   rating: 5,
+      //   name: 'Карлос Алькарас',
+      //   description: 'Действующая 1-я ракетка',
+      //   imageUrl: 'https://picsum.photos/300',
+      // ),
+      // ProPlayer(
+      //   id: 2,
+      //   rating: 4,
+      //   name: 'Рафаэль Надаль',
+      //   description: 'Чемпион мира',
+      //   imageUrl: 'https://picsum.photos/400',
+      // ),
     ];
   }
 
@@ -150,27 +131,27 @@ class MockGamePageRepository implements GamePageRepository {
   Future<List<ProPlayer>> getProPlayerSearchData() async {
     await Future<void>.delayed(const Duration(seconds: 1));
     return <ProPlayer>[
-      ProPlayer(
-        id: 1,
-        rating: 5,
-        name: 'Карлос Алькарас',
-        description: 'Действующая 1-я ракетка',
-        imageUrl: 'https://picsum.photos/300',
-      ),
-      ProPlayer(
-        id: 2,
-        rating: 4,
-        name: 'Рафаэль Надаль',
-        description: 'Чемпион мира',
-        imageUrl: 'https://picsum.photos/400',
-      ),
-      ProPlayer(
-        id: 2,
-        rating: 3,
-        name: 'Аркадий Для Поиска',
-        description: 'Чемпион мира',
-        imageUrl: 'https://picsum.photos/500',
-      ),
+      // ProPlayer(
+      //   id: 1,
+      //   rating: 5,
+      //   name: 'Карлос Алькарас',
+      //   description: 'Действующая 1-я ракетка',
+      //   imageUrl: 'https://picsum.photos/300',
+      // ),
+      // ProPlayer(
+      //   id: 2,
+      //   rating: 4,
+      //   name: 'Рафаэль Надаль',
+      //   description: 'Чемпион мира',
+      //   imageUrl: 'https://picsum.photos/400',
+      // ),
+      // ProPlayer(
+      //   id: 2,
+      //   rating: 3,
+      //   name: 'Аркадий Для Поиска',
+      //   description: 'Чемпион мира',
+      //   imageUrl: 'https://picsum.photos/500',
+      // ),
     ];
   }
 
@@ -395,5 +376,40 @@ class MockGamePageRepository implements GamePageRepository {
       ],
       date: '',
     );
+  }
+
+  @override
+  Future<GameDataLevels?> getGameData() async {
+    return null;
+  }
+
+  @override
+  Future<String?> getInitialData(Map<String, dynamic> body) async {
+    return null;
+  }
+
+  @override
+  Future<PreparingData?> getPreparingData(Map<String, dynamic> body) async {
+    return null;
+  }
+
+  @override
+  Future<String?> getQRData(Map<String, dynamic> body) async {
+    return null;
+  }
+
+  @override
+  Future<String?> postConnect(Map<String, dynamic> body) async {
+    return null;
+  }
+
+  @override
+  Future<String> gameStart(String body) async {
+    return '';
+  }
+
+  @override
+  Future<UserInfo?> getUserInfo() async {
+    return null;
   }
 }

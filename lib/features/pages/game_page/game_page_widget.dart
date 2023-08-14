@@ -1,8 +1,5 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:octo_image/octo_image.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:soft_weather_tennis/assets/icons/TennisIcons.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/component_styles.dart';
@@ -50,8 +47,9 @@ class GamePageWidget extends ElementaryWidget<IGamePageWidgetModel> {
         ),
         body: EntityStateNotifierBuilder<GameData>(
           listenableEntityState: wm.gameData,
-          loadingBuilder: (_, __) =>
-              const Center(child: AdaptiveActivityIndicator()),
+          loadingBuilder: (_, __) => const Center(
+            child: AdaptiveActivityIndicator(),
+          ),
           errorBuilder: (_, __, ___) => ErrorStateWidget(
             refresh: wm.onRefresh,
           ),
@@ -95,13 +93,12 @@ class GamePageWidget extends ElementaryWidget<IGamePageWidgetModel> {
                             PlayerCard(
                               rating: gameData?.proPlayers[player].rating ?? 0,
                               description:
-                                  gameData?.proPlayers[player].description ??
-                                      '',
+                                  gameData?.proPlayers[player].title ?? '',
                               name: gameData?.proPlayers[player].name ?? '',
                               imageUrl:
                                   gameData?.proPlayers[player].imageUrl ?? '',
                               call: () => wm.toProPlayerInfo(
-                                gameData?.proPlayers[player].id,
+                                gameData!.proPlayers[player],
                               ),
                             ),
                             if (player != gameData?.proPlayers.length)
@@ -112,30 +109,17 @@ class GamePageWidget extends ElementaryWidget<IGamePageWidgetModel> {
                           const SizedBox(
                             height: 24,
                           ),
-                          EntityStateNotifierBuilder<bool>(
-                            listenableEntityState:
-                                wm.allPlayersButtonLoadingState,
-                            builder: (_, allPlayersButtonLoadingState) =>
-                                allPlayersButtonLoadingState ?? false
-                                    ? const Center(
-                                        child: AdaptiveActivityIndicator(),
-                                      )
-                                    : Center(
-                                        child: InkWell(
-                                          onTap: wm.toAllProPlayers,
-                                          child: Text(
-                                            'Все игроки',
-                                            style: AppTextStyles()
-                                                .regular_14_19
-                                                .copyWith(
-                                                  color:
-                                                      AppColors().primaryText,
-                                                  decoration:
-                                                      TextDecoration.underline,
-                                                ),
-                                          ),
-                                        ),
-                                      ),
+                          Center(
+                            child: InkWell(
+                              onTap: wm.toAllProPlayers,
+                              child: Text(
+                                'Все игроки',
+                                style: AppTextStyles().regular_14_19.copyWith(
+                                      color: AppColors().primaryText,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                              ),
+                            ),
                           ),
                           const SizedBox(
                             height: 32,
@@ -150,90 +134,32 @@ class GamePageWidget extends ElementaryWidget<IGamePageWidgetModel> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Прогресс',
-                                            style: AppTextStyles()
-                                                .bold_16_21
-                                                .copyWith(
-                                                    color: AppColors().white),
-                                          ),
-                                          const SizedBox(
-                                            height: 12,
-                                          ),
-                                          Text(
-                                            'Уровень: 6',
-                                            //${workoutData?.level}',
-                                            style: AppTextStyles()
-                                                .regular_14_19
-                                                .copyWith(
-                                                  color: AppColors().white,
-                                                ),
-                                          ),
-                                          Text(
-                                            'Сложность: Light',
-                                            //${workoutData?.complexity}',
-                                            style: AppTextStyles()
-                                                .regular_14_19
-                                                .copyWith(
-                                                  color: AppColors().white,
-                                                ),
-                                          ),
-                                        ],
-                                      ),
-                                      CircularPercentIndicator(
-                                        radius: 54.0,
-                                        lineWidth: 18.0,
-                                        linearGradient:
-                                            // workoutData?.percent == 100
-                                            //     ? null
-                                            //     :
-                                            AppComponentStyles()
-                                                .greenGradientForCircular,
-                                        progressColor:
-                                            // workoutData?.percent == 100
-                                            //     ? AppColors().white
-                                            //     :
-                                            null,
-                                        rotateLinearGradient: true,
-                                        percent: 0.8,
-                                        // (workoutData?.percent.toDouble() ?? 0) / 100,
-                                        center: Text(
-                                          '80%',
-                                          style: AppTextStyles()
-                                              .bold_14_19
-                                              .copyWith(
-                                                color: AppColors().accentGreen,
-                                              ),
-                                        ),
-                                        backgroundColor: Colors.transparent,
-                                        circularStrokeCap:
-                                            CircularStrokeCap.round,
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 32,
-                                  ),
-                                  Center(
-                                    child: Text(
-                                      'Хотите начать стандартную тренировку?',
-                                      style: AppTextStyles()
-                                          .regular_14_19
-                                          .copyWith(
-                                            color: AppColors().white,
-                                          ),
-                                    ),
+                                  Text(
+                                    'Хотите начать стандартную тренировку?',
+                                    style:
+                                        AppTextStyles().medium_16_21.copyWith(
+                                              color: AppColors().white,
+                                            ),
                                   ),
                                   const SizedBox(
                                     height: 12,
+                                  ),
+                                  Text(
+                                    'Уровень: ${gameData?.currentLevel}',
+                                    style:
+                                        AppTextStyles().regular_14_19.copyWith(
+                                              color: AppColors().white,
+                                            ),
+                                  ),
+                                  Text(
+                                    'Сложность: ${gameData?.currentComplexity}',
+                                    style:
+                                        AppTextStyles().regular_14_19.copyWith(
+                                              color: AppColors().white,
+                                            ),
+                                  ),
+                                  const SizedBox(
+                                    height: 18,
                                   ),
                                   GestureDetector(
                                     onTap: wm.toStartGame,
@@ -321,80 +247,63 @@ class GamePageWidget extends ElementaryWidget<IGamePageWidgetModel> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Container(
-                                          height: 35,
-                                          width: 200,
+                                          width: 120,
                                           decoration: BoxDecoration(
-                                            color: AppColors().white,
+                                            color: AppColors().primaryText,
                                             borderRadius:
                                                 BorderRadius.circular(8),
-                                            boxShadow: const [
-                                              BoxShadow(
-                                                color: Color.fromRGBO(
-                                                  241,
-                                                  241,
-                                                  241,
-                                                  1,
-                                                ),
-                                                offset: Offset(0, 4),
-                                                spreadRadius: 0.1,
-                                                blurRadius: 20,
-                                              ),
-                                            ],
                                           ),
-                                          child: Row(
-                                            children: [
-                                              Container(
-                                                height: 35,
-                                                width: 122,
-                                                decoration: BoxDecoration(
-                                                  color:
-                                                      AppColors().primaryText,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                    8,
-                                                  ),
-                                                ),
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                    vertical: 8.0,
-                                                    horizontal: 18,
-                                                  ),
-                                                  child: Text(
-                                                    gameData
-                                                            ?.trainings[
-                                                                trainingIndex]
-                                                            .name ??
-                                                        '',
-                                                    style: AppTextStyles()
-                                                        .medium_14_19
-                                                        .copyWith(
-                                                          color:
-                                                              AppColors().white,
-                                                        ),
-                                                  ),
-                                                ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 16.0,
+                                              vertical: 10,
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                '${DateTime.fromMillisecondsSinceEpoch(
+                                                  (gameData!
+                                                              .trainings[
+                                                                  trainingIndex]
+                                                              .date *
+                                                          1000)
+                                                      .toInt(),
+                                                )}',
+                                                maxLines: 1,
+                                                style: AppTextStyles()
+                                                    .medium_14_19
+                                                    .copyWith(
+                                                      color: AppColors().white,
+                                                    ),
                                               ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                  left: 25,
-                                                  right: 20,
-                                                ),
-                                                child: Text(
-                                                  gameData
-                                                          ?.trainings[
-                                                              trainingIndex]
-                                                          .efficiency ??
-                                                      '',
-                                                  style: AppTextStyles()
-                                                      .light_12_16
-                                                      .copyWith(
-                                                        color: AppColors()
-                                                            .primaryText,
-                                                      ),
-                                                ),
-                                              ),
-                                            ],
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 12,
+                                        ),
+                                        Container(
+                                          width: 110,
+                                          decoration: BoxDecoration(
+                                            color: AppColors().white,
+                                            boxShadow:
+                                                AppComponentStyles().boxShadow,
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 16.0,
+                                              vertical: 10,
+                                            ),
+                                            child: Text(
+                                              'КПД ${gameData.trainings[trainingIndex].efficiency}%',
+                                              style: AppTextStyles()
+                                                  .regular_14_19
+                                                  .copyWith(
+                                                    color:
+                                                        AppColors().primaryText,
+                                                  ),
+                                            ),
                                           ),
                                         ),
                                         const SizedBox(
@@ -524,6 +433,7 @@ class GamePageWidget extends ElementaryWidget<IGamePageWidgetModel> {
                           ),
                           Builder(
                             builder: (context) {
+                              // TODO(daniil): delete
                               return GestureDetector(
                                 onTap: () async {
                                   await Navigator.push(
@@ -554,52 +464,9 @@ class GamePageWidget extends ElementaryWidget<IGamePageWidgetModel> {
                                                 ),
                                           ),
                                         ),
-                                        DecoratedBox(
-                                          decoration: BoxDecoration(
-                                            color: const Color.fromRGBO(
-                                              190,
-                                              228,
-                                              83,
-                                              1,
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(50),
-                                          ),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(50),
-                                            child: OctoImage(
-                                              fit: BoxFit.cover,
-                                              width: 90,
-                                              height: 90,
-                                              placeholderBuilder: (context) =>
-                                                  const SizedBox(
-                                                child: Center(
-                                                  child:
-                                                      AdaptiveActivityIndicator(),
-                                                ),
-                                              ),
-                                              errorBuilder: (c, e, s) =>
-                                                  SizedBox(
-                                                child: Center(
-                                                  child: SvgPicture.asset(
-                                                    'assets/images/error_placeholder.svg',
-                                                    colorFilter:
-                                                        ColorFilter.mode(
-                                                      AppColors().white,
-                                                      BlendMode.srcIn,
-                                                    ),
-                                                    height: 40,
-                                                    width: 40,
-                                                  ),
-                                                ),
-                                              ),
-                                              image: Image.network(
-                                                '',
-                                                fit: BoxFit.contain,
-                                              ).image,
-                                            ),
-                                          ),
+                                        Image.asset(
+                                          'assets/images/arkasha_logo.png',
+                                          fit: BoxFit.contain,
                                         ),
                                       ],
                                     ),

@@ -197,7 +197,6 @@ class AvatarPageWidgetModel
       anyOperation = true;
       try {
         await model.deleteAvatarData(
-          id: _avatarImagesData.value?.data?.id ?? '',
           type: type,
         );
         await refresh();

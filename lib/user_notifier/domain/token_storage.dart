@@ -13,6 +13,9 @@ class TokenStorage {
   /// access токен
   String? get accessToken => _accessToken;
 
+  /// connect токен
+  String? get connectToken => _connectToken;
+
   /// refresh токен
   String? get refreshToken => _refreshToken;
 
@@ -32,6 +35,7 @@ class TokenStorage {
   String? _cookieToken;
   String? _refreshToken;
   String? _accessToken;
+  String? _connectToken;
 
   /// Конструктор [TokenStorage]
   TokenStorage();
@@ -41,6 +45,13 @@ class TokenStorage {
     String cookie,
   ) async {
     _cookieToken = cookie;
+  }
+
+  /// Установка cookie токена
+  Future<void> setConnectToken(
+    String cookie,
+  ) async {
+    _connectToken = cookie;
   }
 
   /// Установка refresh токена
@@ -60,6 +71,11 @@ class TokenStorage {
   /// Возвращает cookie токен из хранилища
   String? getCookieToken() {
     return _cookieToken;
+  }
+
+  /// Возвращает cookie токен из хранилища
+  String? getConnectToken() {
+    return _connectToken;
   }
 
   /// Возвращает токен рефреш из хранилища

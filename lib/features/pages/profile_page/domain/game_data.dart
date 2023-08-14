@@ -1,13 +1,13 @@
 ///Сущность игры
-class GameData {
+class GameDataLevels {
   /// текущий уровень
   final num maxLevel;
 
   /// сложность
   final String maxComplexity;
 
-  ///конструктор [GameData]
-  GameData({
+  ///конструктор [GameDataLevels]
+  GameDataLevels({
     required this.maxComplexity,
     required this.maxLevel,
   });

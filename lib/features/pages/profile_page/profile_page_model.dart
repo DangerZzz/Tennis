@@ -39,8 +39,8 @@ class ProfilePageModel extends ElementaryModel {
   }
 
   /// Получение данных вкладки "игра"
-  Future<GameData> getGameData() async {
-    late final GameData res;
+  Future<GameDataLevels> getGameData() async {
+    late final GameDataLevels res;
     await ExceptionHandler.shellException(() async {
       res = (await _profilePageRepository.getGameData())!;
       return res;

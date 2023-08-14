@@ -19,7 +19,7 @@ class GamePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return EntityStateNotifierBuilder<GameData>(
+    return EntityStateNotifierBuilder<GameDataLevels>(
       listenableEntityState: wm.gameData,
       loadingBuilder: (_, __) =>
           const Center(child: AdaptiveActivityIndicator()),

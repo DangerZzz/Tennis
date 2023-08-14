@@ -11,12 +11,20 @@ abstract class GamePageClient {
   factory GamePageClient(Dio dio) = _GamePageClient;
 
   ///
-  @GET('/order/{cityCode}/deleteCart')
-  Future<DTO> getGameData();
+  @GET('/api/game/history')
+  Future<DTO> getTrainingsData(
+    @Queries() Map<String, dynamic> body,
+  );
 
   ///
-  @GET('/order/{cityCode}/deleteCart')
-  Future<DTO> getProPlayerData();
+  @GET('/api/sportsman/list')
+  Future<DTO> getProPlayerData(
+    @Queries() Map<String, dynamic> body,
+  );
+
+  ///
+  @GET('/api/game/accesses')
+  Future<DTO> getGameData();
 
   ///
   @GET('/order/{cityCode}/deleteCart')
@@ -33,4 +41,38 @@ abstract class GamePageClient {
   ///
   @GET('/order/{cityCode}/deleteCart')
   Future<DTO> getTrainingData();
+
+  ///
+  @GET('/api/game/preparing')
+  Future<DTO> getPreparingData(
+    @Queries() Map<String, dynamic> body,
+  );
+
+  ///
+  @POST('/api/game/initial')
+  Future<DTO> getInitialData(
+    @Body() Map<String, dynamic> body,
+  );
+
+  ///
+  @POST('/api/game/qrcode')
+  Future<DTO> getQRData(
+    @Body() Map<String, dynamic> body,
+  );
+
+  ///
+  @POST('/api/game/connect')
+  Future<DTO> postConnect(
+    @Body() Map<String, dynamic> body,
+  );
+
+  ///
+  @POST('/api/game/start')
+  Future<DTO> gameStart(
+    @Header('cookie') String tokens,
+  );
+
+  ///
+  @GET('/api/user')
+  Future<DTO> getUserInfo();
 }

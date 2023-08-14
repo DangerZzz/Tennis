@@ -12,6 +12,14 @@ abstract class Url {
   /// Dev proxy url.
   static String get devProxyUrl => '';
 
+  /// Prod ws url.
+  static String get prodWsUrl => 'wss://tennis.trackercracker.ru';
+  // TODO(daniil): change url
+
+  /// Dev ws url.
+  static String get devWsUrl =>
+      'wss://tennis.trackercracker.ru'; // TODO(daniil): change url
+
   /// TRest url.
   static String get testUrl => 'https://tennis.trackercracker.ru';
   // TODO(daniil): change url

@@ -1,4 +1,5 @@
 import 'package:elementary/elementary.dart';
+import 'package:soft_weather_tennis/features/pages/authorization_page/domain/code.dart';
 import 'package:soft_weather_tennis/features/pages/authorization_page/repository/auth_screen_repository.dart';
 import 'package:soft_weather_tennis/util/exception_handler.dart';
 
@@ -14,7 +15,7 @@ class AuthorizationPageModel extends ElementaryModel {
   ) : super(errorHandler: errorHandler);
 
   /// запрос на получение кода
-  Future<bool?> getCode({
+  Future<void>? getCode({
     required String phone,
     // required String type,
   }) async {
@@ -22,11 +23,11 @@ class AuthorizationPageModel extends ElementaryModel {
       'phone': phone,
       // 'type': type,
     };
-    late final bool? res;
+    late final Code? res;
     await ExceptionHandler.shellException(() async {
-      res = await _authorizationPageRepository.getCode(body);
+      await _authorizationPageRepository.getCode(body);
     });
-    return res;
+    return null;
   }
 
   /// Отправка кода

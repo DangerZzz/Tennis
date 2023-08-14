@@ -1,14 +1,12 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:octo_image/octo_image.dart';
 import 'package:soft_weather_tennis/assets/icons/TennisIcons.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
 import 'package:soft_weather_tennis/components/adaptive_activity_indicator.dart';
-import 'package:soft_weather_tennis/features/pages/game_page/domain/pro_player_info.dart';
+import 'package:soft_weather_tennis/features/pages/game_page/domain/game_data.dart';
 import 'package:soft_weather_tennis/features/pages/game_page/pages/pro_player_info_page/pro_player_info_page_wm.dart';
-import 'package:soft_weather_tennis/features/pages/game_page/widgets/rating_box.dart';
+import 'package:soft_weather_tennis/features/pages/game_page/widgets/prof_player_card.dart';
 
 /// Main widget for ProPlayerInfoPage module
 class ProPlayerInfoPageWidget
@@ -22,175 +20,253 @@ class ProPlayerInfoPageWidget
   @override
   Widget build(IProPlayerInfoPageWidgetModel wm) {
     return SafeArea(
-      child: EntityStateNotifierBuilder<ProPlayerInfoData>(
-        listenableEntityState: wm.proPlayerInfoData,
-        loadingBuilder: (_, __) =>
-            const Center(child: AdaptiveActivityIndicator()),
-        builder: (_, proPlayerInfoData) => Stack(
-          children: [
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: OctoImage(
-                height: 288,
-                width: wm.width,
-                fit: BoxFit.cover,
-                placeholderBuilder: (context) => const Center(
-                  child: AdaptiveActivityIndicator(
-                    radius: 40,
-                  ),
-                ),
-                errorBuilder: (c, e, s) => Center(
-                  child: SvgPicture.asset(
-                    'assets/images/error_placeholder.svg',
-                    colorFilter: ColorFilter.mode(
-                      AppColors().accentGreen,
-                      BlendMode.srcIn,
-                    ),
-                    height: 60,
-                    width: 60,
-                  ),
-                ),
-                image: Image.network(
-                  proPlayerInfoData?.imageUrl ?? '',
-                  fit: BoxFit.fitWidth,
-                ).image,
-              ),
-            ),
-            Positioned(
+      child: Scaffold(
+        backgroundColor: AppColors().white,
+        appBar: AppBar(
+          centerTitle: false,
+          backgroundColor: AppColors().white,
+          automaticallyImplyLeading: false,
+          titleSpacing: 0,
+          shadowColor: Colors.transparent,
+          title: Padding(
+            padding: const EdgeInsets.only(
+              left: 16.0,
               top: 16,
-              left: 16,
-              child: GestureDetector(
-                onTap: wm.back,
-                child: Container(
-                  height: 32,
-                  width: 32,
-                  decoration: BoxDecoration(
+              bottom: 32,
+            ),
+            child: Row(
+              children: [
+                GestureDetector(
+                  onTap: wm.back,
+                  child: Icon(
+                    TennisIcons.back,
                     color: AppColors().primaryText,
-                    borderRadius: BorderRadius.circular(40),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 2.0),
-                    child: Icon(
-                      TennisIcons.back,
-                      color: AppColors().white,
-                      size: 12,
-                    ),
+                    size: 16,
                   ),
                 ),
-              ),
-            ),
-            Positioned(
-              bottom: 0,
-              child: InkWell(
-                onTap: () => wm.toGame(),
-                child: Container(
-                  height: 240,
-                  width: wm.width,
-                  color: AppColors().accentGreen,
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 150.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            TennisIcons.ball_filled,
-                            color: AppColors().white,
-                            size: 28,
-                          ),
-                          const SizedBox(
-                            width: 16,
-                          ),
-                          Text(
-                            'Начать',
-                            style: AppTextStyles()
-                                .bold_32_37
-                                .copyWith(color: AppColors().white),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                const SizedBox(
+                  width: 18,
                 ),
-              ),
-            ),
-            Positioned(
-              top: 254,
-              child: SizedBox(
-                height: wm.height * 0.5,
-                child: Container(
-                  height: wm.height - 230,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(
-                      24,
-                    ),
-                    color: AppColors().white,
-                  ),
-                  width: wm.width,
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0,
-                        vertical: 32,
+                Text(
+                  'Профи',
+                  style: AppTextStyles().bold_24_32.copyWith(
+                        color: AppColors().primaryText,
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Center(
-                            child: Text(
-                              proPlayerInfoData?.name ?? '',
-                              style: AppTextStyles().bold_20_27.copyWith(
-                                    color: AppColors().primaryText,
-                                  ),
+                ),
+              ],
+            ),
+          ),
+          bottom: PreferredSize(
+            preferredSize: Size(wm.width, 78),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                children: [
+                  EntityStateNotifierBuilder<bool>(
+                    listenableEntityState: wm.isSearching,
+                    builder: (_, isSearching) => isSearching!
+                        ? DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: AppColors().primaryText,
+                              borderRadius: BorderRadius.circular(200),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          Text(
-                            proPlayerInfoData?.description ?? '',
-                            style: AppTextStyles().regular_14_19.copyWith(
-                                  color: AppColors().primaryText,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0,
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: SizedBox(
+                                      height: 30,
+                                      child: TextField(
+                                        cursorHeight: 10,
+                                        controller: wm.searchController,
+                                        focusNode: wm.searchFocusNode,
+                                        autofocus: true,
+                                        keyboardType: TextInputType.text,
+                                        onChanged: (s) {
+                                          if (s.length >= 3) {
+                                            wm.searching();
+                                          }
+                                        },
+                                        style: AppTextStyles()
+                                            .regular_14_19
+                                            .copyWith(
+                                              color: AppColors().white,
+                                              height: 1,
+                                            ),
+                                        decoration: InputDecoration(
+                                          hintText: 'Поиск',
+                                          hintStyle: AppTextStyles()
+                                              .regular_14_19
+                                              .copyWith(
+                                                color:
+                                                    AppColors().secondaryText,
+                                              ),
+                                          border: InputBorder.none,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  GestureDetector(
+                                    onTap: wm.onSearchTap,
+                                    child: Icon(
+                                      TennisIcons.search,
+                                      size: 16,
+                                      color: AppColors().accentGreen,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Профессиональные игроки',
+                                style: AppTextStyles().bold_16_21.copyWith(
+                                      color: AppColors().primaryText,
+                                    ),
+                              ),
+                              GestureDetector(
+                                onTap: wm.onSearchTap,
+                                child: Container(
+                                  width: 24,
+                                  height: 24,
+                                  decoration: BoxDecoration(
+                                    color: AppColors().primaryText,
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  child: Icon(
+                                    TennisIcons.search,
+                                    size: 16,
+                                    color: AppColors().accentGreen,
+                                  ),
                                 ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(
-                            height: 32,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      right: 60.0,
+                      top: 8,
+                      bottom: 8,
+                    ),
+                    child: Text(
+                      'Хочешь тренироваться как PRO? Выбери '
+                      'одного из известных игроков и сделай '
+                      'себе вызов!',
+                      style: AppTextStyles().light_12_16.copyWith(
+                            color: AppColors().secondaryText,
                           ),
-                          RatingBox(
-                            name: 'Сила удара',
-                            rating: proPlayerInfoData?.rating1 ?? 0,
-                          ),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          RatingBox(
-                            name: 'Сила удара',
-                            rating: proPlayerInfoData?.rating2 ?? 0,
-                          ),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          RatingBox(
-                            name: 'Сила удара',
-                            rating: proPlayerInfoData?.rating3 ?? 0,
-                          ),
-                          const SizedBox(
-                            height: 16,
-                          ),
-                          RatingBox(
-                            name: 'Сила удара',
-                            rating: proPlayerInfoData?.rating4 ?? 0,
-                          ),
-                        ],
-                      ),
                     ),
                   ),
-                ),
+                ],
               ),
             ),
-          ],
+          ),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 24,
+                ),
+                EntityStateNotifierBuilder<List<ProPlayer>>(
+                  listenableEntityState: wm.proPlayerInfoData,
+                  loadingBuilder: (_, __) => const Padding(
+                    padding: EdgeInsets.only(top: 60.0),
+                    child: Center(
+                      child: AdaptiveActivityIndicator(),
+                    ),
+                  ),
+                  builder: (_, proPlayerInfoData) =>
+                      EntityStateNotifierBuilder<bool>(
+                    listenableEntityState: wm.isSearching,
+                    builder: (_, isSearching) => (isSearching ?? false)
+                        ? EntityStateNotifierBuilder<List<ProPlayer>>(
+                            listenableEntityState: wm.searchedList,
+                            loadingBuilder: (_, __) => const Padding(
+                              padding: EdgeInsets.only(top: 60.0),
+                              child: Center(
+                                child: AdaptiveActivityIndicator(),
+                              ),
+                            ),
+                            builder: (_, searchedList) => (wm
+                                            .searchController.text.length >
+                                        2 &&
+                                    (isSearching!))
+                                ? Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      for (var searchedData
+                                          in searchedList ?? <ProPlayer>[])
+                                        PlayerCard(
+                                          rating: searchedData.rating,
+                                          description: searchedData.title,
+                                          name: searchedData.name,
+                                          imageUrl: searchedData.imageUrl,
+                                          call: () => wm.onInfo(searchedData),
+                                        ),
+                                      const SizedBox(
+                                        height: 16,
+                                      ),
+                                    ],
+                                  )
+                                : Column(
+                                    children: [
+                                      for (var player
+                                          in wm.proPlayerInfoData.value?.data ??
+                                              <ProPlayer>[]) ...[
+                                        PlayerCard(
+                                          rating: player.rating,
+                                          description: player.title,
+                                          name: player.name,
+                                          imageUrl: player.imageUrl,
+                                          call: () => wm.onInfo(player),
+                                        ),
+                                        const SizedBox(
+                                          height: 16,
+                                        ),
+                                      ],
+                                    ],
+                                  ),
+                          )
+                        : Column(
+                            children: [
+                              for (var player
+                                  in proPlayerInfoData ?? <ProPlayer>[]) ...[
+                                PlayerCard(
+                                  rating: player.rating,
+                                  description: player.title,
+                                  name: player.name,
+                                  imageUrl: player.imageUrl,
+                                  call: () => wm.onInfo(player),
+                                ),
+                                const SizedBox(
+                                  height: 16,
+                                ),
+                              ],
+                            ],
+                          ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 100,
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

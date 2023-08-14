@@ -152,7 +152,7 @@ class UsefulFullInfoPageWidget
                           if (usefulDataByIndex?.advices.isNotEmpty ??
                               false) ...[
                             Text(
-                              'Смотри так-же',
+                              'Смотри так же',
                               style: AppTextStyles().bold_20_27.copyWith(
                                     color: AppColors().primaryText,
                                   ),

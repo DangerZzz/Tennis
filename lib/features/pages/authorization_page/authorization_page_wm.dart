@@ -277,14 +277,16 @@ class AuthorizationPageWidgetModel
     //   _isRestorePass = false;
     // }
     try {
-      final isRegistered = await model.getCode(
+      // final res =
+      await model.getCode(
         phone: _phoneController.text.replaceAll(' ', ''),
         //type: 'SIGNUP', //_isRestorePass ? 'RECOVERY' : 'SIGNUP',
       );
-      _isRestorePass = isRegistered ?? false;
-      //ignore:use_build_context_synchronously
-      // ShowSnackBar().showSuccess(context, code ?? '');
+      // _isRestorePass = res?.isRegistered ?? false;
+      // //ignore:use_build_context_synchronously
+      // ShowSnackBar().showSuccess(context, res?.code ?? '');
       _codeIsSend.content(true);
+      _biometricEnterFlag.content(false);
     } on FormatException catch (e) {
       debugPrint('$e');
       //ignore:use_build_context_synchronously
@@ -333,6 +335,7 @@ class AuthorizationPageWidgetModel
         code: _codeTextFieldTool.textEditingController.text,
       );
       _codeButtonAvailability.content(true);
+      await _userNotifier.loginCode.clear();
       _index.content(1);
     } on FormatException catch (e) {
       debugPrint('$e');
@@ -559,6 +562,7 @@ class AuthorizationPageWidgetModel
             _userNotifier.surname,
             _userNotifier.phone,
           );
+          toMain();
         } on FormatException catch (e) {
           debugPrint('$e');
           ShowSnackBar().showError(context);
@@ -566,7 +570,6 @@ class AuthorizationPageWidgetModel
         }
         _sendAnyRequest = false;
       }
-      backToSettings();
     }
   }
 
@@ -580,12 +583,28 @@ class AuthorizationPageWidgetModel
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _nameController.dispose();
+    _phoneController.dispose();
+    _pinController.dispose();
+    _surnameController.dispose();
+  }
+
+  @override
   void toMain() {
     FocusScope.of(context).unfocus();
-    coordinator.navigate(
-      context,
-      AppCoordinate.mainScreen,
-    );
+    if (_userNotifier.isTrainer) {
+      coordinator.navigate(
+        context,
+        AppCoordinate.trainerPage,
+      );
+    } else {
+      coordinator.navigate(
+        context,
+        AppCoordinate.mainScreen,
+      );
+    }
   }
 
   ///функция проверяющая первый ли это вход в приложение

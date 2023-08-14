@@ -5,6 +5,9 @@ class AppConfig {
   /// Server url.
   final String url;
 
+  /// WebSocketUrl
+  final String wsUrl;
+
   /// Proxy url.
   final String? proxyUrl;
 
@@ -14,6 +17,7 @@ class AppConfig {
   /// Create an instance [AppConfig].
   AppConfig({
     required this.url,
+    required this.wsUrl,
     required this.debugOptions,
     this.proxyUrl,
   });
@@ -21,11 +25,13 @@ class AppConfig {
   /// Create an instance [AppConfig] with modified parameters.
   AppConfig copyWith({
     String? url,
+    String? wsUrl,
     String? proxyUrl,
     DebugOptions? debugOptions,
   }) =>
       AppConfig(
         url: url ?? this.url,
+        wsUrl: wsUrl ?? this.wsUrl,
         proxyUrl: proxyUrl ?? this.proxyUrl,
         debugOptions: debugOptions ?? this.debugOptions,
       );

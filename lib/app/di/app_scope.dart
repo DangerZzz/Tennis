@@ -36,13 +36,12 @@ class AppScope implements IAppScope {
 
   // late final WebSockets _webSockets;
 
-  // @override
   ///
   Map<String, dynamic> get headersVersion => _headersVersion;
 
   @override
   Dio get dio => _dio;
-
+  //
   // @override
   // WebSockets get webSockets => _webSockets;
 

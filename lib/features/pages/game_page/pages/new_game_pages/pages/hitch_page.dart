@@ -94,11 +94,14 @@ class HitchPage extends StatelessWidget {
                   const SizedBox(
                     height: 32,
                   ),
-                  Text(
-                    'Бег по кругу'.toUpperCase(),
-                    style: AppTextStyles().bold_24_32.copyWith(
-                          color: AppColors().white,
-                        ),
+                  EntityStateNotifierBuilder<String>(
+                    listenableEntityState: wm.warmUpType,
+                    builder: (_, warmUpType) => Text(
+                      warmUpType?.toUpperCase() ?? '',
+                      style: AppTextStyles().bold_24_32.copyWith(
+                            color: AppColors().white,
+                          ),
+                    ),
                   ),
                   const SizedBox(
                     height: 8,

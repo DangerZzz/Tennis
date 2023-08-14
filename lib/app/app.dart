@@ -22,6 +22,8 @@ import 'package:soft_weather_tennis/features/pages/settings_page/di/settings_sco
 import 'package:soft_weather_tennis/features/pages/settings_page/pages/avatar_page/di/avatar_scope.dart';
 import 'package:soft_weather_tennis/features/pages/settings_page/pages/characteristics_page/di/characteristics_page_scope.dart';
 import 'package:soft_weather_tennis/features/pages/settings_page/pages/name_edit_page/di/name_edit_page_scope.dart';
+import 'package:soft_weather_tennis/features/pages/trainer_page/di/trainer_page_scope.dart';
+import 'package:soft_weather_tennis/features/pages/trainer_page/pages/trainer_game_page/di/trainer_game_page_scope.dart';
 import 'package:soft_weather_tennis/features/pages/useful_page/di/useful_scope.dart';
 import 'package:soft_weather_tennis/features/pages/useful_page/pages/useful_full_info_page/di/useful_scope.dart';
 import 'package:soft_weather_tennis/generated/l10n.dart';
@@ -173,6 +175,24 @@ class _AppState extends State<App> {
           MultiDiScopeItem<INewGamePageScope>(
             factory: () {
               return NewGamePageScope(
+                dio: _scope.dio,
+                errorHandler: _scope.errorHandler,
+              );
+            },
+          ),
+
+          MultiDiScopeItem<ITrainerPageScope>(
+            factory: () {
+              return TrainerPageScope(
+                dio: _scope.dio,
+                errorHandler: _scope.errorHandler,
+              );
+            },
+          ),
+
+          MultiDiScopeItem<ITrainerGamePageScope>(
+            factory: () {
+              return TrainerGamePageScope(
                 dio: _scope.dio,
                 errorHandler: _scope.errorHandler,
               );

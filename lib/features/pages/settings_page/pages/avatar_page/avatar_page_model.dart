@@ -28,12 +28,10 @@ class AvatarPageModel extends ElementaryModel {
 
   /// Удаление
   Future<void> deleteAvatarData({
-    required String id,
     required String type,
   }) async {
     await ExceptionHandler.shellException(() async {
       await _settingsPageRepository.deleteAvatarData(
-        id: id,
         type: type,
       );
     });

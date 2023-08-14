@@ -4,6 +4,7 @@ import 'package:soft_weather_tennis/features/pages/game_page/pages/new_game_page
 import 'package:soft_weather_tennis/features/pages/game_page/pages/new_game_pages/pages/game_connection_page.dart';
 import 'package:soft_weather_tennis/features/pages/game_page/pages/new_game_pages/pages/game_progress_page.dart';
 import 'package:soft_weather_tennis/features/pages/game_page/pages/new_game_pages/pages/hitch_page.dart';
+import 'package:soft_weather_tennis/features/pages/game_page/pages/new_game_pages/pages/pre_game_info.dart';
 import 'package:soft_weather_tennis/features/pages/game_page/pages/new_game_pages/pages/trainer_connection_page.dart';
 
 /// Main widget for NewGamePage module
@@ -23,12 +24,14 @@ class NewGamePageWidget extends ElementaryWidget<INewGamePageWidgetModel> {
       child: EntityStateNotifierBuilder<int>(
         listenableEntityState: wm.index,
         builder: (_, index) => index == 0
-            ? TrainerConnectionPage(wm: wm)
+            ? PreGameInfoPage(wm: wm)
             : index == 1
-                ? GameConnectionPage(wm: wm)
+                ? TrainerConnectionPage(wm: wm)
                 : index == 2
-                    ? GameProgressPage(wm: wm)
-                    : HitchPage(wm: wm),
+                    ? GameConnectionPage(wm: wm)
+                    : index == 3
+                        ? HitchPage(wm: wm)
+                        : GameProgressPage(wm: wm),
       ),
     );
   }

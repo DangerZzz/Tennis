@@ -5,7 +5,7 @@ import 'package:soft_weather_tennis/features/pages/rating_page/dto/rating_list_d
 Rating ratingListDataMapper(RatingListDtO data) {
   return Rating(
     name: data.user?.name ?? '',
-    avatarUrl: '',
+    avatarUrl: data.user?.avatar?.src ?? '',
     points: '${data.score ?? ''}',
     isUser: data.user?.isMe ?? false,
     position: data.place?.toInt() ?? 0,

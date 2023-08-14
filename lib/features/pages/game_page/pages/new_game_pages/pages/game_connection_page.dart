@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:octo_image/octo_image.dart';
@@ -7,6 +8,7 @@ import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
 import 'package:soft_weather_tennis/components/adaptive_activity_indicator.dart';
 import 'package:soft_weather_tennis/features/pages/game_page/pages/new_game_pages/new_game_page_wm.dart';
+import 'package:soft_weather_tennis/features/pages/profile_page/domain/user_info.dart';
 
 ///
 class GameConnectionPage extends StatelessWidget {
@@ -46,71 +48,74 @@ class GameConnectionPage extends StatelessWidget {
         Positioned(
           top: 48,
           right: 24,
-          child: Row(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    'Колесников Дмитрий',
-                    style: AppTextStyles().bold_18_24.copyWith(
-                          color: AppColors().white,
-                        ),
-                  ),
-                  Text(
-                    'Король SMASH',
-                    style: AppTextStyles().medium_14_19.copyWith(
-                          color: AppColors().white,
-                        ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                width: 16,
-              ),
-              Container(
-                width: 104,
-                height: 104,
-                decoration: BoxDecoration(
-                  color: AppColors().white,
-                  borderRadius: BorderRadius.circular(200),
+          child: EntityStateNotifierBuilder<UserInfo>(
+            listenableEntityState: wm.userData,
+            builder: (_, userData) => Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      '${userData?.name} ${userData?.surname}',
+                      style: AppTextStyles().bold_18_24.copyWith(
+                            color: AppColors().white,
+                          ),
+                    ),
+                    Text(
+                      '${userData?.rank}',
+                      style: AppTextStyles().medium_14_19.copyWith(
+                            color: AppColors().white,
+                          ),
+                    ),
+                  ],
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: SizedBox(
-                    width: 102,
-                    height: 102,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(200),
-                      child: OctoImage(
-                        width: 102,
-                        height: 102,
-                        fit: BoxFit.cover,
-                        placeholderBuilder: (context) => const Center(
-                          child: AdaptiveActivityIndicator(),
-                        ),
-                        errorBuilder: (c, e, s) => SizedBox(
-                          child: Center(
-                            child: SvgPicture.asset(
-                              'assets/images/error_placeholder.svg',
-                              colorFilter: ColorFilter.mode(
-                                AppColors().accentGreen,
-                                BlendMode.srcIn,
+                const SizedBox(
+                  width: 16,
+                ),
+                Container(
+                  width: 104,
+                  height: 104,
+                  decoration: BoxDecoration(
+                    color: AppColors().white,
+                    borderRadius: BorderRadius.circular(200),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: SizedBox(
+                      width: 102,
+                      height: 102,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(200),
+                        child: OctoImage(
+                          width: 102,
+                          height: 102,
+                          fit: BoxFit.cover,
+                          placeholderBuilder: (context) => const Center(
+                            child: AdaptiveActivityIndicator(),
+                          ),
+                          errorBuilder: (c, e, s) => SizedBox(
+                            child: Center(
+                              child: SvgPicture.asset(
+                                'assets/images/error_placeholder.svg',
+                                colorFilter: ColorFilter.mode(
+                                  AppColors().accentGreen,
+                                  BlendMode.srcIn,
+                                ),
+                                height: 40,
+                                width: 40,
                               ),
-                              height: 40,
-                              width: 40,
                             ),
                           ),
+                          image: Image.network(
+                            '${userData?.avatarUrl}',
+                          ).image,
                         ),
-                        image: Image.network(
-                          'https://picsum.photos/200',
-                        ).image,
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         Positioned(
@@ -181,7 +186,7 @@ class GameConnectionPage extends StatelessWidget {
           right: 16,
           bottom: 62,
           child: GestureDetector(
-            onTap: wm.onStartGame,
+            onTap: wm.startGame,
             child: Container(
               height: 48,
               decoration: BoxDecoration(

@@ -30,7 +30,7 @@ abstract class IProfilePageWidgetModel extends IWidgetModel {
   ListenableState<EntityState<Information>> get informationData;
 
   /// Данные вкладки "игра"
-  ListenableState<EntityState<GameData>> get gameData;
+  ListenableState<EntityState<GameDataLevels>> get gameData;
 
   /// Данные вкладки "статистика"
   ListenableState<EntityState<StatisticsList>> get statisticsData;
@@ -164,7 +164,7 @@ class ProfilePageWidgetModel
       _informationData;
 
   @override
-  ListenableState<EntityState<GameData>> get gameData => _gameData;
+  ListenableState<EntityState<GameDataLevels>> get gameData => _gameData;
 
   @override
   ListenableState<EntityState<StatisticsList>> get statisticsData =>
@@ -184,7 +184,7 @@ class ProfilePageWidgetModel
   ListenableState<EntityState<int>> get currentGame => _currentGame;
 
   late EntityStateNotifier<Information> _informationData;
-  late EntityStateNotifier<GameData> _gameData;
+  late EntityStateNotifier<GameDataLevels> _gameData;
   late EntityStateNotifier<StatisticsList> _statisticsData;
   late EntityStateNotifier<TrainingInfo> _workoutData;
   late EntityStateNotifier<int> _index;
@@ -517,7 +517,7 @@ class ProfilePageWidgetModel
     _currentSet = EntityStateNotifier<int>();
     _currentGame = EntityStateNotifier<int>();
     _informationData = EntityStateNotifier<Information>();
-    _gameData = EntityStateNotifier<GameData>();
+    _gameData = EntityStateNotifier<GameDataLevels>();
     _statisticsData = EntityStateNotifier<StatisticsList>();
     _workoutData = EntityStateNotifier<TrainingInfo>();
     _index.content(0);

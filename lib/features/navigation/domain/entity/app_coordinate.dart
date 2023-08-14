@@ -13,6 +13,8 @@ import 'package:soft_weather_tennis/features/pages/settings_page/pages/avatar_pa
 import 'package:soft_weather_tennis/features/pages/settings_page/pages/characteristics_page/characteristics_page_widget.dart';
 import 'package:soft_weather_tennis/features/pages/settings_page/pages/name_edit_page/name_edit_page_widget.dart';
 import 'package:soft_weather_tennis/features/pages/settings_page/settings_page_widget.dart';
+import 'package:soft_weather_tennis/features/pages/trainer_page/pages/trainer_game_page/trainer_game_page_widget.dart';
+import 'package:soft_weather_tennis/features/pages/trainer_page/trainer_page_widget.dart';
 import 'package:soft_weather_tennis/features/pages/useful_page/pages/useful_full_info_page/useful_full_info_page_widget.dart';
 import 'package:soft_weather_tennis/features/pages/useful_page/useful_page_widget.dart';
 
@@ -69,6 +71,12 @@ class AppCoordinate implements Coordinate {
   /// Initialization screens([NewGamePageWidget]).
   static final newGamePage = AppCoordinate._('newGame');
 
+  /// Initialization screens([NewGamePageWidget]).
+  static final trainerPage = AppCoordinate._('trainer');
+
+  /// Initialization screens([NewGamePageWidget]).
+  static final trainerGamePage = AppCoordinate._('trainerGame');
+
   // TODO(daniil): add new page here
 
   /// Initialization screens(it can be any screens).
@@ -111,4 +119,6 @@ final Map<AppCoordinate, CoordinateBuilder> appCoordinates = {
   AppCoordinate.proPlayerInfoPage: (_, __) => const ProPlayerInfoPageWidget(),
   AppCoordinate.statisticInGamePage: (_, __) => const StatisticsInGameWidget(),
   AppCoordinate.newGamePage: (_, __) => const NewGamePageWidget(),
+  AppCoordinate.trainerPage: (_, __) => const TrainerPageWidget(),
+  AppCoordinate.trainerGamePage: (_, __) => const TrainerGamePageWidget(),
 };

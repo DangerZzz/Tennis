@@ -11,6 +11,7 @@ void main() {
     buildType: BuildType.release,
     config: AppConfig(
       url: Url.prodUrl,
+      wsUrl: Url.prodWsUrl,
       proxyUrl: Url.prodProxyUrl,
       debugOptions: DebugOptions(),
     ),

@@ -71,11 +71,12 @@ class ProfilePageRepository {
       );
 
   /// Возвращает данные страницы игра
-  Future<GameData?> getGameData() => _ProfilePageClient.getGameData().then(
+  Future<GameDataLevels?> getGameData() =>
+      _ProfilePageClient.getGameData().then(
         (dto) {
           final data = GameDataDtO.fromJson(dto.data as Map<String, dynamic>);
 
-          final res = GameData(
+          final res = GameDataLevels(
             maxLevel: ((data.maxLevel ?? 0) > 10)
                 ? 10
                 : ((data.maxLevel ?? 0) < 1)

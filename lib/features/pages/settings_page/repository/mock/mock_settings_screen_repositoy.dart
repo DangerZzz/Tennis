@@ -50,6 +50,5 @@ class MockSettingsPageRepository implements SettingsPageRepository {
   @override
   Future<void> deleteAvatarData({
     required String type,
-    required String id,
   }) async {}
 }

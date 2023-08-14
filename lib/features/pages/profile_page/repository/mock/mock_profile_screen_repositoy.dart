@@ -77,9 +77,9 @@ class MockProfilePageRepository implements ProfilePageRepository {
 
   ///
   @override
-  Future<GameData> getGameData() async {
+  Future<GameDataLevels> getGameData() async {
     await Future<void>.delayed(const Duration(seconds: 1));
-    return GameData(
+    return GameDataLevels(
       maxComplexity: '',
       maxLevel: 1,
     );
