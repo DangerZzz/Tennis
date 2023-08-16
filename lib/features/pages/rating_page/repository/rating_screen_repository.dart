@@ -4,7 +4,7 @@ import 'package:soft_weather_tennis/features/pages/rating_page/domain/rating_lis
 import 'package:soft_weather_tennis/features/pages/rating_page/domain/search_rating_list.dart';
 import 'package:soft_weather_tennis/features/pages/rating_page/dto/rating_list_dto.dart';
 
-/// Репозиторий для главной
+/// Репозиторий для рейтинга
 class RatingPageRepository {
   final RatingPageClient _ratingPageClient;
 

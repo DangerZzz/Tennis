@@ -19,7 +19,7 @@ abstract class IProfilePageScope {
   ProfilePageModel get profilePageModel;
 }
 
-/// Scope для оформления заказов
+/// Scope
 class ProfilePageScope implements IProfilePageScope {
   final Dio _dio;
   final ErrorHandler _errorHandler;

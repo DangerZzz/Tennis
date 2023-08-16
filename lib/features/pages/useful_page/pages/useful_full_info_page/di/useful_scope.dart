@@ -19,7 +19,7 @@ abstract class IUsefulFullInfoPageScope {
   UsefulFullInfoPageModel get usefulFullInfoPageModel;
 }
 
-/// Scope для оформления заказов
+/// Scope для страницы о полезном
 class UsefulFullInfoPageScope implements IUsefulFullInfoPageScope {
   final Dio _dio;
   final ErrorHandler _errorHandler;

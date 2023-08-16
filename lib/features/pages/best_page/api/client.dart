@@ -10,7 +10,7 @@ abstract class BestPageClient {
   /// Фабрика возвращающая [BestPageClient]
   factory BestPageClient(Dio dio) = _BestPageClient;
 
-  ///
+  ///Получение данных страницы
   @GET('/api/gallery/list')
   Future<DTO> getBestListData();
 }

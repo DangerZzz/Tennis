@@ -13,6 +13,9 @@ import 'package:soft_weather_tennis/features/pages/profile_page/domain/user_info
 import 'package:soft_weather_tennis/features/pages/profile_page/dto/game_data_dto.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/dto/statistics_data_dto.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/dto/user_data_dto.dart';
+import 'package:soft_weather_tennis/features/pages/trainer_page/domain/current_game_data.dart';
+import 'package:soft_weather_tennis/features/pages/trainer_page/domain/game_mapper.dart';
+import 'package:soft_weather_tennis/features/pages/trainer_page/dto/game_data_dto.dart';
 
 /// Репозиторий для главной
 class GamePageRepository {
@@ -155,10 +158,13 @@ class GamePageRepository {
       );
 
   /// Возвращает данные инициализации игры
-  Future<String> gameStart(String tokens) =>
+  Future<CurrentGameData?> gameStart(String tokens) =>
       _gamePageClient.gameStart(tokens).then(
         (dto) {
-          return '';
+          final res =
+              GameStartDataDtO.fromJson(dto.data as Map<String, dynamic>);
+          final dataRes = gameDataMapper(res);
+          return dataRes;
         },
       );
 

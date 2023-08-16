@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 
-///
+///Переписанный класс DropDown
 class DropDownCustom<T> extends StatefulWidget {
-  ///
+  /// Элементы
   final List<T> items;
 
-  ///
+  /// Начальное значение
   final T? initialValue;
 
-  ///
+  /// Подсказки
   final Widget? hint;
 
-  ///
+  /// Функция изменения
   final Function(T?)? onChanged;
 
-  ///
+  /// иконка
   final Widget? icon;
 
-  ///
+  /// Стиль текста
   final TextStyle? textStyle;
 
   /// You can choose between show an underline at bottom or not

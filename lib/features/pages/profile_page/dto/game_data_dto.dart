@@ -2,14 +2,14 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'game_data_dto.g.dart';
 
-/// Модель, хранящая список данных о пользователе
+/// Модель, хранящая список данных о игре
 @JsonSerializable()
 class GameDataDtO {
-  /// Двнные пользователя
+  /// Максимальный уровень
   @JsonKey(name: 'maxLevel')
   final num? maxLevel;
 
-  /// Рейтинг
+  /// Максимальная сложность
   @JsonKey(name: 'maxComplexity')
   final String? maxComplexity;
 

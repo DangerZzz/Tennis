@@ -354,10 +354,16 @@ class ProfilePageWidget extends ElementaryWidget<IProfilePageWidgetModel> {
                           horizontal: 16,
                         ),
                         child: index == 0
+
+                            ///Вкладка информации
                             ? InformationPage(wm: wm)
                             : index == 1
+
+                                ///Вкладка игры
                                 ? GamePage(wm: wm)
                                 : index == 2
+
+                                    ///Вкладка статистики
                                     ? StatisticsPage(wm: wm)
                                     : const SizedBox(),
                       ),

@@ -6,7 +6,6 @@ import 'package:soft_weather_tennis/features/navigation/domain/entity/app_coordi
 import 'package:soft_weather_tennis/features/navigation/service/coordinator.dart';
 import 'package:soft_weather_tennis/features/pages/useful_page/di/useful_scope.dart';
 import 'package:soft_weather_tennis/features/pages/useful_page/domain/useful_data.dart';
-import 'package:soft_weather_tennis/features/pages/useful_page/domain/useful_info.dart';
 import 'package:soft_weather_tennis/features/pages/useful_page/useful_page_model.dart';
 import 'package:soft_weather_tennis/features/pages/useful_page/useful_page_widget.dart';
 
@@ -18,7 +17,7 @@ abstract class IUsefulPageWidgetModel extends IWidgetModel {
   /// Контроллер для скролла данных
   ScrollController get scrollController;
 
-  ///
+  /// ширина страницы
   double get width;
 
   /// Обновление страницы
@@ -58,19 +57,12 @@ class UsefulPageWidgetModel
   ListenableState<EntityState<List<Advice>>> get usefulData => _usefulData;
 
   @override
-  ListenableState<EntityState<UsefulInfoData>> get usefulDataByIndex =>
-      _usefulDataByIndex;
-
-  @override
   ScrollController get scrollController => _scrollController;
 
   late ScrollController _scrollController;
 
   late EntityStateNotifier<List<Advice>> _usefulData;
 
-  late EntityStateNotifier<UsefulInfoData> _usefulDataByIndex;
-
-  var _totalData = 0;
   var _page = 1;
 
   /// Конструктор

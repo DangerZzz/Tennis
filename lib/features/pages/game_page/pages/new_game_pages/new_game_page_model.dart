@@ -2,6 +2,7 @@ import 'package:elementary/elementary.dart';
 import 'package:soft_weather_tennis/features/pages/game_page/domain/preparing_data.dart';
 import 'package:soft_weather_tennis/features/pages/game_page/repository/game_screen_repository.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/user_info.dart';
+import 'package:soft_weather_tennis/features/pages/trainer_page/domain/current_game_data.dart';
 import 'package:soft_weather_tennis/util/exception_handler.dart';
 
 /// Default Elementary model for NewGamePage module
@@ -70,11 +71,13 @@ class NewGamePageModel extends ElementaryModel {
   }
 
   /// Начало игры
-  Future<void> gameStart({
+  Future<CurrentGameData?> gameStart({
     required String token,
   }) async {
+    late CurrentGameData? res;
     await ExceptionHandler.shellException(() async {
-      await _gamePageRepository.gameStart(token);
+      res = await _gamePageRepository.gameStart(token);
     });
+    return res;
   }
 }

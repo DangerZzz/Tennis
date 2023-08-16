@@ -15,7 +15,7 @@ abstract class ICharacteristicsPageWidgetModel extends IWidgetModel {
   /// Данные пользователя с бэка
   ListenableState<EntityState<CharactersInfo>> get charactersInfo;
 
-  ///
+  /// Список данных для кнопки "рост"
   List<String> get height;
 
   /// Кнопка "сохранить"
@@ -116,11 +116,9 @@ class CharacteristicsPageWidgetModel
     final res = await showAdaptiveDatePicker(
       context,
       title: 'Возраст',
-      maximumDate: DateTime.now().subtract(const Duration(days: 365 * 5)),
-      fromDate: DateTime.now().subtract(const Duration(days: 366 * 5)),
-      minimumDate: DateTime(
-        1930,
-      ),
+      maximumDate: DateTime.now().subtract(const Duration(days: 365 * 3)),
+      fromDate: DateTime.now().subtract(const Duration(days: 366 * 3)),
+      minimumDate: DateTime.now().subtract(const Duration(days: 366 * 85)),
     );
     if (res != null) {
       final age = DateTime.now().year - res.year;
@@ -146,9 +144,7 @@ class CharacteristicsPageWidgetModel
       title: 'Лет в теннисе',
       maximumDate: DateTime.now(),
       fromDate: DateTime.now().subtract(const Duration(minutes: 1)),
-      minimumDate: DateTime(
-        1950,
-      ),
+      minimumDate: DateTime.now().subtract(const Duration(minutes: 365 * 82)),
     );
     if (res != null) {
       final ageInTennis = DateTime.now().year - res.year;
@@ -216,8 +212,8 @@ class CharacteristicsPageWidgetModel
   }
 
   Future<void> _initLoad() async {
-    var i = 80;
-    while (i < 210) {
+    var i = 90;
+    while (i < 230) {
       _height.add('${i.toString()} см');
       i++;
     }

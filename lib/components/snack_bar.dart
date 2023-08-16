@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
 
-///Используемый снэк-бар для отображения ошибок
+///Используемый снэк-бар для отображения информации
 class ShowSnackBar {
-  ///
+  /// Для ошибки
   ScaffoldMessengerState showError(
     BuildContext context,
   ) {
@@ -14,7 +14,7 @@ class ShowSnackBar {
       ..showSnackBar(snackBar);
   }
 
-  ///
+  /// Для информации
   ScaffoldMessengerState showSuccess(
     BuildContext context,
     String code,
@@ -47,7 +47,7 @@ class ShowSnackBar {
       ..showSnackBar(snackBar);
   }
 
-  ///
+  // TODO(daniil): настроить
   SnackBar _snackBar() {
     return SnackBar(
       elevation: 6,

@@ -12,6 +12,7 @@ import 'package:soft_weather_tennis/features/pages/rating_page/domain/rating_lis
 import 'package:soft_weather_tennis/features/pages/rating_page/domain/search_rating_list.dart';
 import 'package:soft_weather_tennis/features/pages/rating_page/rating_page_wm.dart';
 
+// TODO(daniil): пересмотреть код, разбить на виджеты
 /// Main widget for RatingPage module
 class RatingPageWidget extends ElementaryWidget<IRatingPageWidgetModel> {
   ///

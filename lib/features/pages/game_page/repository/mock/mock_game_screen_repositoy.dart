@@ -6,6 +6,7 @@ import 'package:soft_weather_tennis/features/pages/profile_page/domain/game_data
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/statistics_list.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/training_info.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/user_info.dart';
+import 'package:soft_weather_tennis/features/pages/trainer_page/domain/current_game_data.dart';
 
 /// mock repository
 class MockGamePageRepository implements GamePageRepository {
@@ -403,13 +404,18 @@ class MockGamePageRepository implements GamePageRepository {
     return null;
   }
 
-  @override
-  Future<String> gameStart(String body) async {
-    return '';
-  }
+  // @override
+  // Future<CurrentGameData?> gameStart(String body) async {
+  //   return null;
+  // }
 
   @override
   Future<UserInfo?> getUserInfo() async {
+    return null;
+  }
+
+  @override
+  Future<CurrentGameData?> gameStart(String tokens) async {
     return null;
   }
 }

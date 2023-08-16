@@ -15,15 +15,15 @@ import 'package:soft_weather_tennis/features/pages/profile_page/dto/statistics_d
 import 'package:soft_weather_tennis/features/pages/profile_page/dto/training_data_dto.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/dto/user_data_dto.dart';
 
-/// Репозиторий для главной
+/// Репозиторий для профиля
 class ProfilePageRepository {
-  final ProfilePageClient _ProfilePageClient;
+  final ProfilePageClient _profilePageClient;
 
   /// Конструктор [ProfilePageRepository]
-  ProfilePageRepository(this._ProfilePageClient);
+  ProfilePageRepository(this._profilePageClient);
 
   /// Возвращает данные пользователя
-  Future<UserInfo?> getUserInfo() => _ProfilePageClient.getUserInfo().then(
+  Future<UserInfo?> getUserInfo() => _profilePageClient.getUserInfo().then(
         (dto) {
           final data = UserDataDtO.fromJson(dto.data as Map<String, dynamic>);
           final res = UserInfo(
@@ -43,7 +43,7 @@ class ProfilePageRepository {
 
   /// Возвращает данные страницы информация
   Future<Information?> getInformationData() =>
-      _ProfilePageClient.getInformationData().then(
+      _profilePageClient.getInformationData().then(
         (dto) {
           final data = UserDataDtO.fromJson(dto.data as Map<String, dynamic>);
           final res = Information(
@@ -72,7 +72,7 @@ class ProfilePageRepository {
 
   /// Возвращает данные страницы игра
   Future<GameDataLevels?> getGameData() =>
-      _ProfilePageClient.getGameData().then(
+      _profilePageClient.getGameData().then(
         (dto) {
           final data = GameDataDtO.fromJson(dto.data as Map<String, dynamic>);
 
@@ -91,7 +91,7 @@ class ProfilePageRepository {
 
   /// Возвращает данные страницы статистика
   Future<StatisticsList?> getStatisticsData(Map<String, dynamic> body) =>
-      _ProfilePageClient.getStatisticsData(body).then(
+      _profilePageClient.getStatisticsData(body).then(
         (dto) {
           final data = dto.data as List<dynamic>;
           final items = <Statistics>[];
@@ -118,7 +118,7 @@ class ProfilePageRepository {
 
   /// Возвращает данные страницы тренировка
   Future<TrainingInfo?> getTrainingData(String id) =>
-      _ProfilePageClient.getTrainingData('/api/game/$id').then(
+      _profilePageClient.getTrainingData('/api/game/$id').then(
         (dto) {
           final data =
               TrainingDataDtO.fromJson(dto.data as Map<String, dynamic>);
@@ -137,7 +137,7 @@ class ProfilePageRepository {
 
   /// Возвращает список достижений
   Future<List<Achievement>?> getAchievementsData() =>
-      _ProfilePageClient.getAchievementsData().then(
+      _profilePageClient.getAchievementsData().then(
         (dto) {
           final data = dto.data as List<dynamic>;
           final items = <Achievement>[];

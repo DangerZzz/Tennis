@@ -46,7 +46,6 @@ class MainScreenWidget extends ElementaryWidget<IMainScreenWidgetModel> {
           listenableList: [
             wm.indexState,
             wm.isTrainerState,
-            // TODO(daniil): add pages
           ],
           builder: (_) => nav.NavigationBar(
             selectedIndex: wm.indexState.value ?? 0,
@@ -57,26 +56,25 @@ class MainScreenWidget extends ElementaryWidget<IMainScreenWidgetModel> {
             items: [
               const NavigationBarItem(
                 icon: Icon(TennisIcons.ball),
-                label: 'Игра', //wm.localization.bargaining,
+                label: 'Игра',
               ),
               NavigationBarItem(
                 icon: const Icon(TennisIcons.rating),
-                label: 'Рейтинг', //wm.localization.schedule,
+                label: 'Рейтинг',
                 isTrainer: wm.isTrainerState.value ?? true,
               ),
-              // if (!(wm.isTrainerState.value ?? true))
               NavigationBarItem(
                 icon: const Icon(TennisIcons.useful),
-                label: 'Полезное', //wm.localization.schedule,
+                label: 'Полезное',
                 isTrainer: wm.isTrainerState.value ?? true,
               ),
               const NavigationBarItem(
                 icon: Icon(TennisIcons.best),
-                label: 'Лучшие', //wm.localization.schedule,
+                label: 'Лучшие',
               ),
               const NavigationBarItem(
                 icon: Icon(TennisIcons.user),
-                label: 'Профиль', //wm.localization.schedule,
+                label: 'Профиль',
               ),
             ],
           ),

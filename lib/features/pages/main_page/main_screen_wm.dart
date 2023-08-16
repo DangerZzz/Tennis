@@ -31,9 +31,6 @@ abstract class IMainScreenWidgetModel extends IWidgetModel {
   /// текущая страница
   StateNotifier<CoordinateBuilder> get currentPage;
 
-  // /// отображение бейджа у иконки
-  // StateNotifier<bool> get cartBadgeState;
-
   /// колбэк для смены индекса
   void onIndexChanged(int index);
 
@@ -71,6 +68,8 @@ class MainScreenWidgetModel
   @override
   final Coordinator coordinator;
 
+  final UserNotifier _userNotifier;
+
   @override
   GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
 
@@ -80,9 +79,6 @@ class MainScreenWidgetModel
   @override
   StateNotifier<bool> get isTrainerState => _isTrainerState;
 
-  // @override
-  // StateNotifier<bool> get badgeState => _badgeState;
-
   @override
   StateNotifier<CoordinateBuilder> get currentPage => _currentPage;
 
@@ -90,11 +86,7 @@ class MainScreenWidgetModel
 
   late StateNotifier<int> _indexState;
 
-  final UserNotifier _userNotifier;
-
   late StateNotifier<bool> _isTrainerState;
-
-  late StateNotifier<bool> _badgeState;
 
   late StateNotifier<CoordinateBuilder> _currentPage;
 
@@ -118,8 +110,7 @@ class MainScreenWidgetModel
     _scaffoldKey = GlobalKey<ScaffoldState>();
     _indexState = StateNotifier<int>()..accept(0);
     _isTrainerState = StateNotifier<bool>()..accept(_userNotifier.isTrainer);
-    // _badgeState = StateNotifier<bool>()..accept(false);
-    var name = AppCoordinate.gamePage.name; // TODO(daniil): изменить
+    var name = AppCoordinate.gamePage.name;
     if (coordinator.pages.any((element) => element.name!.endsWith('_inner'))) {
       name = (coordinator.pages
           .lastWhere((element) => element.name!.endsWith('_inner'))
@@ -145,75 +136,27 @@ class MainScreenWidgetModel
 
   @override
   void onIndexChanged(int index) {
-    // final pageScope = context.read<IMainPageScope>();
     switch (index) {
       case 0:
         _appCoordinate = AppCoordinate.gamePage;
-        // if (_appCoordinate == AppCoordinate.temp) {
-        //   // ignore: avoid_dynamic_calls
-        //   pageScope.scrollToTop?.call();
-        // } else {
-        //   _appCoordinate = AppCoordinate.temp;
-        // }
         break;
       case 1:
         if (!(_isTrainerState.value ?? false)) {
           _appCoordinate = AppCoordinate.ratingPage;
         }
-        // if (_authorizationState.value ?? false) {
-        //   if (_appCoordinate == AppCoordinate.cartScreen) {
-        //     // ignore: avoid_dynamic_calls
-        //     pageScope.scrollToTopCart?.call();
-        //   } else {
-        //     _appCoordinate = AppCoordinate.cartScreen;
-        //   }
-        // } else {}
         break;
       case 2:
         if (!(_isTrainerState.value ?? false)) {
           _appCoordinate = AppCoordinate.usefulPage;
         }
-
-        // if (_authorizationState.value ?? false) {
-        //   if (_appCoordinate == AppCoordinate.ordersScreen) {
-        //     // ignore: avoid_dynamic_calls
-        //     pageScope.scrollToTopOrders?.call();
-        //   } else {
-        //     _appCoordinate = AppCoordinate.ordersScreen;
-        //   }
-        // } else {}
         break;
       case 3:
         _appCoordinate = AppCoordinate.bestPage;
-
-        // if (_authorizationState.value ?? false) {
-        //   if (_appCoordinate == AppCoordinate.ordersScreen) {
-        //     // ignore: avoid_dynamic_calls
-        //     pageScope.scrollToTopOrders?.call();
-        //   } else {
-        //     _appCoordinate = AppCoordinate.ordersScreen;
-        //   }
-        // } else {}
         break;
       case 4:
         _appCoordinate = AppCoordinate.profilePage;
-
-        // if (_authorizationState.value ?? false) {
-        //   if (_appCoordinate == AppCoordinate.ordersScreen) {
-        //     // ignore: avoid_dynamic_calls
-        //     pageScope.scrollToTopOrders?.call();
-        //   } else {
-        //     _appCoordinate = AppCoordinate.ordersScreen;
-        //   }
-        // } else {}
         break;
       default:
-      // if (_appCoordinate == AppCoordinate.catalogScreen) {
-      //   // ignore: avoid_dynamic_calls
-      //   pageScope.scrollToTopCatalog?.call();
-      // } else {
-      //   _appCoordinate = AppCoordinate.catalogScreen;
-      // }
     }
     if (_appCoordinate != null) {
       coordinator.navigate(
@@ -248,7 +191,7 @@ class MainScreenWidgetModel
   /// для BottomBar
   void _coordinatorUpdate() {
     if (coordinator.pages.last.name!.endsWith('_inner')) {
-      var name = AppCoordinate.gamePage.name; // TODO(daniil): исправить
+      var name = AppCoordinate.gamePage.name;
       if (coordinator.pages.any(
         (element) => element.name!.endsWith('_inner'),
       )) {

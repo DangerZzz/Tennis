@@ -10,7 +10,7 @@ abstract class RatingPageClient {
   /// Фабрика возвращающая [RatingPageClient]
   factory RatingPageClient(Dio dio) = _RatingPageClient;
 
-  ///
+  /// Получение данных рейтинга
   @GET('/api/rating/list')
   Future<DTO> getRatingList(
     @Queries() Map<String, dynamic> body,

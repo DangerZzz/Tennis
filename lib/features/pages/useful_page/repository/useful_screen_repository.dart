@@ -5,7 +5,7 @@ import 'package:soft_weather_tennis/features/pages/useful_page/domain/useful_inf
 import 'package:soft_weather_tennis/features/pages/useful_page/dto/useful_data_list_dto.dart';
 import 'package:soft_weather_tennis/features/pages/useful_page/dto/useful_info_dto.dart';
 
-/// Репозиторий для главной
+/// Репозиторий для "полезное"
 class UsefulPageRepository {
   final UsefulPageClient _usefulPageClient;
 
@@ -27,7 +27,7 @@ class UsefulPageRepository {
         },
       );
 
-  /// Возвращает данные страницы полезное
+  /// Возвращает данные страницы конкретного совета
   Future<UsefulInfoData?> usefulDataByIndex(String id) =>
       _usefulPageClient.usefulDataByIndex('/api/advice/$id').then(
         (dto) {

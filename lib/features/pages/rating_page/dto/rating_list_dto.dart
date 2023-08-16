@@ -3,7 +3,7 @@ import 'package:soft_weather_tennis/user_notifier/dto/user_dto.dart';
 
 part 'rating_list_dto.g.dart';
 
-/// Модель, хранящая список данных о пользователе
+/// Модель, хранящая список данных рейтинга
 @JsonSerializable()
 class RatingListDtO {
   /// Двнные пользователя

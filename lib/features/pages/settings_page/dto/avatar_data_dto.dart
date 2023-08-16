@@ -3,26 +3,26 @@ import 'package:soft_weather_tennis/user_notifier/dto/user_dto.dart';
 
 part 'avatar_data_dto.g.dart';
 
-/// Модель, хранящая список данных страницы "лучшие"
+/// Модель, хранящая список данных страницы "настройки"
 @JsonSerializable()
 class AvatarDataDtO {
   /// Приходящие данные
   @JsonKey(name: '_id')
   final String id;
 
-  /// Приходящие данные
+  /// данные аватара
   @JsonKey(name: 'avatar')
   final AvatarDto? avatar;
 
-  /// Приходящие данные
+  /// данные обложки
   @JsonKey(name: 'wallpaper')
   final AvatarDto? wallpaper;
 
-  /// Приходящие данные
+  /// Оригинал аватара
   @JsonKey(name: 'originalAvatar')
   final AvatarDto? originalAvatar;
 
-  /// Приходящие данные
+  /// Оригинал обложки
   @JsonKey(name: 'originalWallpaper')
   final AvatarDto? originalWallpaper;
 

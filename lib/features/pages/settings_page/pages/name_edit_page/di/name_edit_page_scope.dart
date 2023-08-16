@@ -19,7 +19,7 @@ abstract class INameEditPageScope {
   NameEditPageModel get nameEditPageModel;
 }
 
-/// Scope для оформления заказов
+/// Scope для страницы редактирования имени
 class NameEditPageScope implements INameEditPageScope {
   final Dio _dio;
   final ErrorHandler _errorHandler;

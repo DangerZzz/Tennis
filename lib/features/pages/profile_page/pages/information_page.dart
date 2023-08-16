@@ -130,19 +130,6 @@ class InformationPage extends StatelessWidget {
                                     achievements.url,
                                     fit: BoxFit.contain,
                                   ),
-                                  // OctoImage(
-                                  //   fit: BoxFit.contain,
-                                  //   placeholderBuilder: (context) => const Icon(
-                                  //     Icons.refresh,
-                                  //   ),
-                                  //   errorBuilder: (c, e, s) => const Icon(
-                                  //     Icons.error,
-                                  //   ),
-                                  //   image: Image.network(
-                                  //     'https://picsum.photos/200',
-                                  //     fit: BoxFit.contain,
-                                  //   ).image,
-                                  // ),
                                 ),
                               ),
                               SizedBox(

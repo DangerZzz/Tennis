@@ -4,7 +4,7 @@ import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
 import 'package:soft_weather_tennis/features/pages/settings_page/settings_page_wm.dart';
 
-///
+/// Первая страница настроек
 class MainSettingsPage extends StatelessWidget {
   ///
   final ISettingsPageWidgetModel wm;

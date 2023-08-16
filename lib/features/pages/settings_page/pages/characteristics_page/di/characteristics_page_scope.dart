@@ -19,7 +19,7 @@ abstract class ICharacteristicsPageScope {
   CharacteristicsPageModel get characteristicsPageModel;
 }
 
-/// Scope для оформления заказов
+/// Scope для изменения характеристик
 class CharacteristicsPageScope implements ICharacteristicsPageScope {
   final Dio _dio;
   final ErrorHandler _errorHandler;

@@ -1,6 +1,6 @@
 ///Сущность совета
 class Advice {
-  ///
+  ///id
   final String id;
 
   /// картинка

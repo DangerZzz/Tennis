@@ -3,7 +3,7 @@ import 'package:soft_weather_tennis/features/pages/best_page/domain/best_data_li
 import 'package:soft_weather_tennis/features/pages/best_page/domain/best_data_list_mapper.dart';
 import 'package:soft_weather_tennis/features/pages/best_page/dto/best_data_list_dto.dart';
 
-/// Репозиторий для главной
+/// Репозиторий для страницы "лучшие"
 class BestPageRepository {
   final BestPageClient _bestPageClient;
 

@@ -10,16 +10,16 @@ import 'package:soft_weather_tennis/features/pages/useful_page/pages/useful_full
 
 ///
 abstract class IUsefulFullInfoPageWidgetModel extends IWidgetModel {
-  ///
+  /// Данные страницы
   ListenableState<EntityState<UsefulInfoData>> get usefulDataByIndex;
 
-  ///
+  /// ширина экрана
   double get width;
 
-  ///
+  /// высота экрана
   double get height;
 
-  ///
+  /// кнопка "назад"
   void onBack();
 
   /// Страница конкретного совета

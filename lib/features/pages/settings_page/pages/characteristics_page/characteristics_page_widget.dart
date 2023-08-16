@@ -135,7 +135,6 @@ class CharacteristicsPageWidget
                           ],
                         ),
                       ),
-
                       const SizedBox(
                         height: 4,
                       ),
@@ -143,7 +142,6 @@ class CharacteristicsPageWidget
                         color: AppColors().secondaryText.withOpacity(0.1),
                         thickness: 1,
                       ),
-
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -175,12 +173,10 @@ class CharacteristicsPageWidget
                           ),
                         ],
                       ),
-
                       Divider(
                         color: AppColors().secondaryText.withOpacity(0.1),
                         thickness: 1,
                       ),
-
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -221,7 +217,6 @@ class CharacteristicsPageWidget
                         color: AppColors().secondaryText.withOpacity(0.1),
                         thickness: 1,
                       ),
-
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -258,69 +253,10 @@ class CharacteristicsPageWidget
                           ),
                         ],
                       ),
-
                       Divider(
                         color: AppColors().secondaryText.withOpacity(0.1),
                         thickness: 1,
                       ),
-                      // const SizedBox(
-                      //   height: 4,
-                      // ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [
-                      //     Text(
-                      //       'Техничность',
-                      //       style: AppTextStyles().light_14_19.copyWith(
-                      //             color: AppColors().primaryText,
-                      //           ),
-                      //     ),
-                      //     Text(
-                      //       charactersInfo?.technicality != null
-                      //           ? '${charactersInfo?.technicality} %'
-                      //           : '—',
-                      //       style: AppTextStyles().regular_14_19.copyWith(
-                      //             color: AppColors().primaryText,
-                      //           ),
-                      //     ),
-                      //   ],
-                      // ),
-                      // const SizedBox(
-                      //   height: 4,
-                      // ),
-                      // Divider(
-                      //   color: AppColors().secondaryText.withOpacity(0.1),
-                      //   thickness: 1,
-                      // ),
-                      // const SizedBox(
-                      //   height: 4,
-                      // ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [
-                      //     Text(
-                      //       'Тренер',
-                      //       style: AppTextStyles().light_14_19.copyWith(
-                      //             color: AppColors().primaryText,
-                      //           ),
-                      //     ),
-                      //     Text(
-                      //       (charactersInfo?.trainer?.isNotEmpty ?? false)
-                      //           ? '${charactersInfo?.trainer}'
-                      //           : '—',
-                      //       style: AppTextStyles().light_14_19.copyWith(
-                      //             color: AppColors().primaryText,
-                      //           ),
-                      //     ),
-                      //   ],
-                      // ),
-                      // const SizedBox(
-                      //   height: 4,
-                      // ),
-                      // Divider(
-                      //   color: AppColors().secondaryText.withOpacity(0.1),
-                      //   thickness: 1,
-                      // ),
                     ],
                   ),
                 ),

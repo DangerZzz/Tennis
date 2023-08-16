@@ -1,7 +1,6 @@
 import 'package:elementary/elementary.dart';
 import 'package:flutter/material.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
-import 'package:soft_weather_tennis/features/pages/trainer_page/pages/qr_reader_page.dart';
 import 'package:soft_weather_tennis/features/pages/trainer_page/trainer_page_wm.dart';
 
 /// Main widget for TrainerPage module
@@ -38,7 +37,7 @@ class TrainerPageWidget extends ElementaryWidget<ITrainerPageWidgetModel> {
                 ),
               ],
             )
-          : QrReaderPage(wm: wm),
+          : Container(), //QrReaderPage(wm: wm),
     );
   }
 }

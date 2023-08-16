@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
 
-///
+/// Адаптивный календарь
 Future<DateTime?> showAdaptiveDatePicker(
   BuildContext context, {
   required DateTime minimumDate,

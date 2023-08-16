@@ -10,7 +10,7 @@ import 'package:soft_weather_tennis/components/state_widgets/empty_state_widget.
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/achievement.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/widgets/achievements_dialog.dart';
 
-/// Вкладка игра
+/// Вкладка достижения
 class AchievementsPage extends StatefulWidget {
   ///
   const AchievementsPage({
@@ -79,7 +79,7 @@ class _AchievementsPageState extends State<AchievementsPage> {
                     items: const [
                       'Все достижения',
                       'Полученные',
-                      'Еще не открыты'
+                      'Еще не открыты',
                     ],
                     showUnderline: false,
                     hint: Text(

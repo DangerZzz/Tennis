@@ -27,7 +27,7 @@ class AuthorizationPageModel extends ElementaryModel {
     await ExceptionHandler.shellException(() async {
       await _authorizationPageRepository.getCode(body);
     });
-    return null;
+    return;
   }
 
   /// Отправка кода

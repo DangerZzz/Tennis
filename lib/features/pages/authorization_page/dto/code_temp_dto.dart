@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'code_temp_dto.g.dart';
 
-/// Модель, хранящая список данных страницы "лучшие"
+/// Удалить как будет смс сервис
 @JsonSerializable()
 class CodeDtO {
   /// id

@@ -3,7 +3,7 @@ import 'package:soft_weather_tennis/features/pages/useful_page/dto/useful_data_l
 
 part 'useful_info_dto.g.dart';
 
-/// Модель, хранящая список данных страницы "лучшие"
+/// Модель, хранящая список данных страницы "полезное"
 @JsonSerializable()
 class UsefulInfoDtO {
   /// Совет

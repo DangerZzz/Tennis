@@ -2,26 +2,26 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'training_data_dto.g.dart';
 
-/// Модель, хранящая список данных о пользователе
+/// Модель, хранящая список данных о тренировке
 @JsonSerializable()
 class TrainingDataDtO {
-  /// Двнные пользователя
+  /// Дата
   @JsonKey(name: 'completedAt')
   final String? completedAt;
 
-  /// Двнные пользователя
+  /// Уровень
   @JsonKey(name: 'level')
   final num? level;
 
-  /// Рейтинг
+  /// Эффективность
   @JsonKey(name: 'efficiency')
   final num? efficiency;
 
-  /// Рейтинг
+  /// Сложность
   @JsonKey(name: 'complexity')
   final String? complexity;
 
-  /// Рейтинг
+  /// Сеты
   @JsonKey(name: 'sections')
   final List<SetsDtO>? sections;
 
@@ -51,14 +51,14 @@ class TrainingDataDtO {
   Map<String, dynamic> toJson() => _$TrainingDataDtOToJson(this);
 }
 
-/// Модель, хранящая список данных о пользователе
+/// Модель, хранящая список данных о сетах
 @JsonSerializable()
 class SetsDtO {
-  /// Двнные пользователя
+  /// Геймы
   @JsonKey(name: 'items')
   final List<GameDtO>? items;
 
-  /// Двнные пользователя
+  /// позиция
   @JsonKey(name: 'position')
   final num? position;
 
@@ -85,18 +85,18 @@ class SetsDtO {
   Map<String, dynamic> toJson() => _$SetsDtOToJson(this);
 }
 
-/// Модель, хранящая список данных о пользователе
+/// Модель, хранящая список данных о играх
 @JsonSerializable()
 class GameDtO {
-  /// Двнные пользователя
+  /// Удары
   @JsonKey(name: 'actions')
   final List<ActionsDtO>? actions;
 
-  /// Двнные пользователя
+  /// Эффективность
   @JsonKey(name: 'efficiency')
   final num? efficiency;
 
-  /// Двнные пользователя
+  /// Удары
   @JsonKey(name: 'hits')
   final HitsDtO? hits;
 
@@ -124,14 +124,14 @@ class GameDtO {
   Map<String, dynamic> toJson() => _$GameDtOToJson(this);
 }
 
-/// Модель, хранящая список данных о пользователе
+/// Модель, хранящая список данных ударов
 @JsonSerializable()
 class ActionsDtO {
-  /// Двнные пользователя
+  /// Тип
   @JsonKey(name: 'type')
   final String? type;
 
-  /// Двнные пользователя
+  /// Статус
   @JsonKey(name: 'status')
   final String? status;
 
@@ -158,18 +158,18 @@ class ActionsDtO {
   Map<String, dynamic> toJson() => _$ActionsDtOToJson(this);
 }
 
-/// Модель, хранящая список данных о пользователе
+/// Модель, хранящая список данных ударов
 @JsonSerializable()
 class HitsDtO {
-  /// Двнные пользователя
+  /// Отработано
   @JsonKey(name: 'WORKED')
   final num? worked;
 
-  /// Двнные пользователя
+  /// Сетка
   @JsonKey(name: 'GRID')
   final num? grid;
 
-  /// Двнные пользователя
+  /// Аут
   @JsonKey(name: 'OUT')
   final num? out;
 

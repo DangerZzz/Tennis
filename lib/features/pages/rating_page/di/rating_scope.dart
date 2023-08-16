@@ -19,7 +19,7 @@ abstract class IRatingPageScope {
   RatingPageModel get ratingPageModel;
 }
 
-/// Scope для оформления заказов
+/// Scope рейтинга
 class RatingPageScope implements IRatingPageScope {
   final Dio _dio;
   final ErrorHandler _errorHandler;

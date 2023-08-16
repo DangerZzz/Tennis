@@ -22,19 +22,19 @@ abstract class AuthorizationPageClient {
     @Body() Map<String, dynamic> body,
   );
 
-  /// Отправка проверочного кода по СМС
+  /// Регистрация нового пользователя
   @POST('/api/auth/signup')
   Future<DTO> registration(
     @Body() Map<String, dynamic> body,
   );
 
-  /// Отправка проверочного кода по СМС
+  /// Авторизация
   @POST('/api/auth/signin')
   Future<DTO> signIn(
     @Body() Map<String, dynamic> body,
   );
 
-  /// Отправка проверочного кода по СМС
+  /// Восстановление пароля
   @POST('/api/auth/recovery')
   Future<DTO> recovery(
     @Body() Map<String, dynamic> body,

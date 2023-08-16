@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:soft_weather_tennis/assets/themes/constants/colors.dart';
 
-///Цветовая схема всего приложения
+///Схема компонентов всего приложения
 class AppComponentStyles {
   final boxShadow = const [
     BoxShadow(

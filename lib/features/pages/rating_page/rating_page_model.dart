@@ -19,7 +19,6 @@ class RatingPageModel extends ElementaryModel {
     final body = <String, dynamic>{
       'limit': 10,
       'page': page,
-      // 'search': '1231',
     };
     late final RatingList res;
     await ExceptionHandler.shellException(() async {

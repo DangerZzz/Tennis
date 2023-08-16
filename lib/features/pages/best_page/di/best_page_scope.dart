@@ -19,7 +19,7 @@ abstract class IBestPageScope {
   BestPageModel get bestPageModel;
 }
 
-/// Scope для оформления заказов
+/// Scope для страницы "лучшие"
 class BestPageScope implements IBestPageScope {
   final Dio _dio;
   final ErrorHandler _errorHandler;

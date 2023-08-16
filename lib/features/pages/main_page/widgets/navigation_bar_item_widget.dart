@@ -57,16 +57,6 @@ class NavigationBarItemWidget extends StatelessWidget {
             ],
           ),
         ),
-        // if (item.badge != null)
-        //   Align(
-        //     alignment: Alignment.topCenter,
-        //     // right: 0,
-        //     // top: 5,
-        //     child: Padding(
-        //       padding: EdgeInsets.only(left: iconSize + 10, top: 5),
-        //       child: item.badge,
-        //     ),
-        //   ),
       ],
     );
   }

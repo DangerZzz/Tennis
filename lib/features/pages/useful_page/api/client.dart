@@ -10,13 +10,13 @@ abstract class UsefulPageClient {
   /// Фабрика возвращающая [UsefulPageClient]
   factory UsefulPageClient(Dio dio) = _UsefulPageClient;
 
-  ///
+  /// Получение списка полезного
   @GET('/api/advice/list')
   Future<DTO> getUsefulData(
     @Queries() Map<String, dynamic> body,
   );
 
-  ///
+  /// Получение конкретной страницы "полезное"
   @GET('{url}')
   Future<DTO> usefulDataByIndex(
     @Path('url') String url,

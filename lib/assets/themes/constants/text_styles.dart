@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 /// Текстовые стили всего приложения
-
 class AppTextStyles {
   final regular_10_14 = const TextStyle(
     fontFamily: 'Nunito',

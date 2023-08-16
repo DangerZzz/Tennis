@@ -274,7 +274,11 @@ class WorkoutInformationPage extends StatelessWidget {
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.fromLTRB(
-                                            16, 16, 8, 16),
+                                          16,
+                                          16,
+                                          8,
+                                          16,
+                                        ),
                                         child: Container(
                                           width: 16,
                                           height: 16,
@@ -406,7 +410,8 @@ class WorkoutInformationPage extends StatelessWidget {
                                         if (evenValue.isEven)
                                           Padding(
                                             padding: const EdgeInsets.only(
-                                                bottom: 16.0),
+                                              bottom: 16.0,
+                                            ),
                                             child: Container(
                                               width: MediaQuery.of(context)
                                                           .size

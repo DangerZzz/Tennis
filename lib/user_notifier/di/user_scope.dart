@@ -1,8 +1,5 @@
 /// Интерфейс пользователя
 abstract class IUserNotifier {
-  // ///id пользователя
-  // String get id;
-
   ///имя пользователя
   String get name;
 

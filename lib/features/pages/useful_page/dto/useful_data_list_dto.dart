@@ -3,7 +3,7 @@ import 'package:soft_weather_tennis/user_notifier/dto/user_dto.dart';
 
 part 'useful_data_list_dto.g.dart';
 
-/// Модель, хранящая список данных страницы "лучшие"
+/// Модель, хранящая список данных страницы "полезное"
 @JsonSerializable()
 class UsefulDataListDtO {
   /// Приходящие данные
@@ -31,7 +31,7 @@ class UsefulDataListDtO {
   Map<String, dynamic> toJson() => _$UsefulDataListDtOToJson(this);
 }
 
-///
+/// данные полезного
 @JsonSerializable()
 class UsefulDataDto {
   /// id

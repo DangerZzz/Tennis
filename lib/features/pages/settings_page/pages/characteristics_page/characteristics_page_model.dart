@@ -30,8 +30,6 @@ class CharacteristicsPageModel extends ElementaryModel {
     required num ageInTennis,
     required String backhand,
     required String forehand,
-    // required num technicality,
-    // required String trainer,
   }) async {
     final body = <String, dynamic>{
       'age': age,
@@ -39,8 +37,6 @@ class CharacteristicsPageModel extends ElementaryModel {
       'tennis_year': ageInTennis,
       'forehand': forehand,
       'backhand': backhand,
-      // 'technicality': technicality,
-      // 'trainer': trainer
     };
     await ExceptionHandler.shellException(() async {
       await _settingsPageRepository.editCharactersInfo(body);

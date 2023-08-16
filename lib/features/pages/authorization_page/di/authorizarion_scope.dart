@@ -19,7 +19,7 @@ abstract class IAuthorizationPageScope {
   AuthorizationPageModel get authorizationPageModel;
 }
 
-/// Scope для оформления заказов
+/// Scope для авторизации
 class AuthorizationPageScope implements IAuthorizationPageScope {
   final Dio _dio;
   final ErrorHandler _errorHandler;

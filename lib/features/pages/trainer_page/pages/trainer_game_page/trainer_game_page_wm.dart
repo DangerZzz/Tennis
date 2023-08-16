@@ -10,6 +10,8 @@ import 'package:soft_weather_tennis/features/navigation/service/coordinator.dart
 import 'package:soft_weather_tennis/features/pages/game_page/web_socket/domain/ws_event.dart';
 import 'package:soft_weather_tennis/features/pages/game_page/web_socket/domain/ws_event_mapper.dart';
 import 'package:soft_weather_tennis/features/pages/game_page/web_socket/dto/ws_message.dart';
+import 'package:soft_weather_tennis/features/pages/trainer_page/domain/game_mapper.dart';
+import 'package:soft_weather_tennis/features/pages/trainer_page/dto/game_data_dto.dart';
 import 'package:soft_weather_tennis/features/pages/trainer_page/pages/trainer_game_page/di/trainer_game_page_scope.dart';
 import 'package:soft_weather_tennis/features/pages/trainer_page/pages/trainer_game_page/trainer_game_page_model.dart';
 import 'package:soft_weather_tennis/features/pages/trainer_page/pages/trainer_game_page/trainer_game_page_widget.dart';
@@ -206,6 +208,8 @@ class TrainerGamePageWidgetModel
     if (data is! Map<String, dynamic>) return;
     final event = wsEventMapper(WsMessageDto.fromJson(data));
     if (event.type == WsEventType.start) {
+      final res = GameStartDataDtO.fromJson(event.data as Map<String, dynamic>);
+      final data = gameDataMapper(res);
       toHitch();
     }
   }

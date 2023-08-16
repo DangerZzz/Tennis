@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:soft_weather_tennis/app/di/app_scope.dart';
-// import 'package:soft_weather_tennis/config/app_config.dart';
-// import 'package:soft_weather_tennis/config/debug_options.dart';
-// import 'package:soft_weather_tennis/config/environment/environment.dart';
 import 'package:soft_weather_tennis/features/common/widgets/di_scope/di_scope.dart';
 import 'package:soft_weather_tennis/features/navigation/domain/delegate/app_router_delegate.dart';
 import 'package:soft_weather_tennis/features/navigation/domain/entity/app_coordinate.dart';

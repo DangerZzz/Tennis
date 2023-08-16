@@ -155,20 +155,20 @@ class GameConnectionPage extends StatelessWidget {
                         const SizedBox(
                           height: 16,
                         ),
+                        // Text(
+                        //   'Тренировка: Стандартная',
+                        //   style: AppTextStyles().regular_16_21.copyWith(
+                        //         color: AppColors().white,
+                        //       ),
+                        // ),
                         Text(
-                          'Тренировка: Стандартная',
+                          'Уровень: ${wm.currentLevel[0]}',
                           style: AppTextStyles().regular_16_21.copyWith(
                                 color: AppColors().white,
                               ),
                         ),
                         Text(
-                          'Уровень: 6',
-                          style: AppTextStyles().regular_16_21.copyWith(
-                                color: AppColors().white,
-                              ),
-                        ),
-                        Text(
-                          'Сложность: Light',
+                          'Сложность: ${wm.currentLevel[1].toString().substring(0, 1)}${wm.currentLevel[1].toString().substring(1).toLowerCase()}',
                           style: AppTextStyles().regular_16_21.copyWith(
                                 color: AppColors().white,
                               ),

@@ -19,7 +19,7 @@ abstract class ISettingsPageScope {
   SettingsPageModel get settingsPageModel;
 }
 
-/// Scope для оформления заказов
+/// Scope для настроек
 class SettingsPageScope implements ISettingsPageScope {
   final Dio _dio;
   final ErrorHandler _errorHandler;

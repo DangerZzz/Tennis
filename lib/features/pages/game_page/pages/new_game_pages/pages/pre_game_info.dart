@@ -241,8 +241,7 @@ class PreGameInfoPage extends StatelessWidget {
                                                     vertical: 8,
                                                   ),
                                                   child: Text(
-                                                    preparingData
-                                                            ?.hits[evenValue] ??
+                                                    ' ${preparingData?.hits[evenValue].substring(0, 1)}${preparingData?.hits[evenValue].substring(1).toLowerCase()}' ??
                                                         '',
                                                     style: AppTextStyles()
                                                         .regular_16_21
@@ -291,8 +290,7 @@ class PreGameInfoPage extends StatelessWidget {
                                                     vertical: 8,
                                                   ),
                                                   child: Text(
-                                                    preparingData
-                                                            ?.hits[oddValue] ??
+                                                    ' ${preparingData?.hits[oddValue].substring(0, 1)}${preparingData?.hits[oddValue].substring(1).replaceAll('_', ' ').toLowerCase()}' ??
                                                         '',
                                                     style: AppTextStyles()
                                                         .regular_16_21

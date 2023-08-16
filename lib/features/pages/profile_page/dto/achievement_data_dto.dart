@@ -2,22 +2,22 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'achievement_data_dto.g.dart';
 
-/// Модель, хранящая список данных о пользователе
+/// Модель, хранящая список данных о достижениях
 @JsonSerializable()
 class AchievementDataDtO {
-  /// Двнные пользователя
+  /// Название достижения
   @JsonKey(name: 'name')
   final String? name;
 
-  /// Рейтинг
+  /// Описание
   @JsonKey(name: 'description')
   final String? description;
 
-  /// Рейтинг
+  /// Обложка
   @JsonKey(name: 'cover')
   final String? cover;
 
-  /// Рейтинг
+  /// Флаг получения
   @JsonKey(name: 'received')
   final ReceivedDataDtO? received;
 
@@ -46,14 +46,14 @@ class AchievementDataDtO {
   Map<String, dynamic> toJson() => _$AchievementDataDtOToJson(this);
 }
 
-/// Модель, хранящая список данных о пользователе
+/// Модель, хранящая список данных о достижении
 @JsonSerializable()
 class ReceivedDataDtO {
-  /// Двнные пользователя
+  /// Флаг получения
   @JsonKey(name: 'status')
   final bool? status;
 
-  /// Рейтинг
+  /// Дата
   @JsonKey(name: 'date')
   final String? date;
 

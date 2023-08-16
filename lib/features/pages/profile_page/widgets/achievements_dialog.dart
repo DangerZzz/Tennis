@@ -9,7 +9,7 @@ import 'package:soft_weather_tennis/assets/themes/constants/text_styles.dart';
 import 'package:soft_weather_tennis/components/adaptive_activity_indicator.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/achievement.dart';
 
-///
+/// Виджет получения достижения (переработается)
 class AchievementsDialog extends StatelessWidget {
   ///
   final VoidCallback back;

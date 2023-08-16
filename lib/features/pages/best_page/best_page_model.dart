@@ -3,7 +3,7 @@ import 'package:soft_weather_tennis/features/pages/best_page/domain/best_data_li
 import 'package:soft_weather_tennis/features/pages/best_page/repository/best_screen_repository.dart';
 import 'package:soft_weather_tennis/util/exception_handler.dart';
 
-///
+///Модель страницы "лучшие"
 class BestPageModel extends ElementaryModel {
   final BestPageRepository _bestPageRepository;
 
@@ -18,7 +18,6 @@ class BestPageModel extends ElementaryModel {
     late final List<BestData> res;
     await ExceptionHandler.shellException(() async {
       res = await _bestPageRepository.getBestListData();
-      // return res;
     });
     return res;
   }

@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'statistics_data_dto.g.dart';
 
-/// Модель, хранящая список данных о пользователе
+/// Модель, хранящая список данных о статистике
 @JsonSerializable()
 class StatisticsDataDtO {
   /// id игры

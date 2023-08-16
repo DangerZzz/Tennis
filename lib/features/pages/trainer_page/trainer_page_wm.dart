@@ -107,22 +107,15 @@ class TrainerPageWidgetModel
         arguments: cameraScanResult.rawContent,
       );
     }
-    // _index.content(1);
-    // if (result != null) {
-
-    // }
   }
 
   @override
   Future<void> sendCode(String code) async {
-    // if (result != null) {
-    //   //ignore: use_build_context_synchronously
     coordinator.navigate(
       context,
       AppCoordinate.trainerGamePage,
       arguments: code,
     );
-    // }
   }
 
   Future<void> _initLoad() async {
@@ -140,14 +133,5 @@ class TrainerPageWidgetModel
       //ignore:use_build_context_synchronously
       ShowSnackBar().showError(context);
     }
-    // try {
-    //   final data = await model.getUsefulData(
-    //     limit: _limit,
-    //     page: _page,
-    //   );
-    //   _usefulData.content(data);
-    // } on FormatException catch (e) {
-    //   _usefulData.error(e);
-    // }
   }
 }

@@ -2,7 +2,7 @@ import 'package:soft_weather_tennis/features/pages/useful_page/domain/useful_dat
 
 ///Сущность совета
 class UsefulInfoData {
-  ///
+  ///id
   final String id;
 
   /// картинка
@@ -14,7 +14,7 @@ class UsefulInfoData {
   /// текст
   final String text;
 
-  /// текст
+  /// Список советов
   final List<Advice> advices;
 
   ///конструктор [UsefulInfoData]

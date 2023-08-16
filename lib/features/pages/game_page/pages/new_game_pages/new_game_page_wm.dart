@@ -14,8 +14,10 @@ import 'package:soft_weather_tennis/features/pages/game_page/pages/new_game_page
 import 'package:soft_weather_tennis/features/pages/game_page/web_socket/domain/ws_event.dart';
 import 'package:soft_weather_tennis/features/pages/game_page/web_socket/domain/ws_event_mapper.dart';
 import 'package:soft_weather_tennis/features/pages/game_page/web_socket/dto/ws_message.dart';
-import 'package:soft_weather_tennis/features/pages/profile_page/domain/training_info.dart';
 import 'package:soft_weather_tennis/features/pages/profile_page/domain/user_info.dart';
+import 'package:soft_weather_tennis/features/pages/trainer_page/domain/current_game_data.dart';
+import 'package:soft_weather_tennis/features/pages/trainer_page/domain/game_mapper.dart';
+import 'package:soft_weather_tennis/features/pages/trainer_page/dto/game_data_dto.dart';
 import 'package:soft_weather_tennis/user_notifier/user_notifier.dart';
 import 'package:soft_weather_tennis/util/default_error_handler.dart';
 
@@ -34,7 +36,7 @@ abstract class INewGamePageWidgetModel extends IWidgetModel {
   ListenableState<EntityState<int>> get currentSet;
 
   /// Данные вкладки "тренировка"
-  ListenableState<EntityState<TrainingInfo>> get workoutData;
+  ListenableState<EntityState<CurrentGameData>> get currentGameData;
 
   /// Данные вкладки "тренировка"
   ListenableState<EntityState<UserInfo>> get userData;
@@ -46,7 +48,7 @@ abstract class INewGamePageWidgetModel extends IWidgetModel {
   ListenableState<EntityState<String>> get qrImage;
 
   /// список игр текущего сета
-  List<Game> get gameListData;
+  List<ItemsData> get gameListData;
 
   /// текущая гейм
   ListenableState<EntityState<int>> get currentGame;
@@ -59,6 +61,9 @@ abstract class INewGamePageWidgetModel extends IWidgetModel {
 
   ///
   String get token;
+
+  ///
+  List<dynamic> get currentLevel;
 
   ///
   void startGame();
@@ -125,10 +130,15 @@ class NewGamePageWidgetModel
   String get token => _token;
 
   @override
+  List<dynamic> get currentLevel =>
+      ModalRoute.of(context)?.settings.arguments as List;
+
+  @override
   ListenableState<EntityState<int>> get currentSet => _currentSet;
 
   @override
-  ListenableState<EntityState<TrainingInfo>> get workoutData => _workoutData;
+  ListenableState<EntityState<CurrentGameData>> get currentGameData =>
+      _currentGameData;
 
   @override
   ListenableState<EntityState<UserInfo>> get userData => _userData;
@@ -141,7 +151,7 @@ class NewGamePageWidgetModel
   ListenableState<EntityState<String>> get qrImage => _qrImage;
 
   @override
-  List<Game> get gameListData => _gameListData;
+  List<ItemsData> get gameListData => _gameListData;
 
   @override
   ListenableState<EntityState<int>> get currentGame => _currentGame;
@@ -162,11 +172,11 @@ class NewGamePageWidgetModel
   late EntityStateNotifier<String> _warmUpType;
   late EntityStateNotifier<int> _countdownTime;
   late EntityStateNotifier<int> _currentSet;
-  late EntityStateNotifier<TrainingInfo> _workoutData;
+  late EntityStateNotifier<CurrentGameData> _currentGameData;
   late EntityStateNotifier<UserInfo> _userData;
   late EntityStateNotifier<PreparingData> _preparingData;
   late EntityStateNotifier<String> _qrImage;
-  late List<Game> _gameListData = [];
+  late List<ItemsData> _gameListData = [];
   late EntityStateNotifier<int> _currentGame;
 
   /// Конструктор
@@ -202,10 +212,10 @@ class NewGamePageWidgetModel
   @override
   void changeSet(int set) {
     if (set > (_currentSet.value?.data ?? 0)) {
-      if (set < (workoutData.value?.data?.sets.length ?? 0)) {
+      if (set < (currentGameData.value?.data?.sections.length ?? 0)) {
         _currentSet.content(set);
         _gameListData = [];
-        _gameListData = workoutData.value?.data?.sets[set].game ?? [];
+        _gameListData = currentGameData.value?.data?.sections[set].items ?? [];
       }
       return;
     }
@@ -214,7 +224,7 @@ class NewGamePageWidgetModel
       if (set >= 0) {
         _currentSet.content(set);
         _gameListData = [];
-        _gameListData = workoutData.value?.data?.sets[set].game ?? [];
+        _gameListData = currentGameData.value?.data?.sections[set].items ?? [];
       }
       return;
     }
@@ -260,7 +270,9 @@ class NewGamePageWidgetModel
   Future<void> startGame() async {
     try {
       _token = '${await _userNotifier.getTokens()}connect_game=$_token';
-      await model.gameStart(token: _token);
+      final res = await model.gameStart(token: _token);
+      _currentGameData.content(res!);
+      _gameListData = res.sections[0].items;
       await toHitch();
     } on FormatException catch (e) {
       debugPrint(e.toString());
@@ -295,7 +307,6 @@ class NewGamePageWidgetModel
   /// Первая страница, подготовка к игре
   Future<void> trainingPreparation() async {
     try {
-      final currentLevel = ModalRoute.of(context)?.settings.arguments as List;
       final userInfo = await model.getUserInfo();
       _userData.content(userInfo);
       id = await model.getInitialData(
@@ -313,7 +324,14 @@ class NewGamePageWidgetModel
 
   /// Запуск таймера
   Future<void> startTimer() async {
-    _countdownTime.content(180);
+    // TODO(daniil): исправить
+
+    if ((_warmUpType.value?.data ?? '') == 'Ожидание начала игры') {
+      // TODO(daniil): исправить
+      _countdownTime.content(_currentGameData.value?.data?.time.toInt() ?? 0);
+    } else {
+      _countdownTime.content(3);
+    }
     var countdown = _countdownTime.value?.data ?? 0;
     while ((_countdownTime.value?.data ?? 0) > 0) {
       await Future<void>.delayed(const Duration(seconds: 1));
@@ -335,7 +353,8 @@ class NewGamePageWidgetModel
 
     if ((_warmUpType.value?.data ?? '') == 'Упражнения для мышц') {
       _warmUpType.content('Ожидание начала игры');
-      _countdownTime.content(60);
+      // TODO(daniil): исправить
+      _countdownTime.content(3);
       var countdown = _countdownTime.value?.data ?? 0;
       while ((_countdownTime.value?.data ?? 0) > 0) {
         await Future<void>.delayed(const Duration(seconds: 1));
@@ -347,6 +366,22 @@ class NewGamePageWidgetModel
       }
       timer.cancel();
       _index.content(4);
+      await startTimer();
+    }
+    if ((_warmUpType.value?.data ?? '') == 'Ожидание начала игры') {
+      // TODO(daniil): исправить
+      var countdown = _countdownTime.value?.data ?? 0;
+      while ((_countdownTime.value?.data ?? 0) > 0) {
+        await Future<void>.delayed(const Duration(seconds: 1));
+        if (kDebugMode) {
+          print(_countdownTime.value?.data);
+        }
+        countdown--;
+        _countdownTime.content(countdown);
+      }
+      timer.cancel();
+
+      // TODO(daniil): сделать запрос
     }
   }
 
@@ -373,8 +408,8 @@ class NewGamePageWidgetModel
     _warmUpType.content('Бег по кругу');
     _currentSet = EntityStateNotifier<int>();
     _currentSet.content(0);
-    _workoutData = EntityStateNotifier<TrainingInfo>();
-    _workoutData.loading();
+    _currentGameData = EntityStateNotifier<CurrentGameData>();
+    _currentGameData.loading();
     _userData = EntityStateNotifier<UserInfo>();
     _userData.loading();
     _preparingData = EntityStateNotifier<PreparingData>();
@@ -384,6 +419,7 @@ class NewGamePageWidgetModel
     _currentGame = EntityStateNotifier<int>();
     _currentGame.content(0);
     _countdownTime = EntityStateNotifier<int>();
+
     await trainingPreparation();
   }
 
@@ -399,14 +435,14 @@ class NewGamePageWidgetModel
         _index.content(2);
       }
     }
-    if (event.type == WsEventType.connect) {
-      if (_index.value?.data != 2) {
-        _index.content(2);
-      }
-    }
     if (event.type == WsEventType.connectToken) {
       final res = data['data'] as Map<String, dynamic>;
       _token = res['token'] as String;
+    }
+
+    if (event.type == WsEventType.start) {
+      final res = GameStartDataDtO.fromJson(event.data as Map<String, dynamic>);
+      _currentGameData.content(gameDataMapper(res));
     }
   }
 }

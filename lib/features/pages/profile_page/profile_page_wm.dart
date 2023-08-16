@@ -111,7 +111,6 @@ ProfilePageWidgetModel defaultProfilePageWidgetModelFactory(
 ) {
   final scope = context.read<IProfilePageScope>();
   final appDependencies = context.read<IAppScope>();
-  // final user = context.read<ProviderModel>();
   final userNotifier = appDependencies.userNotifier;
   final coordinator = appDependencies.coordinator;
   final model = scope.profilePageModel;
@@ -119,7 +118,6 @@ ProfilePageWidgetModel defaultProfilePageWidgetModelFactory(
     model,
     coordinator: coordinator,
     userNotifier: userNotifier,
-    // user: user,
   );
 }
 
@@ -131,8 +129,6 @@ class ProfilePageWidgetModel
   final Coordinator coordinator;
 
   final UserNotifier _userNotifier;
-
-  // final ProviderModel _user;
 
   @override
   double get width => MediaQuery.of(context).size.width;
@@ -223,19 +219,6 @@ class ProfilePageWidgetModel
     try {
       final res = await model.getInformationData();
       _informationData.content(res);
-      // await _setUser();
-      // _informationData.content(
-      //   Information(
-      //     gameCount: res.gameCount,
-      //     efficiency: res.efficiency,
-      //     trophiesCount: res.trophiesCount,
-      //     lastTrophies: [],
-      //     charactersInfo: _user.user.charactersInfo,
-      //     ratingChanges: res.ratingChanges,
-      //     ratingPosition: res.ratingPosition,
-      //     trophiesAllCount: res.trophiesAllCount,
-      //   ),
-      // );
     } on FormatException catch (e) {
       _informationData.error(e);
     }
@@ -534,7 +517,6 @@ class ProfilePageWidgetModel
     }
     _currentSet.content(0);
     _currentGame.content(0);
-    // await onWorkoutInformation('64b65a92f3884a381ae8577f');
     await onInformation();
 
     // if (newAchievements) {

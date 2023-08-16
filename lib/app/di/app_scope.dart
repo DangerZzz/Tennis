@@ -34,16 +34,11 @@ class AppScope implements IAppScope {
   late final TokenStorage _tokenStorage;
   late final UserRepository _userRepository;
 
-  // late final WebSockets _webSockets;
-
   ///
   Map<String, dynamic> get headersVersion => _headersVersion;
 
   @override
   Dio get dio => _dio;
-  //
-  // @override
-  // WebSockets get webSockets => _webSockets;
 
   @override
   ErrorHandler get errorHandler => _errorHandler;
@@ -166,7 +161,6 @@ class AppScope implements IAppScope {
     _dio = _initDio(additionalInterceptors);
     _errorHandler = DefaultErrorHandler();
     _loginCode = LoginCode();
-    // _webSockets = WebSockets.init(_errorHandler, headers: headersVersion);
     _initSession();
     _coordinator = Coordinator(
       codeBioLogin: _loginCode.codeHash?.isNotEmpty ?? false,
@@ -244,9 +238,6 @@ class AppScope implements IAppScope {
 abstract class IAppScope {
   /// Http client.
   Dio get dio;
-
-  // /// Объект со стримами из веб-сокетов
-  // WebSockets get webSockets;
 
   /// Interface for handle error in business logic.
   ErrorHandler get errorHandler;

@@ -14,7 +14,8 @@ class TrainerPageRepository {
   Future<String> sendQrData(Map<String, dynamic> body) =>
       _trainerPageClient.sendQrData(body).then(
         (dto) {
-          final data = GameDataDtO.fromJson(dto.data as Map<String, dynamic>);
+          final data =
+              GameStartDataDtO.fromJson(dto.data as Map<String, dynamic>);
           return data.id;
         },
       );
